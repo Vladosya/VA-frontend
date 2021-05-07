@@ -35,7 +35,7 @@
         или веселую вечеринку.
       </div>
       <div class="main-block__buttons">
-        <nuxt-link to="/signup/s1">
+        <nuxt-link no-prefetch to="/signup/s1">
           <button class="main-block__btn-one">
             Зарегистрироваться
           </button>
