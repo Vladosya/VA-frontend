@@ -40,18 +40,49 @@
             Зарегистрироваться
           </button>
         </nuxt-link>
-        <button class="main-block__btn-two">Войти</button>
+        <button
+          class="main-block__btn-two"
+          @click="popup = !popup"
+        >Войти
+        </button>
       </div>
+    </div>
+    <div class="popup-container" v-if="popup" @click.self="popup = !popup">
+      <Authorization/>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+import Authorization from './Authorization/Authorization.vue'
+
+export default {
+  data() {
+    return {
+      popup: false
+    }
+  },
+  components: {
+    Authorization
+  }
+}
 </script>
 
 <style scoped lang="scss">
 @import "assets/settings.scss";
+
+.popup-container {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.4);
+}
 
 .main-container {
   width: 100%;

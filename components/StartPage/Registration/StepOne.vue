@@ -21,7 +21,7 @@
             class="register-form-left__input-photo"
             :class="{'register-form-left__input-photo-loading': photoLoading}"
           >
-            <img v-show="photoLoading" class="register-form-left__img-loading" id="myimage" src="" alt="dsds">
+            <img v-show="photoLoading" class="register-form-left__img-loading" id="myImage" src="" alt="dsds">
             <span v-if="!photoLoading">
             <img
               src="../../../assets/StartPage/Registration/step-one/arrow-down.svg"
@@ -287,7 +287,7 @@ export default {
 
           const selectedFile = e.target.files[0]
           const reader = new FileReader()
-          const imgtag = document.getElementById('myimage')
+          const imgtag = document.getElementById('myImage')
           imgtag.title = selectedFile.name
           this.photoLoading = true
           reader.onload = function (event) {

@@ -1,41 +1,39 @@
 <template>
-  <div class="container">
-    <form>
-      <div class="login-potition">
-        <div class="login-block">
-          <div class="login-block__title">Вход</div>
-          <div class="login-block__reg">
-            Введите ваши данные или <br/>
-            <a href="#">зарегистрируйтесь</a>
+  <form>
+    <div class="login-position">
+      <div class="login-block">
+        <div class="login-block__title">Вход</div>
+        <div class="login-block__reg">
+          Введите ваши данные или <br/>
+          <nuxt-link to="/signup/s1">зарегистрируйтесь</nuxt-link>
+        </div>
+        <div class="login-block-form">
+          <div class="login-block-form__email">
+            <label for="mail">Эл. почта</label>
+            <input
+              id="mail"
+              type="text"
+              placeholder="IvanIvanov@gmail.com"
+            />
           </div>
-          <div class="login-block-form">
-            <div class="login-block-form__email">
-              <label for="mail">Эл. почта</label>
-              <input
-                id="mail"
-                type="text"
-                placeholder="IvanIvanov@gmail.com"
-              />
-            </div>
-            <div class="login-block-form__password">
-              <label for="password">Пароль</label>
-              <input
-                id="password"
-                type="password"
-                placeholder="**********"
-              />
-            </div>
-            <div class="login-block-form__btn">
-              <button>Войти</button>
-            </div>
-            <div class="login-block-form__forget">
-              <a href="#">Забыли пароль?</a>
-            </div>
+          <div class="login-block-form__password">
+            <label for="password">Пароль</label>
+            <input
+              id="password"
+              type="password"
+              placeholder="**********"
+            />
+          </div>
+          <div class="login-block-form__btn">
+            <button>Войти</button>
+          </div>
+          <div class="login-block-form__forget">
+            <nuxt-link to="#">Забыли пароль?</nuxt-link>
           </div>
         </div>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
 </template>
 
 <script>
@@ -50,8 +48,8 @@ export default {}
   height: 100vh;
 }
 
-.login-potition {
-  position: fixed;
+.login-position {
+  position: relative;
   left: 0;
   top: 0;
   display: flex;
