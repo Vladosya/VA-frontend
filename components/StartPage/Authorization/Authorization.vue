@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.prevent="loginSubmit">
     <div class="login-position">
       <div class="login-block">
         <div class="login-block__title">Вход</div>
@@ -8,24 +8,49 @@
           <nuxt-link to="/signup/s1">зарегистрируйтесь</nuxt-link>
         </div>
         <div class="login-block-form">
+
+
           <div class="login-block-form__email">
-            <label for="mail">Эл. почта</label>
+            <label for="username">Имя Пользователя</label>
             <input
-              id="mail"
+              @blur="$v.formLogin.username.$touch()"
+              :class="status($v.formLogin.username)"
+              v-model.trim="formLogin.username"
+              class="login-block-form__username-input"
+              id="username"
               type="text"
-              placeholder="IvanIvanov@gmail.com"
+              placeholder="Введите имя пользователя"
             />
+            <div class="invalid-feed"
+                 v-if="$v.formLogin.username.$error || $v.formLogin.username.$dirty && !$v.formLogin.username.required">
+              Необходимо указать Имя Пользователя
+            </div>
           </div>
+
+
           <div class="login-block-form__password">
             <label for="password">Пароль</label>
             <input
+              @blur="$v.formLogin.password.$touch()"
+              :class="status($v.formLogin.password)"
+              v-model.trim="formLogin.password"
+              class="login-block-form__password-input"
               id="password"
               type="password"
               placeholder="**********"
             />
+            <div class="invalid-feed"
+                 v-if="!$v.formLogin.password.minLength">{{ minLengthText }}
+            </div>
+            <div class="invalid-feed"
+                 v-if="$v.formLogin.password.$error || $v.formLogin.password.$dirty && !$v.formLogin.password.required">
+              Необходимо указать пароль
+            </div>
           </div>
+
+
           <div class="login-block-form__btn">
-            <button>Войти</button>
+            <button type="submit" @click.prevent="loginSubmit">Войти</button>
           </div>
           <div class="login-block-form__forget">
             <nuxt-link to="#">Забыли пароль?</nuxt-link>
@@ -37,7 +62,76 @@
 </template>
 
 <script>
-export default {}
+import {minLength, required} from 'vuelidate/lib/validators'
+
+export default {
+  data() {
+    return {
+      formLogin: {
+        username: '',
+        password: ''
+      },
+      minLengthText: 'Минимальная длина 8 символов!'
+    }
+  },
+  computed: {
+    isAuth() {
+      return this.$store.getters['authorization/isAuth']
+    }
+  },
+  methods: {
+    loginSubmit() {
+      this.$v.$touch()
+
+      if (this.$v.$invalid) {
+        console.log('Error')
+      } else {
+        console.log('Success')
+        const formData = {
+          username: this.formLogin.username,
+          password: this.formLogin.password
+        }
+
+        try {
+          this.$store.dispatch('authorization/authorization', formData)
+          setTimeout(() => {
+            if (this.isAuth === true) {
+              this.$notify({
+                title: 'Success',
+                message: 'Авторизация прошла успешно',
+                type: 'success'
+              })
+              this.$router.push('/home')
+            } else {
+              this.$notify.error({
+                title: 'Ошибка авторизации',
+                message: 'Неправильный логин или пароль'
+              })
+            }
+          }, 500)
+        } catch (e) {
+          console.log('error in Authorization.vue methods loginSubmit')
+        }
+      }
+    },
+    status(validation) {
+      return {
+        'is-invalid': validation.$error,
+      }
+    },
+  },
+  validations: {
+    formLogin: {
+      username: {
+        required
+      },
+      password: {
+        required,
+        minLength: minLength(8)
+      },
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -136,22 +230,22 @@ export default {}
         font-size: 14px;
       }
     }
+  }
 
-    input {
-      margin-top: 20px;
-      border: 1px solid #d38eec;
-      border-radius: 5px;
-      padding-left: 16px;
-      width: 400px;
-      height: 50px;
-      box-sizing: border-box;
-      background: #fff;
+  &__username-input {
+    margin-top: 20px;
+    border: 1px solid #d38eec;
+    border-radius: 5px;
+    padding-left: 16px;
+    width: 400px;
+    height: 50px;
+    box-sizing: border-box;
+    background: #fff;
 
-      @include breakpoint(dxxxl) {
-        margin-top: 10px;
-        width: 250px;
-        height: 40px;
-      }
+    @include breakpoint(dxxxl) {
+      margin-top: 10px;
+      width: 250px;
+      height: 40px;
     }
   }
 
@@ -175,25 +269,25 @@ export default {}
       }
     }
 
-    input {
-      margin-top: 20px;
-      border: 1px solid #d38eec;
-      border-radius: 5px;
-      padding-left: 16px;
-      width: 400px;
-      height: 50px;
-      box-sizing: border-box;
-      background: #fff;
-
-      @include breakpoint(dxxxl) {
-        margin-top: 10px;
-        width: 250px;
-        height: 40px;
-      }
-    }
-
     @include breakpoint(dxxxl) {
       margin-top: 13px;
+    }
+  }
+
+  &__password-input {
+    margin-top: 20px;
+    border: 1px solid #d38eec;
+    border-radius: 5px;
+    padding-left: 16px;
+    width: 400px;
+    height: 50px;
+    box-sizing: border-box;
+    background: #fff;
+
+    @include breakpoint(dxxxl) {
+      margin-top: 10px;
+      width: 250px;
+      height: 40px;
     }
   }
 
@@ -251,6 +345,39 @@ export default {}
 
   @include breakpoint(dxxxl) {
     margin-top: 27px;
+  }
+}
+
+.is-invalid {
+  border: 1px solid #dc3545;
+}
+
+.invalid-feed {
+  margin-top: 10px;
+  width: 100%;
+  font-size: 20px;
+  color: #dc3545;
+
+  @include breakpoint(dxxxxl) {
+    margin-top: 0.25rem;
+    font-size: 16px;
+  }
+
+  @include breakpoint(dxxxl) {
+    font-size: 13px;
+  }
+
+  @include breakpoint(dlg) {
+    font-size: 11px;
+  }
+
+  @include breakpoint(dxxl) {
+    margin-top: 0.25rem;
+    font-size: 12px;
+  }
+
+  @include breakpoint(dmd) {
+    font-size: 10px;
   }
 }
 </style>
