@@ -1,14 +1,18 @@
 <template>
   <div class="left-menu-block">
-    <button @click="clickMap">
-      <img src="../../../assets/Home/left-menu/map.svg" alt="map-left-menu"/>
-    </button>
-    <button @click="openCreateAd">
-      <img
-        src="../../../assets/Home/left-menu/createdAd.svg"
-        alt="createdAd-left-menu"
-      />
-    </button>
+    <nuxt-link to="/home">
+      <button>
+        <img src="../../../assets/Home/left-menu/map.svg" alt="map-left-menu"/>
+      </button>
+    </nuxt-link>
+    <nuxt-link to="/home/createAd">
+      <button>
+        <img
+          src="../../../assets/Home/left-menu/createdAd.svg"
+          alt="createdAd-left-menu"
+        />
+      </button>
+    </nuxt-link>
     <button>
       <img
         src="../../../assets/Home/left-menu/message.svg"
@@ -20,22 +24,6 @@
     </button>
   </div>
 </template>
-
-<script>
-export default {
-  methods: {
-    clickMap() {
-      if (this.$route.path === '/home') {
-        console.log('dsds')
-        this.$router.push('/home')
-      }
-    },
-    openCreateAd() {
-      this.$emit('clickCreateAd')
-    }
-  }
-}
-</script>
 
 <style scoped lang="scss">
 @import "assets/settings.scss";

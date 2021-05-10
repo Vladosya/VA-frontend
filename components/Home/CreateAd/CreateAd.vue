@@ -79,7 +79,7 @@
         </div>
 
         <div class="createAd-content-form__buttons">
-          <button class="createAd-content-form__btn-cancel" @click="$emit('closeCreateAd')">Отмена</button>
+          <button class="createAd-content-form__btn-cancel" @click="$router.back()">Отмена</button>
           <button class="createAd-content-form__btn-create">Создать</button>
         </div>
 
