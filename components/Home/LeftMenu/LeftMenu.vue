@@ -41,6 +41,14 @@
   button {
     border: none;
     background: none;
+
+    &:hover {
+      outline-color: rgba(255, 255, 255, 0);
+      outline-offset: 15px;
+      border: 1px solid #771699;
+      box-shadow: inset 0 0 20px rgba(132, 55, 186, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
+      text-shadow: 1px 1px 2px #9ebecb;
+    }
   }
 }
 </style>

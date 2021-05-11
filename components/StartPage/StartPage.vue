@@ -307,6 +307,14 @@ export default {
     color: #fff;
     background: #ff006b;
 
+    &:hover {
+      outline-color: rgba(255, 255, 255, 0);
+      outline-offset: 15px;
+      border: 1px solid;
+      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
+      text-shadow: 1px 1px 2px #427388;
+    }
+
     @include breakpoint(dxxxxl) {
       font-size: 21px;
     }
@@ -333,6 +341,14 @@ export default {
     line-height: 19px;
     color: #771699;
     background: #fff;
+
+    &:hover {
+      outline-color: rgba(255, 255, 255, 0);
+      outline-offset: 15px;
+      border: 1px solid #771699;
+      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
+      text-shadow: 1px 1px 2px #9ebecb;
+    }
 
     @include breakpoint(dxxxxl) {
       font-size: 21px;
