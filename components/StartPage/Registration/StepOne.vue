@@ -323,7 +323,6 @@ export default {
     formStepOne: {
       file: {
         required: requiredIf(function (nestedModel) {
-          console.log('nestedModel', nestedModel)
           return !this.photoLoading
         })
       },

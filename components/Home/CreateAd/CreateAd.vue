@@ -8,87 +8,136 @@
       <p>Создание объявления</p>
     </div>
     <div class="createAd-content">
-      <div class="createAd-content-map"></div>
-      <div class="createAd-content-form">
+      <div class="createAd-content-map">
+        <MapForCreateAd
+          @createMarker="infoMarket"
+        />
+      </div>
+      <form class="createAd-content-form" @submit.prevent="createAdFormSubmit">
 
         <div class="createAd-content-form__name">
           <label for="name">Название вечеринки</label>
-          <input
-            type="text"
-            id="name"
-            placeholder="Введите название объявления"
-            class="createAd-content-form__name-input"
-          />
+          <el-tooltip
+            class="item" effect="dark" content="Необходимо указать Название объявления" placement="right"
+          >
+            <input
+              @blur="$v.createdAdForm.nameParty.$touch()"
+              v-model="createdAdForm.nameParty"
+              :class="{'is-invalid-name': $v.createdAdForm.nameParty.$error}"
+              type="text"
+              id="name"
+              placeholder="Введите название объявления"
+              class="createAd-content-form__name-input"
+            />
+          </el-tooltip>
         </div>
 
         <div class="createAd-content-form__place">
           <label for="place">Место вечеринки</label>
-          <el-input
-            id="place"
-            v-model="createdAdForm.place"
-            placeholder="Место вечеринки выбранное на карте"
-            class="createAd-content-form__place-input"
-            clearable
-            readonly
+          <el-tooltip
+            class="item" effect="dark" content="Необходимо на карте указать место вписки" placement="right"
           >
-          </el-input>
+            <el-input
+              @blur="$v.createdAdForm.place.$touch()"
+              id="place"
+              v-model="createdAdForm.place"
+              :class="status($v.createdAdForm.place)"
+              placeholder="Место вечеринки выбранное на карте"
+              class="createAd-content-form__place-input"
+              clearable
+              readonly
+            >
+            </el-input>
+          </el-tooltip>
         </div>
 
         <div class="createAd-content-form__date">
           <label>Дата вечеринки (дата и время начала)</label>
-          <el-date-picker
-            type="datetime"
-            v-model="createdAdForm.date"
-            placeholder="Выберите дату и время вечеринки"
-            class="createAd-content-form__date-input"
+          <el-tooltip
+            class="item" effect="dark" content="Необходимо указать дату и время проведения вечеринки" placement="right"
           >
-          </el-date-picker>
+            <el-date-picker
+              @blur="$v.createdAdForm.dateParty.$touch()"
+              v-model.trim="createdAdForm.dateParty"
+              type="datetime"
+              v-model="createdAdForm.dateParty"
+              :class="status($v.createdAdForm.dateParty)"
+              placeholder="Выберите дату и время вечеринки"
+              class="createAd-content-form__date-input"
+            >
+            </el-date-picker>
+          </el-tooltip>
         </div>
 
         <div class="createAd-content-form__people">
           <label>Кол-во человек</label>
-          <el-input-number
-            controls-position="right"
-            v-model="createdAdForm.people"
-            :min="1"
-            class="createAd-content-form__people-input"
-            placeholder="Укажите кол-во человек"
-          ></el-input-number>
+          <el-tooltip
+            class="item" effect="dark" content="Необходимо указать кол-во человек на вечеринке" placement="right"
+          >
+            <el-input-number
+              @blur="$v.createdAdForm.people.$touch()"
+              v-model.trim="createdAdForm.people"
+              controls-position="right"
+              v-model="createdAdForm.people"
+              :class="status($v.createdAdForm.people)"
+              :min="1"
+              class="createAd-content-form__people-input"
+              placeholder="Укажите кол-во человек"
+            ></el-input-number>
+          </el-tooltip>
         </div>
 
         <div class="createAd-content-form__girl">
           <label>Кол-во девушек</label>
-          <el-input-number
-            controls-position="right"
-            v-model="createdAdForm.girl"
-            :min="1"
-            class="createAd-content-form__girl-input"
-            placeholder="Укажите кол-во девушек"
-          ></el-input-number>
+          <el-tooltip
+            class="item" effect="dark" content="Необходимо указать кол-во девушек на вечеринке" placement="right"
+          >
+            <el-input-number
+              @blur="$v.createdAdForm.girl.$touch()"
+              v-model.trim="createdAdForm.girl"
+              controls-position="right"
+              v-model="createdAdForm.girl"
+              :class="status($v.createdAdForm.girl)"
+              :min="1"
+              class="createAd-content-form__girl-input"
+              placeholder="Укажите кол-во девушек"
+            ></el-input-number>
+          </el-tooltip>
         </div>
 
         <div class="createAd-content-form__boy">
           <label>Кол-во парней</label>
-          <el-input-number
-            controls-position="right"
-            v-model="createdAdForm.boy"
-            :min="1"
-            class="createAd-content-form__boy-input"
-            placeholder="Укажите кол-во парней"
-          ></el-input-number>
+          <el-tooltip
+            class="item" effect="dark" content="Необходимо указать кол-во парней на вечеринке" placement="right"
+          >
+            <el-input-number
+              @blur="$v.createdAdForm.boy.$touch()"
+              v-model.trim="createdAdForm.boy"
+              controls-position="right"
+              v-model="createdAdForm.boy"
+              :class="status($v.createdAdForm.boy)"
+              :min="1"
+              class="createAd-content-form__boy-input"
+              placeholder="Укажите кол-во парней"
+            ></el-input-number>
+          </el-tooltip>
         </div>
 
         <div class="createAd-content-form__buttons">
-          <button class="createAd-content-form__btn-cancel" @click="$router.back()">Отмена</button>
-          <button class="createAd-content-form__btn-create">Создать</button>
+          <button class="createAd-content-form__btn-cancel" @click="$router.push('/home')">Отмена</button>
+          <button class="createAd-content-form__btn-create" type="submit" @click.prevent="createAdFormSubmit">Создать
+          </button>
         </div>
 
-      </div>
+      </form>
     </div>
   </div>
 </template>
 
 <script>
+import MapForCreateAd from './MapForCreateAd.vue'
+import {required, requiredIf} from 'vuelidate/lib/validators'
+
 export default {
   data() {
     return {
@@ -98,10 +147,65 @@ export default {
         dateParty: '',
         people: undefined,
         girl: undefined,
-        boy: undefined
+        boy: undefined,
+        coordinates: ''
+      },
+      choicePlace: false
+    }
+  },
+  methods: {
+    createAdFormSubmit() {
+      this.$v.$touch()
+
+      if (this.$v.$invalid) {
+        console.log('Error')
+      } else {
+        console.log('Success')
+      }
+    },
+    status(validation) {
+      return {
+        'is-invalid': validation.$error,
+      }
+    },
+    infoMarket(data) {
+      if (data.length) {
+        this.createdAdForm.place = data[0].position.lat
+        this.createdAdForm.coordinates = {
+          lat: data[0].position.lat,
+          lng: data[0].position.lng
+        }
+        console.log('this.createdAdForm.coordinates', this.createdAdForm.coordinates)
       }
     }
   },
+  components: {
+    MapForCreateAd
+  },
+  validations: {
+    createdAdForm: {
+      nameParty: {
+        required
+      },
+      place: {
+        required: requiredIf(function (nestedModel) {
+          return !this.choicePlace
+        })
+      },
+      dateParty: {
+        required
+      },
+      people: {
+        required
+      },
+      girl: {
+        required
+      },
+      boy: {
+        required
+      }
+    }
+  }
 }
 </script>
 
@@ -166,7 +270,6 @@ export default {
 }
 
 .createAd-content-map {
-  border: 1px solid #000;
   width: 1038px;
   height: 690px;
 
@@ -525,6 +628,48 @@ export default {
     line-height: 18px;
     color: #fff;
     background: #ff006b;
+  }
+}
+
+.is-invalid {
+  border: 1px solid #dc3545;
+  border-radius: 4px;
+}
+
+.is-invalid-name {
+  outline: none;
+  border: none;
+  border-bottom: 1px solid #dc3545;
+  padding: 0 0 3px 5px;
+  width: 273px;
+}
+
+.invalid-feed {
+  margin-top: 10px;
+  width: 100%;
+  font-size: 20px;
+  color: #dc3545;
+
+  @include breakpoint(dxxxxl) {
+    margin-top: 0.25rem;
+    font-size: 16px;
+  }
+
+  @include breakpoint(dxxxl) {
+    font-size: 13px;
+  }
+
+  @include breakpoint(dlg) {
+    font-size: 11px;
+  }
+
+  @include breakpoint(dxxl) {
+    margin-top: 0.25rem;
+    font-size: 12px;
+  }
+
+  @include breakpoint(dmd) {
+    font-size: 10px;
   }
 }
 
