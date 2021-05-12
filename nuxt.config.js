@@ -26,7 +26,7 @@ export default {
   plugins: [
     '@/plugins/element-ui',
     {src: '~/plugins/Vuelidate'},
-    {src: '~/plugins/vue2-google-maps.js'}
+    {src: '~/plugins/vue2-google-maps.js'},
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -46,6 +46,9 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: [/^element-ui/],
-    vendor: ['vue2-google-maps']
+    vendor: ['vue2-google-maps'],
+    babel: {
+      plugins: [['@babel/plugin-proposal-private-methods', { loose: true }]],
+    },
   }
 }
