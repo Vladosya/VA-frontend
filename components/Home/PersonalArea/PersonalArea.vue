@@ -379,7 +379,6 @@
 
 <script>
 import {email, helpers} from 'vuelidate/lib/validators'
-import Namec from './Namec.vue'
 
 const alpha = helpers.regex('alpha', /^[a-zA-Zа-яёА-ЯЁ]*$/)
 export default {
@@ -565,9 +564,6 @@ export default {
         email
       },
     }
-  },
-  components: {
-    Namec
   }
 }
 </script>
