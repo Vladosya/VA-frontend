@@ -13,7 +13,7 @@ export const actions = {
         }
       })
     } catch (e) {
-      console.log('error in createStepOne', e)
+      console.log('error in createStepOne action in register.js', e)
     }
   },
   async createStepThree(_, formData) {
@@ -22,7 +22,7 @@ export const actions = {
         console.log('response:', response)
       })
     } catch (e) {
-      console.log('error in createStepThree', e)
+      console.log('error in createStepThree action in register.js', e)
     }
   }
 }
