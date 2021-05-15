@@ -174,7 +174,7 @@
 
 
         <div class="popup-container" v-if="popupChangeName">
-          <div class="popup-name-position" @click.self="popupChangeName = !popupChangeName">
+          <div class="popup-name-position" @click.self="cancelChangeName">
             <div class="popup-name-block">
               <div class="popup-name-block__title">Изменение Имя</div>
               <div class="popup-name-form">
@@ -193,9 +193,9 @@
                   <div class="invalid-feed" v-if="!$v.formPersonalArea.name.alpha">{{ alphaText }}</div>
                 </div>
                 <div class="popup-name-form__buttons">
-                  <button class="popup-name-form__btn-cancel" @click="popupChangeName = !popupChangeName">Отмена
+                  <button class="popup-name-form__btn-cancel" @click="cancelChangeName">Отмена
                   </button>
-                  <button class="popup-name-form__btn-create" @click="NextPopupName">Далее</button>
+                  <button class="popup-name-form__btn-create" @click.prevent="NextPopupName">Далее</button>
                 </div>
               </div>
             </div>
@@ -203,7 +203,7 @@
         </div>
 
         <div class="popup-container" v-if="popupChangeSex">
-          <div class="popup-sex-position" @click.self="popupChangeSex = !popupChangeSex">
+          <div class="popup-sex-position" @click.self="cancelChangeSex">
             <div class="popup-sex-block">
               <div class="popup-sex-block__title">Изменение Пола</div>
               <div class="popup-sex-form">
@@ -224,8 +224,8 @@
                   </select>
                 </div>
                 <div class="popup-sex-form__buttons">
-                  <button class="popup-sex-form__btn-cancel" @click="popupChangeSex = !popupChangeSex">Отмена</button>
-                  <button class="popup-sex-form__btn-create" @click="NextPopupSex">Далее</button>
+                  <button class="popup-sex-form__btn-cancel" @click="cancelChangeSex">Отмена</button>
+                  <button class="popup-sex-form__btn-create" @click.prevent="NextPopupSex">Далее</button>
                 </div>
               </div>
             </div>
@@ -233,7 +233,7 @@
         </div>
 
         <div class="popup-container" v-if="popupChangeOld">
-          <div class="popup-date-position" @click.self="popupChangeOld = !popupChangeOld">
+          <div class="popup-date-position" @click.self="cancelChangeOld">
             <div class="popup-date-block">
               <div class="popup-date-block__title">Изменение Возраста</div>
               <div class="popup-date-form">
@@ -250,9 +250,9 @@
                   />
                 </div>
                 <div class="popup-date-form__buttons">
-                  <button class="popup-date-form__btn-cancel" @click="popupChangeOld = !popupChangeOld">Отмена
+                  <button class="popup-date-form__btn-cancel" @click="cancelChangeOld">Отмена
                   </button>
-                  <button class="popup-date-form__btn-create" @click="NextPopupOld">Далее</button>
+                  <button class="popup-date-form__btn-create" @click.prevent="NextPopupOld">Далее</button>
                 </div>
               </div>
             </div>
@@ -260,7 +260,7 @@
         </div>
 
         <div class="popup-container" v-if="popupChangeCity">
-          <div class="popup-city-position" @click.self="popupChangeCity = !popupChangeCity">
+          <div class="popup-city-position" @click.self="cancelChangeCity">
             <div class="popup-city-block">
               <div class="popup-city-block__title">Изменение Локации</div>
               <div class="popup-city-form">
@@ -283,9 +283,9 @@
                   </select>
                 </div>
                 <div class="popup-city-form__buttons">
-                  <button class="popup-city-form__btn-cancel" @click="popupChangeCity = !popupChangeCity">Отмена
+                  <button class="popup-city-form__btn-cancel" @click="cancelChangeCity">Отмена
                   </button>
-                  <button class="popup-city-form__btn-create" @click="NextPopupCity">Далее</button>
+                  <button class="popup-city-form__btn-create" @click.prevent="NextPopupCity">Далее</button>
                 </div>
               </div>
             </div>
@@ -293,7 +293,7 @@
         </div>
 
         <div class="popup-container" v-if="popupChangeEmail">
-          <div class="popup-email-position" @click.self="popupChangeEmail = !popupChangeEmail">
+          <div class="popup-email-position" @click.self="cancelChangeEmail">
             <div class="popup-email-block">
               <div class="popup-email-block__title">Изменение Email</div>
               <div class="popup-email-form">
@@ -312,9 +312,9 @@
                   <div class="invalid-feed" v-if="!$v.formPersonalArea.email.email">Пожалуйста введите Email адрес</div>
                 </div>
                 <div class="popup-email-form__buttons">
-                  <button class="popup-email-form__btn-cancel" @click="popupChangeEmail = !popupChangeEmail">Отмена
+                  <button class="popup-email-form__btn-cancel" @click="cancelChangeEmail">Отмена
                   </button>
-                  <button class="popup-email-form__btn-create" @click="NextPopupEmail">Далее</button>
+                  <button class="popup-email-form__btn-create" @click.prevent="NextPopupEmail">Далее</button>
                 </div>
               </div>
             </div>
@@ -322,7 +322,7 @@
         </div>
 
         <div class="popup-container" v-if="popupChangePassword">
-          <div class="popup-password-position" @click.self="popupChangePassword = !popupChangePassword">
+          <div class="popup-password-position" @click.self="cancelChangeButton">
             <div class="popup-password-block">
               <div class="popup-password-block__title">Изменение Пароля</div>
               <div class="popup-password-block__info">
@@ -334,6 +334,9 @@
                     Старый пароль
                   </label>
                   <input
+                    @blur="$v.formPersonalArea.oldPassword.$touch()"
+                    :class="status($v.formPersonalArea.oldPassword)"
+                    v-model.trim="formPersonalArea.oldPassword"
                     class="popup-password-form__username-input"
                     type="password"
                     id="old-password-personal-area"
@@ -345,28 +348,41 @@
                     Новый пароль
                   </label>
                   <input
+                    @blur="$v.formPersonalArea.newPassword.$touch()"
+                    :class="status($v.formPersonalArea.newPassword)"
+                    v-model.trim="formPersonalArea.newPassword"
                     class="popup-password-form__username-input"
                     type="password"
                     id="new-password-personal-area"
                     placeholder="**********"
                   />
+                  <div class="invalid-feed"
+                       v-if="!$v.formPersonalArea.newPassword.minLength">{{ minLengthText }}
+                  </div>
                 </div>
                 <div class="popup-password-form__password-repeat">
                   <label for="repeat-password-personal-area">
                     Повторите новый пароль
                   </label>
                   <input
+                    @blur="$v.formPersonalArea.confirmNewPassword.$touch()"
+                    :class="status($v.formPersonalArea.confirmNewPassword)"
+                    v-model.trim="formPersonalArea.confirmNewPassword"
                     class="popup-password-form__username-input"
                     type="password"
                     id="repeat-password-personal-area"
                     placeholder="**********"
                   />
+                  <div class="invalid-feed"
+                       v-if="!$v.formPersonalArea.confirmNewPassword.sameAs">{{ passwordConfirmText }}
+                  </div>
                 </div>
                 <div class="popup-password-form__buttons">
-                  <button class="popup-password-form__btn-cancel" @click="popupChangePassword = !popupChangePassword">
+                  <button class="popup-password-form__btn-cancel"
+                          @click="cancelChangeButton">
                     Отмена
                   </button>
-                  <button class="popup-password-form__btn-create">Далее</button>
+                  <button class="popup-password-form__btn-create" @click.prevent="NextPopupPassword">Далее</button>
                 </div>
               </div>
             </div>
@@ -378,10 +394,12 @@
 </template>
 
 <script>
-import {email, helpers} from 'vuelidate/lib/validators'
+import {email, helpers, minLength, sameAs} from 'vuelidate/lib/validators'
+import PersonalAreaMixin from '~/mixins/PersonalAreaMixin'
 
 const alpha = helpers.regex('alpha', /^[a-zA-Zа-яёА-ЯЁ]*$/)
 export default {
+  mixins: [PersonalAreaMixin],
   data() {
     return {
       formPersonalArea: {
@@ -390,9 +408,14 @@ export default {
         sex: '',
         old: '',
         city: '',
-        email: ''
+        email: '',
+        oldPassword: '',
+        newPassword: '',
+        confirmNewPassword: ''
       },
       alphaText: 'Запрещены цифры, пробелы и другие символы',
+      minLengthText: 'Минимальная длина 8 символов!',
+      passwordConfirmText: 'Пароли не совпадают',
       formatPhoto: ['image/jpeg', 'image/png', 'image/gif'],
       photoLoading: false,
       popupChangeName: false,
@@ -401,6 +424,7 @@ export default {
       popupChangeCity: false,
       popupChangeEmail: false,
       popupChangePassword: false,
+      oldPassword: '24972497'
     }
   },
   methods: {
@@ -459,96 +483,6 @@ export default {
           type: 'warning'
         })
       }
-    },
-    NextPopupName() {
-      if (this.formPersonalArea.name.length && this.$v.formPersonalArea.name.alpha) {
-        this.popupChangeName = !this.popupChangeName
-        this.$message({
-          message: 'Ваше новое имя уже почти готово к изменению',
-          type: 'success'
-        })
-        setTimeout(() => {
-          this.$message('Чтобы все изменения вступили в силу нажмите на кнопку "Сохранить изменения".')
-        }, 1500)
-      } else {
-        this.$message({
-          showClose: true,
-          message: 'Необходимо ввести имя.',
-          type: 'warning'
-        })
-      }
-    },
-    NextPopupSex() {
-      if (this.formPersonalArea.sex.length) {
-        this.popupChangeSex = !this.popupChangeSex
-        this.$message({
-          message: 'Ваш новый пол уже почти готово к изменению',
-          type: 'success'
-        })
-        setTimeout(() => {
-          this.$message('Чтобы все изменения вступили в силу нажмите на кнопку "Сохранить изменения".')
-        }, 1500)
-      } else {
-        this.$message({
-          showClose: true,
-          message: 'Необходимо выбрать пол.',
-          type: 'warning'
-        })
-      }
-    },
-    NextPopupOld() {
-      if (this.formPersonalArea.old.length) {
-        this.popupChangeOld = !this.popupChangeOld
-        this.$message({
-          message: 'Ваш новый возраст уже почти готово к изменению',
-          type: 'success'
-        })
-        setTimeout(() => {
-          this.$message('Чтобы все изменения вступили в силу нажмите на кнопку "Сохранить изменения".')
-        }, 1500)
-      } else {
-        this.$message({
-          showClose: true,
-          message: 'Необходимо указать возраст.',
-          type: 'warning'
-        })
-      }
-    },
-    NextPopupCity() {
-      if (this.formPersonalArea.city.length) {
-        this.popupChangeCity = !this.popupChangeCity
-        this.$message({
-          message: 'Ваш новый выбранный город уже почти готово к изменению',
-          type: 'success'
-        })
-        setTimeout(() => {
-          this.$message('Чтобы все изменения вступили в силу нажмите на кнопку "Сохранить изменения".')
-        }, 1500)
-      } else {
-        this.$message({
-          showClose: true,
-          message: 'Необходимо выбрать город.',
-          type: 'warning'
-        })
-      }
-    },
-    NextPopupEmail() {
-      if (this.formPersonalArea.email.length && this.$v.formPersonalArea.email.email) {
-        this.popupChangeEmail = !this.popupChangeEmail
-        this.$message({
-          message: 'Ваш новый email уже почти готово к изменению',
-          type: 'success'
-        })
-        setTimeout(() => {
-          this.$message('Чтобы все изменения вступили в силу нажмите на кнопку "Сохранить изменения".')
-        }, 1500)
-      } else {
-        this.$message({
-          showClose: true,
-          message: 'Необходимо ввести Email.',
-          type: 'warning'
-        })
-      }
     }
   },
   validations: {
@@ -563,6 +497,13 @@ export default {
       email: {
         email
       },
+      oldPassword: {},
+      newPassword: {
+        minLength: minLength(8)
+      },
+      confirmNewPassword: {
+        sameAs: sameAs('newPassword')
+      }
     }
   }
 }
@@ -1543,6 +1484,7 @@ export default {
     }
 
     @include breakpoint(dsm) {
+      margin-top: 3px;
       font-size: 11px;
     }
   }
