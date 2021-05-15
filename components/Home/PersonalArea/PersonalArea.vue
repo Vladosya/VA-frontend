@@ -95,9 +95,11 @@
               ref="file" @change="handleFileUpload($event)"
               multiple="multiple"
             />
-            <label for="input-file">
-              <img v-show="photoLoading" class="personal-form-left__img-loading" id="myImage" src="" alt="dsds">
-              <span v-if="!photoLoading">
+            <el-tooltip class="item" effect="dark" content="Для изменения своей аватарки кликните на картинку"
+                        placement="bottom">
+              <label for="input-file">
+                <img v-show="photoLoading" class="personal-form-left__img-loading" id="myImage" src="" alt="dsds">
+                <span v-if="!photoLoading">
                            <img
                              src="../../../assets/Home/PersonalArea/image-user-big-one.png"
                              alt="img-personal-aria"
@@ -129,7 +131,8 @@
                              class="personal-form-left__img-five"
                            />
                         </span>
-            </label>
+              </label>
+            </el-tooltip>
           </div>
           <div class="personal-form-right">
             <div class="personal-info-left">
@@ -1106,8 +1109,8 @@ export default {
 
     @include breakpoint(dxxxxl) {
       margin-top: 23px;
-      width: 300px;
-      height: 300px;
+      width: 350px;
+      height: 350px;
     }
 
     @include breakpoint(dxxxl) {
@@ -1124,8 +1127,8 @@ export default {
 
     @include breakpoint(dlg) {
       margin-top: 9px;
-      width: 180px;
-      height: 180px;
+      width: 200px;
+      height: 200px;
     }
 
     @include breakpoint(dsm) {
@@ -3080,6 +3083,32 @@ export default {
 
   @include breakpoint(dmd) {
     font-size: 10px;
+  }
+}
+
+@media (height: 1024px) {
+  .personal-info-block {
+    &__title {
+      margin-top: 90px;
+      font-size: 56px;
+    }
+
+    &__info {
+      margin-top: 45px;
+      font-size: 16px;
+    }
+  }
+}
+
+@media (height: 864px) {
+  .personal-info-block {
+    &__title {
+      margin-top: 67px;
+    }
+
+    &__info {
+      margin-top: 43px;
+    }
   }
 }
 </style>
