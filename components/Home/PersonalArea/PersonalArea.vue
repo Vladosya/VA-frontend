@@ -169,8 +169,10 @@
           </div>
         </div>
         <div class="personal-form__buttons">
-          <button class="personal-form__btn-one" @click.prevent="$router.go(-1)">Отмена</button>
-          <button class="personal-form__btn-two" type="submit" @click.prevent="personalAreaSubmit">
+          <button class="personal-form__btn-one personal-form__btn-cancel" @click.prevent="$router.go(-1)">Отмена
+          </button>
+          <button class="personal-form__btn-two personal-form__btn-create" type="submit"
+                  @click.prevent="personalAreaSubmit">
             Сохранить изменения
           </button>
         </div>
@@ -438,6 +440,14 @@ export default {
         this.formPersonalArea.sex.length || this.formPersonalArea.old.length ||
         this.formPersonalArea.city.length || this.formPersonalArea.email.length) {
         console.log('Success')
+        console.log('name', this.formPersonalArea.name)
+        console.log('sex', this.formPersonalArea.sex)
+        console.log('old', this.formPersonalArea.old)
+        console.log('city', this.formPersonalArea.city)
+        console.log('email', this.formPersonalArea.email)
+        console.log('oldPassword', this.formPersonalArea.oldPassword)
+        console.log('newPassword', this.formPersonalArea.newPassword)
+        console.log('confirmNewPassword', this.formPersonalArea.confirmNewPassword)
       } else {
         console.log('Error')
       }
@@ -932,6 +942,14 @@ export default {
     color: #771699;
     background: #fff;
 
+    &:hover {
+      outline-color: rgba(255, 255, 255, 0);
+      outline-offset: 15px;
+      border: 1px solid #771699;
+      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
+      text-shadow: 1px 1px 2px #9ebecb;
+    }
+
     @include breakpoint(dxxxxl) {
       width: 450px;
       height: 76px;
@@ -977,6 +995,14 @@ export default {
     line-height: 19px;
     color: #fff;
     background: #ff006b;
+
+    &:hover {
+      outline-color: rgba(255, 255, 255, 0);
+      outline-offset: 15px;
+      border: 1px solid;
+      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
+      text-shadow: 1px 1px 2px #427388;
+    }
 
     @include breakpoint(dxxxxl) {
       width: 450px;
