@@ -24,11 +24,6 @@
             <img v-show="photoLoading" class="register-form-left__img-loading" id="myImage" src="" alt="dsds">
             <span v-if="!photoLoading">
             <img
-              src="../../../assets/StartPage/Registration/step-one/arrow-down.svg"
-              alt="arrow-down"
-              class="register-form-left__img"
-            />
-            <img
               src="../../../assets/StartPage/Registration/step-one/arrow-down-one.svg"
               alt="arrow-down-one"
               class="register-form-left__img-one"
@@ -592,6 +587,7 @@ export default {
 
       @include breakpoint(dsm) {
         margin-top: 14px;
+        font-size: 12px;
       }
     }
 
@@ -631,17 +627,40 @@ export default {
     justify-content: center;
   }
 
-  &__img {
-    display: none;
-
-    @include breakpoint(dxxxl) {
-      display: inline-block;
-    }
-  }
-
   &__img-one {
+    @include breakpoint(dxxxxl) {
+      width: 62px;
+      height: 93px;
+    }
+
     @include breakpoint(dxxxl) {
-      display: none;
+      width: 52px;
+      height: 67px;
+    }
+
+    @include breakpoint(dxxl) {
+      width: 42px;
+      height: 57px;
+    }
+
+    @include breakpoint(dxl) {
+      width: 42px;
+      height: 57px;
+    }
+
+    @include breakpoint(dlg) {
+      width: 42px;
+      height: 57px;
+    }
+
+    @include breakpoint(dmd) {
+      width: 42px;
+      height: 57px;
+    }
+
+    @include breakpoint(dsm) {
+      width: 32px;
+      height: 47px;
     }
   }
 

@@ -12,39 +12,9 @@
           <span>Пример фотографии</span>
           <div>
             <img
-              src="../../../assets/StartPage/Registration/step-two/img-example.png"
-              alt="img-example"
-              class="register-verification-left__img"
-            />
-            <img
               src="../../../assets/StartPage/Registration/step-two/img-example-one.png"
               alt="img-example-one"
               class="register-verification-left__img-one"
-            />
-            <img
-              src="../../../assets/StartPage/Registration/step-two/img-example-three.png"
-              alt="img-example-three"
-              class="register-verification-left__img-three"
-            />
-            <img
-              src="../../../assets/StartPage/Registration/step-two/img-example-two.png"
-              alt="img-example-two"
-              class="register-verification-left__img-two"
-            />
-            <img
-              src="../../../assets/StartPage/Registration/step-two/img-example-four.png"
-              alt="img-example-four"
-              class="register-verification-left__img-four"
-            />
-            <img
-              src="../../../assets/StartPage/Registration/step-two/img-example-five.png"
-              alt="img-example-five"
-              class="register-verification-left__img-five"
-            />
-            <img
-              src="../../../assets/StartPage/Registration/step-two/img-example-six.png"
-              alt="img-example-six"
-              class="register-verification-left__img-six"
             />
           </div>
         </div>
@@ -64,19 +34,9 @@
                  src="" alt="dsds">
             <span v-if="!photoVerificationLoading">
             <img
-              src="../../../assets/StartPage/Registration/step-two/arrow-down.svg"
-              alt="arrow-down-two"
-              class="register-verification-right__img"
-            />
-            <img
               src="../../../assets/StartPage/Registration/step-two/arrow-down-one.svg"
               alt="arrow-down-three"
               class="register-verification-right__img-one"
-            />
-            <img
-              src="../../../assets/StartPage/Registration/step-two/arrow-down-two.svg"
-              alt="arrow-down-four"
-              class="register-verification-right__img-two"
             />
           </span>
             <div v-if="!photoVerificationLoading">
@@ -361,7 +321,38 @@ export default {
 
   &__img-one {
     @include breakpoint(dxxxxl) {
-      display: none;
+      width: 630px;
+      height: 400px;
+    }
+
+    @include breakpoint(dxxxl) {
+      width: 530px;
+      height: 340px;
+    }
+
+    @include breakpoint(dxxl) {
+      width: 440px;
+      height: 268px;
+    }
+
+    @include breakpoint(dxl) {
+      width: 440px;
+      height: 268px;
+    }
+
+    @include breakpoint(dlg) {
+      width: 385px;
+      height: 265px;
+    }
+
+    @include breakpoint(dmd) {
+      width: 340px;
+      height: 240px;
+    }
+
+    @include breakpoint(dsm) {
+      width: 290px;
+      height: 210px;
     }
   }
 
@@ -505,29 +496,15 @@ export default {
     }
   }
 
-  &__img {
-    display: none;
-
-    @include breakpoint(dxxl) {
-      display: inline-block;
-    }
-  }
-
   &__img-one {
     @include breakpoint(dxxxxl) {
-      display: none;
-    }
-  }
-
-  &__img-two {
-    display: none;
-
-    @include breakpoint(dxxxxl) {
-      display: inline-block;
+      width: 61px;
+      height: 85px;
     }
 
     @include breakpoint(dxxl) {
-      display: none;
+      width: 42px;
+      height: 57px;
     }
   }
 
@@ -646,7 +623,7 @@ export default {
 
     @include breakpoint(dxxl) {
       width: 440px;
-      height: 270px;
+      height: 268px;
     }
 
     @include breakpoint(dlg) {

@@ -8,22 +8,6 @@
             alt="logo-main"
             class="main-block__img-one"
           />
-          <img
-            src="../../assets/StartPage/logo-va-two.png"
-            alt="logo-main"
-            class="main-block__img-two"
-          />
-          <img
-            src="../../assets/StartPage/logo-va-three.png"
-            alt="logo-main"
-            class="main-block__img-three"
-          />
-
-          <img
-            src="../../assets/StartPage/logo-va-four.png"
-            alt="logo-main"
-            class="main-block__img-four"
-          />
         </a>
       </div>
       <div class="main-block__quantity-people">
@@ -101,41 +85,23 @@ export default {
 
   &__img-one {
     @include breakpoint(dxxxxl) {
-      display: none;
-    }
-  }
-
-  &__img-two {
-    display: none;
-
-    @include breakpoint(dxxl) {
-      display: inline-block;
-      text-align: center;
+      width: 170px;
+      height: 238px;
     }
 
-    @include breakpoint(dsm) {
-      display: none;
-    }
-  }
-
-  &__img-three {
-    display: none;
-
-    @include breakpoint(dxxxxl) {
-      display: inline-block;
-      text-align: center;
+    @include breakpoint(dxxxl) {
+      width: 134px;
+      height: 179px;
     }
 
     @include breakpoint(dxxl) {
-      display: none;
+      width: 114px;
+      height: 159px;
     }
-  }
-
-  &__img-four {
-    display: none;
 
     @include breakpoint(dsm) {
-      display: inline-block;
+      width: 103px;
+      height: 144px;
     }
   }
 

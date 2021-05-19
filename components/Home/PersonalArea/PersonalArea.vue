@@ -5,24 +5,9 @@
         <div>
           <nuxt-link to="/home">
             <img
-              src="../../../assets/Home/PersonalArea/logo-va.svg"
-              alt="step-logo"
-              class="personalAria-block__img"
-            />
-            <img
               src="../../../assets/Home/PersonalArea/logo-va-one.svg"
               alt="step-logo-one"
-              class="personalAria-block__img-one"
-            />
-            <img
-              src="../../../assets/Home/PersonalArea/logo-va-two.svg"
-              alt="step-logo-two"
-              class="personalAria-block__img-two"
-            />
-            <img
-              src="../../../assets/Home/PersonalArea/logo-va-three.svg"
-              alt="step-logo-two"
-              class="personalAria-block__img-three"
+              class="personalAria-block__img"
             />
           </nuxt-link>
         </div>
@@ -36,42 +21,17 @@
         <div class="personalAria-block__info">
           <button>
             <img
-              src="../../../assets/Home/PersonalArea/letter.svg"
-              alt="letter-personal-aria-one"
-              class="personalAria-block__info-one"
-            />
-            <img
-              src="../../../assets/Home/PersonalArea/letter-two.png"
+              src="../../../assets/Home/PersonalArea/letter.png"
               alt="letter-personal-aria-two"
               class="personalAria-block__info-two"
-            />
-            <img
-              src="../../../assets/Home/PersonalArea/letter-three.png"
-              alt="letter-personal-aria-three"
-              class="personalAria-block__info-three"
-            />
-            <img
-              src="../../../assets/Home/PersonalArea/letter-four.png"
-              alt="letter-personal-aria-four"
-              class="personalAria-block__info-four"
             />
           </button>
           <div class="personalAria-block__user">
             <a href="#">
               <img
-                src="../../../assets/Home/PersonalArea/image-user.png"
-                alt="personal-aria-user-one"
-                class="personalAria-block__user-one"
-              />
-              <img
                 src="../../../assets/Home/PersonalArea/image-user-two.png"
                 alt="personal-aria-user-two"
                 class="personalAria-block__user-two"
-              />
-              <img
-                src="../../../assets/Home/PersonalArea/image-user-three.png"
-                alt="personal-aria-user-three"
-                class="personalAria-block__user-three"
               />
             </a>
           </div>
@@ -104,31 +64,6 @@
                              src="../../../assets/Home/PersonalArea/image-user-big-one.png"
                              alt="img-personal-aria"
                              class="personal-form-left__img"
-                           />
-                           <img
-                             src="../../../assets/Home/PersonalArea/image-user-big.png"
-                             alt="img-personal-aria-two"
-                             class="personal-form-left__img-one"
-                           />
-                           <img
-                             src="../../../assets/Home/PersonalArea/image-user-big-two.png"
-                             alt="img-personal-aria-three"
-                             class="personal-form-left__img-two"
-                           />
-                           <img
-                             src="../../../assets/Home/PersonalArea/image-user-big-three.png"
-                             alt="img-personal-aria-four"
-                             class="personal-form-left__img-three"
-                           />
-                           <img
-                             src="../../../assets/Home/PersonalArea/image-user-big-four.png"
-                             alt="img-personal-aria-five"
-                             class="personal-form-left__img-four"
-                           />
-                           <img
-                             src="../../../assets/Home/PersonalArea/image-user-big-five.png"
-                             alt="img-personal-aria-six"
-                             class="personal-form-left__img-five"
                            />
                         </span>
               </label>
@@ -552,44 +487,19 @@ export default {
   }
 
   &__img {
-    display: none;
-
-    @include breakpoint(dxxxl) {
-      display: inline-block;
-    }
-
-    @include breakpoint(dsm) {
-      display: none;
-    }
-  }
-
-  &__img-one {
-    @include breakpoint(dxxl) {
-      display: none;
-    }
-
     @include breakpoint(dxxxxl) {
-      display: none;
-    }
-  }
-
-  &__img-two {
-    display: none;
-
-    @include breakpoint(dxxxxl) {
-      display: inline-block;
+      width: 70px;
+      height: 98px;
     }
 
     @include breakpoint(dxxxl) {
-      display: none;
+      width: 45px;
+      height: 63px;
     }
-  }
-
-  &__img-three {
-    display: none;
 
     @include breakpoint(dsm) {
-      display: inline-block;
+      width: 35px;
+      height: 49px;
     }
   }
 
@@ -710,41 +620,20 @@ export default {
     }
   }
 
-  &__info-one {
-    display: none;
-
-    @include breakpoint(dxxl) {
-      display: inline-block;
-    }
-  }
-
   &__info-two {
     @include breakpoint(dxxxxl) {
-      display: none;
-    }
-  }
-
-  &__info-three {
-    display: none;
-
-    @include breakpoint(dxxxxl) {
-      display: inline-block;
+      width: 50px;
+      height: 45px;
     }
 
     @include breakpoint(dxxxl) {
-      display: none;
-    }
-  }
-
-  &__info-four {
-    display: none;
-
-    @include breakpoint(dxxxl) {
-      display: inline-block;
+      width: 40px;
+      height: 27px;
     }
 
     @include breakpoint(dxxl) {
-      display: none;
+      width: 30px;
+      height: 20px;
     }
   }
 
@@ -776,14 +665,6 @@ export default {
     }
   }
 
-  &__user-one {
-    display: none;
-
-    @include breakpoint(dxxl) {
-      display: inline-block;
-    }
-  }
-
   &__user-two {
     @include breakpoint(dxxxxl) {
       width: 78px;
@@ -791,19 +672,13 @@ export default {
     }
 
     @include breakpoint(dxxxl) {
-      display: none;
-    }
-  }
-
-  &__user-three {
-    display: none;
-
-    @include breakpoint(dxxxl) {
-      display: inline-block;
+      width: 58px;
+      height: 58px;
     }
 
     @include breakpoint(dxxl) {
-      display: none;
+      width: 38px;
+      height: 38px;
     }
   }
 
@@ -1100,28 +975,33 @@ export default {
     height: 480px;
 
     @include breakpoint(dxxxxl) {
-      width: 290px;
-      height: 290px;
+      width: 350px;
+      height: 350px;
     }
 
     @include breakpoint(dxxxl) {
-      width: 240px;
-      height: 240px;
+      width: 228px;
+      height: 228px;
     }
 
     @include breakpoint(dxxl) {
-      width: 220px;
-      height: 220px;
+      width: 228px;
+      height: 228px;
     }
 
     @include breakpoint(dlg) {
-      width: 170px;
-      height: 170px;
+      width: 200px;
+      height: 200px;
+    }
+
+    @include breakpoint(dmd) {
+      width: 200px;
+      height: 200px;
     }
 
     @include breakpoint(dsm) {
-      width: 140px;
-      height: 140px;
+      width: 150px;
+      height: 150px;
     }
   }
 
@@ -1166,7 +1046,28 @@ export default {
 
   &__img {
     @include breakpoint(dxxxxl) {
-      display: none;
+      width: 350px;
+      height: 350px;
+    }
+
+    @include breakpoint(dxxxl) {
+      width: 250px;
+      height: 250px;
+    }
+
+    @include breakpoint(dxxl) {
+      width: 228px;
+      height: 228px;
+    }
+
+    @include breakpoint(dlg) {
+      width: 200px;
+      height: 200px;
+    }
+
+    @include breakpoint(dsm) {
+      width: 150px;
+      height: 150px;
     }
   }
 

@@ -4,30 +4,9 @@
       <div>
         <nuxt-link to="/">
           <img
-            src="../assets/StartPage/Registration/step-one/logo-va.svg"
-            alt="step-logo"
-            class="register-block__img"
-          />
-        </nuxt-link>
-        <nuxt-link to="/">
-          <img
             src="../assets/StartPage/Registration/step-one/logo-va-one.svg"
             alt="step-logo-one"
             class="register-block__img-one"
-          />
-        </nuxt-link>
-        <nuxt-link to="/">
-          <img
-            src="../assets/StartPage/Registration/step-one/logo-va-two.svg"
-            alt="step-logo-two"
-            class="register-block__img-two"
-          />
-        </nuxt-link>
-        <nuxt-link to="/">
-          <img
-            src="../assets/StartPage/Registration/step-one/logo-va-three.svg"
-            alt="step-logo-two"
-            class="register-block__img-three"
           />
         </nuxt-link>
       </div>
@@ -113,45 +92,20 @@ export default {}
     align-items: center;
   }
 
-  &__img {
-    display: none;
-
-    @include breakpoint(dxxxl) {
-      display: inline-block;
-    }
-
-    @include breakpoint(dsm) {
-      display: none;
-    }
-  }
-
   &__img-one {
-    @include breakpoint(dxxl) {
-      display: none;
-    }
-
     @include breakpoint(dxxxxl) {
-      display: none;
-    }
-  }
-
-  &__img-two {
-    display: none;
-
-    @include breakpoint(dxxxxl) {
-      display: inline-block;
+      width: 70px;
+      height: 98px;
     }
 
     @include breakpoint(dxxxl) {
-      display: none;
+      width: 45px;
+      height: 63px;
     }
-  }
-
-  &__img-three {
-    display: none;
 
     @include breakpoint(dsm) {
-      display: inline-block;
+      width: 35px;
+      height: 49px;
     }
   }
 
