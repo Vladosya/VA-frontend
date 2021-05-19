@@ -22,6 +22,35 @@ export const actions = {
     } catch (e) {
       console.log('error in authorization action in authorization.js', e)
     }
+  },
+  async goOut({commit}) {
+    commit('changeIsAuth', false)
+    localStorage.removeItem('token')
+    localStorage.removeItem('myData')
+  },
+  async getMyData() {
+    const token = localStorage.getItem('token')
+    try {
+      const data = await this.$axios.$get('http://127.0.0.1:8000/api/users/me/', {
+        headers: {'Authorization': 'Bearer ' + token}
+      })
+      if (data.length) {
+        const myData = data.map((d) => {
+          return {
+            old: d.birth_day,
+            city: d.city,
+            email: d.email,
+            password: d.password,
+            photo: d.photo,
+            sex: d.sex,
+            username: d.username
+          }
+        })
+        localStorage.setItem('myData', JSON.stringify(myData))
+      }
+    } catch (e) {
+      console.log('error in getMyData action in authorization.js', e)
+    }
   }
 }
 

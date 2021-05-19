@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="personalAria-block">
+    <div class="personalAria-block" v-for="(d, idx) in myData" @key="idx">
       <div class="personalAria-block__header">
         <div>
           <nuxt-link to="/home">
@@ -27,13 +27,22 @@
             />
           </button>
           <div class="personalAria-block__user">
-            <a href="#">
-              <img
-                src="../../../assets/Home/PersonalArea/image-user-two.png"
-                alt="personal-aria-user-two"
-                class="personalAria-block__user-two"
-              />
-            </a>
+            <el-dropdown trigger="click">
+              <a href="#" class="el-dropdown-link">
+                <img
+                  :src="d.photo"
+                  alt="personal-aria-user-two"
+                  class="personalAria-block__user-two"
+                />
+              </a>
+              <el-dropdown-menu class="personalAria-block__dropdown" slot="dropdown">
+                <nuxt-link to="/needhelp">
+                  <el-dropdown-item icon="el-icon-help">Помощь</el-dropdown-item>
+                </nuxt-link>
+                <el-dropdown-item icon="el-icon-setting">Настройки</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-circle-close" @click.native="goOut()">Выйти</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
           </div>
         </div>
       </div>
@@ -52,7 +61,7 @@
               :class="status($v.formPersonalArea.file)"
               type="file"
               id="input-file"
-              ref="file" @change="handleFileUpload($event)"
+              @change="handleFileUpload($event)"
               multiple="multiple"
             />
             <el-tooltip class="item" effect="dark" content="Для изменения своей аватарки кликните на картинку"
@@ -61,7 +70,7 @@
                 <img v-show="photoLoading" class="personal-form-left__img-loading" id="myImage" src="" alt="dsds">
                 <span v-if="!photoLoading">
                            <img
-                             src="../../../assets/Home/PersonalArea/image-user-big-one.png"
+                             :src="d.photo"
                              alt="img-personal-aria"
                              class="personal-form-left__img"
                            />
@@ -71,12 +80,15 @@
           </div>
           <div class="personal-form-right">
             <div class="personal-info-left">
-              <div class="personal-info-left__name">Иван Иванов</div>
+              <div class="personal-info-left__name">{{ d.username }}</div>
               <div class="personal-info-left__sex">Мужской</div>
-              <div class="personal-info-left__old">15.06.1990</div>
-              <div class="personal-info-left__city">Москва</div>
+              <div class="personal-info-left__old">{{
+                  d.old.substr(8, 9) + d.old.substr(4, 4) + d.old.substr(0, 4)
+                }}
+              </div>
+              <div class="personal-info-left__city">{{ cities[Number(d.city)] }}</div>
               <div class="personal-info-left__email">
-                IvanIvanov@gmail.com
+                {{ d.email }}
               </div>
               <div class="personal-info-left__password">Пароль</div>
             </div>
@@ -364,7 +376,9 @@ export default {
       popupChangeCity: false,
       popupChangeEmail: false,
       popupChangePassword: false,
-      oldPassword: '24972497'
+      oldPassword: '24972497',
+      myData: process.client ? JSON.parse(localStorage.getItem('myData')) : [],
+      cities: ['', 'Москва', 'Санкт Петербург', 'Екатеринбург', 'Владивосток', 'Владимир']
     }
   },
   methods: {
@@ -393,8 +407,8 @@ export default {
       }
     },
     handleFileUpload(e) {
-      if (this.$refs.file.files.length > 0) {
-        const file = this.$refs.file.files[0]
+      if (e.target.files.length > 0) {
+        const file = e.target.files[0]
 
         if (this.formatPhoto.includes(file.type)) {
 
@@ -412,7 +426,7 @@ export default {
           console.log('this.formPersonalArea.fileinhandle', this.formPersonalArea.file)
 
           this.$message({
-            message: 'Фотография успешно загружена.',
+            message: 'Ваше новое имя уже почти готово к изменению',
             type: 'success'
           })
           setTimeout(() => {
@@ -421,6 +435,9 @@ export default {
               type: 'message'
             })
           }, 2000)
+          setTimeout(() => {
+            this.$message('Чтобы все изменения вступили в силу нажмите на кнопку "Сохранить изменения".')
+          }, 3500)
         } else {
           this.$message.error('Данный формат для загрузки фото недоступен. Доступные форматы для загрузки: png, jpeg, gif')
           this.formStepOne.file = []
@@ -431,6 +448,24 @@ export default {
           type: 'warning'
         })
       }
+    },
+    goOut() {
+      this.$confirm('Вы действительно хотите выйти?', 'Выйти', {
+        confirmButtonText: 'Выйти',
+        cancelButtonText: 'Отмена',
+        type: 'warning'
+      }).then(() => {
+        this.$store.dispatch('authorization/goOut')
+        this.$message({
+          type: 'success',
+          message: 'Вы вышли с аккаунта'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: 'Delete canceled'
+        })
+      })
     }
   },
   validations: {
@@ -623,7 +658,7 @@ export default {
   &__info-two {
     @include breakpoint(dxxxxl) {
       width: 50px;
-      height: 45px;
+      height: 40px;
     }
 
     @include breakpoint(dxxxl) {
@@ -666,6 +701,10 @@ export default {
   }
 
   &__user-two {
+    border-radius: 100%;
+    width: 88px;
+    height: 88px;
+
     @include breakpoint(dxxxxl) {
       width: 78px;
       height: 78px;
@@ -679,6 +718,17 @@ export default {
     @include breakpoint(dxxl) {
       width: 38px;
       height: 38px;
+    }
+  }
+
+  &__dropdown {
+    li {
+      color: #771699;
+
+      &:hover {
+        color: #771699;
+        background-color: #f8ecff;
+      }
     }
   }
 
@@ -1045,6 +1095,9 @@ export default {
   }
 
   &__img {
+    width: 400px;
+    height: 400px;
+
     @include breakpoint(dxxxxl) {
       width: 350px;
       height: 350px;

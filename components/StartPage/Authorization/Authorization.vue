@@ -96,6 +96,7 @@ export default {
           this.$store.dispatch('authorization/authorization', formData)
           setTimeout(() => {
             if (this.isAuth === true) {
+              this.$store.dispatch('authorization/getMyData')
               this.$notify({
                 title: 'Success',
                 message: 'Авторизация прошла успешно',
