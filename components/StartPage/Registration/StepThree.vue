@@ -53,11 +53,9 @@ export default {
           email: localStorage.getItem('email')
         }
         try {
-          this.$store.dispatch('register/createStepThree', formData)
           this.stepThreeIsReg = 1
+          this.$store.dispatch('register/createStepThree', {formData, stepThreeIsReg: this.stepThreeIsReg})
           console.log('Success')
-          console.log('dispatch true')
-          this.$router.push(`/signup/s4?stepThreeIsReg=${this.stepThreeIsReg}`)
         } catch (e) {
           console.log('error', e)
         }

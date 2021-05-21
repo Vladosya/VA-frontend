@@ -7,13 +7,23 @@
       друзей или вечеринок и общаться в чате.
     </div>
     <div class="register-block-four__btn">
-      <button @click="$router.push('/')">На главную</button>
+      <button @click="registerFinish">На главную</button>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  methods: {
+    async registerFinish() {
+      await this.$router.push('/')
+      $nuxt.$message({
+        message: 'Регистрация прошла успешно',
+        type: 'success'
+      })
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

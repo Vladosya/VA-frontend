@@ -259,11 +259,9 @@ export default {
         formData.append('confirm_password', this.formStepOne.confirmPassword)
 
         try {
-          this.$store.dispatch('register/createStepOne', formData)
           this.stepOneIsReg = 1
+          this.$store.dispatch('register/createStepOne', {formData, stepOneIsReg: this.stepOneIsReg})
           console.log('Success')
-          console.log('dispatch true')
-          this.$router.push(`/signup/s2?stepOneIsReg=${this.stepOneIsReg}`)
         } catch (e) {
           console.log('error', e)
         }
