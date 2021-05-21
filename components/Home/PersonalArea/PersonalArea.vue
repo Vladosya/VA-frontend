@@ -80,16 +80,13 @@
           </div>
           <div class="personal-form-right">
             <div class="personal-info-left">
-              <div class="personal-info-left__name">{{ d.username }}</div>
+              <div class="personal-info-left__name">{{ d.name }}</div>
               <div class="personal-info-left__sex">Мужской</div>
               <div class="personal-info-left__old">{{
                   d.old.substr(8, 9) + d.old.substr(4, 4) + d.old.substr(0, 4)
                 }}
               </div>
               <div class="personal-info-left__city">{{ cities[Number(d.city)] }}</div>
-              <div class="personal-info-left__email">
-                {{ d.email }}
-              </div>
               <div class="personal-info-left__password">Пароль</div>
             </div>
             <div class="personal-info-right">
@@ -103,9 +100,6 @@
                 Изменить
               </button>
               <button class="personal-info-right__btn-city" @click.prevent="popupChangeCity = !popupChangeCity">
-                Изменить
-              </button>
-              <button class="personal-info-right__btn-email" @click.prevent="popupChangeEmail = !popupChangeEmail">
                 Изменить
               </button>
               <button class="personal-info-right__btn-password"
@@ -244,35 +238,6 @@
           </div>
         </div>
 
-        <div class="popup-container" v-if="popupChangeEmail">
-          <div class="popup-email-position" @click.self="cancelChangeEmail">
-            <div class="popup-email-block">
-              <div class="popup-email-block__title">Изменение Email</div>
-              <div class="popup-email-form">
-                <div class="popup-email-form__email">
-                  <label for="email-personal-area">Введите новый Email
-                  </label>
-                  <input
-                    @blur="$v.formPersonalArea.email.$touch()"
-                    :class="status($v.formPersonalArea.email)"
-                    v-model.trim="formPersonalArea.email"
-                    class="popup-email-form__username-input"
-                    type="email"
-                    id="email-personal-area"
-                    placeholder="IvanIvanov@gmail.com"
-                  />
-                  <div class="invalid-feed" v-if="!$v.formPersonalArea.email.email">Пожалуйста введите Email адрес</div>
-                </div>
-                <div class="popup-email-form__buttons">
-                  <button class="popup-email-form__btn-cancel" @click="cancelChangeEmail">Отмена
-                  </button>
-                  <button class="popup-email-form__btn-create" @click.prevent="NextPopupEmail">Далее</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div class="popup-container" v-if="popupChangePassword">
           <div class="popup-password-position" @click.self="cancelChangeButton">
             <div class="popup-password-block">
@@ -346,7 +311,7 @@
 </template>
 
 <script>
-import {email, helpers, minLength, sameAs} from 'vuelidate/lib/validators'
+import {helpers, minLength, sameAs} from 'vuelidate/lib/validators'
 import PersonalAreaMixin from '~/mixins/PersonalAreaMixin'
 
 const alpha = helpers.regex('alpha', /^[a-zA-Zа-яёА-ЯЁ]*$/)
@@ -360,7 +325,6 @@ export default {
         sex: '',
         old: '',
         city: '',
-        email: '',
         oldPassword: '',
         newPassword: '',
         confirmNewPassword: ''
@@ -387,16 +351,24 @@ export default {
 
       if (this.photoLoading || this.formPersonalArea.name.length ||
         this.formPersonalArea.sex.length || this.formPersonalArea.old.length ||
-        this.formPersonalArea.city.length || this.formPersonalArea.email.length) {
+        this.formPersonalArea.city.length) {
         console.log('Success')
-        console.log('name', this.formPersonalArea.name)
-        console.log('sex', this.formPersonalArea.sex)
-        console.log('old', this.formPersonalArea.old)
-        console.log('city', this.formPersonalArea.city)
-        console.log('email', this.formPersonalArea.email)
-        console.log('oldPassword', this.formPersonalArea.oldPassword)
-        console.log('newPassword', this.formPersonalArea.newPassword)
-        console.log('confirmNewPassword', this.formPersonalArea.confirmNewPassword)
+        const formData = {
+          id: this.myData[0].id,
+          photo: this.formPersonalArea.file,
+          first_name: this.formPersonalArea.name,
+          sex: this.formPersonalArea.sex,
+          birth_day: this.formPersonalArea.old,
+          city: this.formPersonalArea.city,
+          newPassword: this.formPersonalArea.newPassword,
+          confirmNewPassword: this.formPersonalArea.confirmNewPassword
+        }
+
+        try {
+          this.$store.dispatch('personalArea/updateMyData', formData)
+        } catch (e) {
+          console.log('error in PersonalArea.vue methods personalAreaSubmit', e)
+        }
       } else {
         console.log('Error')
       }
@@ -477,9 +449,6 @@ export default {
       sex: {},
       old: {},
       city: {},
-      email: {
-        email
-      },
       oldPassword: {},
       newPassword: {
         minLength: minLength(8)
@@ -1202,6 +1171,7 @@ export default {
 
 .personal-form-right {
   display: grid;
+  align-items: center;
   grid-column-gap: 69px;
   grid-template-columns: 450px 150px;
   margin-top: 33px;
