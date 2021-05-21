@@ -1,15 +1,9 @@
-export const state = () => ({
-  isCreateAd: false
-})
+export const state = () => ({})
 
-export const mutations = {
-  changeIsCreateAd(state, newIsCreateAd) {
-    state.isCreateAd = newIsCreateAd
-  }
-}
+export const mutations = {}
 
 export const actions = {
-  async createAd({commit}, formData) {
+  async createAd(_, formData) {
     const token = localStorage.getItem('token')
     try {
       const getMyAd = await this.$axios.$get('http://127.0.0.1:8000/api/ad/my_ads/', {
@@ -20,10 +14,20 @@ export const actions = {
           headers: {'Authorization': 'Bearer ' + token}
         })
         if (createAd.status === 'success') {
-          commit('changeIsCreateAd', true)
+          await $nuxt.$router.push('/home')
+          $nuxt.$message({
+            message: `${createAd.message}`,
+            type: 'success'
+          })
+          setTimeout(() => {
+            $nuxt.$message('Для того, чтобы создать новое объявление удалите предыдущее')
+          }, 1500)
         }
       } else {
-        commit('changeIsCreateAd', false)
+        $nuxt.$message({
+          message: 'У вас уже есть созданное объявление.',
+          type: 'warning'
+        })
       }
 
     } catch (e) {
@@ -32,8 +36,4 @@ export const actions = {
   }
 }
 
-export const getters = {
-  isCreateAd(state) {
-    return state.isCreateAd
-  }
-}
+export const getters = {}

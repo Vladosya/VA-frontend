@@ -153,11 +153,6 @@ export default {
       choicePlace: false
     }
   },
-  computed: {
-    isCreateAd() {
-      return this.$store.getters['createAd/isCreateAd']
-    }
-  },
   methods: {
     createAdFormSubmit() {
       this.$v.$touch()
@@ -179,24 +174,6 @@ export default {
 
         try {
           this.$store.dispatch('createAd/createAd', formData)
-          setTimeout(() => {
-            console.log('this.isCreateAdTwo', this.isCreateAd)
-            if (this.isCreateAd === true) {
-              this.$message({
-                message: 'Поздравляем. Ваше объявление создано',
-                type: 'success'
-              })
-              this.$router.push('/home')
-            } else {
-              this.$message({
-                message: 'У вас уже есть созданное объявление.',
-                type: 'warning'
-              })
-              setTimeout(() => {
-                this.$message('Для того, чтобы создать новое объявление удалите предыдущее')
-              }, 1500)
-            }
-          }, 2000)
         } catch (e) {
           console.log('error in CreateAd.vue methods createAdFormSubmit', e)
         }
