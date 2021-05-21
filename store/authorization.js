@@ -9,18 +9,34 @@ export const mutations = {
 }
 
 export const actions = {
-  async authorization({state, commit}, formData) {
+  async authorization({state, commit, dispatch}, formData) {
     try {
-      const authorization = await this.$axios.$post('http://127.0.0.1:8000/api/token/', formData).then((response) => {
-        if (response.access) {
-          localStorage.setItem('token', response.access)
-          commit('changeIsAuth', true)
-        } else {
-          commit('changeIsAuth', false)
-        }
-      })
+      const authorization = await this.$axios.$post('http://127.0.0.1:8000/api/token/', formData)
+      if (authorization.access) {
+        localStorage.setItem('token', authorization.access)
+        commit('changeIsAuth', true)
+      }
+
+      if (state.isAuth === true) {
+        dispatch('getMyData')
+        $nuxt.$notify({
+          title: 'Успех Авторизации',
+          message: 'Авторизация прошла успешно',
+          type: 'success'
+        })
+        await $nuxt.$router.push('/home')
+      } else {
+        $nuxt.$notify.error({
+          title: 'Ошибка авторизации',
+          message: 'Неправильный логин или пароль'
+        })
+      }
     } catch (e) {
-      console.log('error in authorization action in authorization.js', e)
+      $nuxt.$notify.error({
+        title: 'Ошибка авторизации',
+        message: 'Неправильный логин или пароль'
+      })
+      console.log('error in authorization action in authorization.js', e.response)
     }
   },
   async goOut({commit}) {
@@ -34,18 +50,20 @@ export const actions = {
       const data = await this.$axios.$get('http://127.0.0.1:8000/api/users/me/', {
         headers: {'Authorization': 'Bearer ' + token}
       })
+
       if (data.length) {
         const myData = data.map((d) => {
           return {
+            id: d.id,
             old: d.birth_day,
             city: d.city,
-            email: d.email,
+            name: d.first_name,
             password: d.password,
             photo: d.photo,
-            sex: d.sex,
-            username: d.username
+            sex: d.sex
           }
         })
+
         localStorage.setItem('myData', JSON.stringify(myData))
       }
     } catch (e) {

@@ -74,11 +74,6 @@ export default {
       minLengthText: 'Минимальная длина 8 символов!'
     }
   },
-  computed: {
-    isAuth() {
-      return this.$store.getters['authorization/isAuth']
-    }
-  },
   methods: {
     loginSubmit() {
       this.$v.$touch()
@@ -94,24 +89,8 @@ export default {
 
         try {
           this.$store.dispatch('authorization/authorization', formData)
-          setTimeout(() => {
-            if (this.isAuth === true) {
-              this.$store.dispatch('authorization/getMyData')
-              this.$notify({
-                title: 'Success',
-                message: 'Авторизация прошла успешно',
-                type: 'success'
-              })
-              this.$router.push('/home')
-            } else {
-              this.$notify.error({
-                title: 'Ошибка авторизации',
-                message: 'Неправильный логин или пароль'
-              })
-            }
-          }, 500)
         } catch (e) {
-          console.log('error in Authorization.vue methods loginSubmit')
+          console.log('error in Authorization.vue methods loginSubmit', e)
         }
       }
     },
