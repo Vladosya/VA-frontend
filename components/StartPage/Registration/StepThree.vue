@@ -37,8 +37,8 @@ export default {
     return {
       formStepThree: {
         passwordEmail: '',
-        stepThreeIsReg: 0
-      }
+      },
+      stepThreeIsReg: 0
     }
   },
   methods: {
@@ -49,8 +49,7 @@ export default {
         console.log('Error')
       } else {
         const formData = {
-          code: this.formStepThree.passwordEmail,
-          email: localStorage.getItem('email')
+          code: this.formStepThree.passwordEmail
         }
         try {
           this.stepThreeIsReg = 1

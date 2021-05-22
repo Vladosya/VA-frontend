@@ -4,8 +4,7 @@ export const mutations = {}
 
 export const actions = {
   async updateMyData(_, formData) {
-    console.log('formDataInAction', formData)
-    const token = localStorage.getItem('token')
+    const token = $nuxt.$cookies.get('token')
 
     try {
       const updateData = await this.$axios.put(`http://127.0.0.1:8000/api/users/update/${formData.id}/`, formData, {

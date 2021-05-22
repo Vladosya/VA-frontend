@@ -8,6 +8,7 @@
 import PersonalArea from '@/components/Home/PersonalArea/PersonalArea'
 
 export default {
+  middleware: ['auth'],
   components: {
     PersonalArea
   }

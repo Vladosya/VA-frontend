@@ -13,11 +13,11 @@ export const actions = {
     try {
       const authorization = await this.$axios.$post('http://127.0.0.1:8000/api/token/', formData)
       if (authorization.access) {
-        localStorage.setItem('token', authorization.access)
+        $nuxt.$cookies.set('token', authorization.access)
         commit('changeIsAuth', true)
       }
 
-      if (state.isAuth === true) {
+      if (state.isAuth === true && $nuxt.$cookies.get('token')) {
         dispatch('getMyData')
         $nuxt.$notify({
           title: 'Успех Авторизации',
@@ -40,12 +40,13 @@ export const actions = {
     }
   },
   async goOut({commit}) {
+    await $nuxt.$router.push('/')
     commit('changeIsAuth', false)
-    localStorage.removeItem('token')
+    $nuxt.$cookies.remove('token')
     localStorage.removeItem('myData')
   },
   async getMyData() {
-    const token = localStorage.getItem('token')
+    const token = $nuxt.$cookies.get('token')
     try {
       const data = await this.$axios.$get('http://127.0.0.1:8000/api/users/me/', {
         headers: {'Authorization': 'Bearer ' + token}

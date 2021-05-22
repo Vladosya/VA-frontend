@@ -9,6 +9,7 @@ import CreateAd from '../../../components/Home/CreateAd/CreateAd.vue'
 
 export default {
   layout: 'home',
+  middleware: ['auth'],
   methods: {
     closeCreateAd() {
       this.$router.push('/home')

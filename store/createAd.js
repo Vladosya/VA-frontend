@@ -4,7 +4,7 @@ export const mutations = {}
 
 export const actions = {
   async createAd(_, formData) {
-    const token = localStorage.getItem('token')
+    const token = $nuxt.$cookies.get('token')
     try {
       const getMyAd = await this.$axios.$get('http://127.0.0.1:8000/api/ad/my_ads/', {
         headers: {'Authorization': 'Bearer ' + token}
