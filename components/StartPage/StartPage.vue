@@ -1,35 +1,38 @@
 <template>
   <div class="main-container">
-    <div class="main-block">
-      <div class="main-block__logo">
-        <a href="#">
-          <img
-            src="../../assets/StartPage/logo-va-one.png"
-            alt="logo-main"
-            class="main-block__img-one"
-          />
-        </a>
-      </div>
-      <div class="main-block__quantity-people">
-        <div>82 471 723</div>
-        <p>людей уже с нами. Присоединяйтесь!</p>
-      </div>
-      <div class="main-block__information">
-        Найди свою вторую половинку <br/>
-        или веселую вечеринку.
-      </div>
-      <div class="main-block__buttons">
-        <nuxt-link no-prefetch to="/signup/s1">
-          <button class="main-block__btn-one">
-            Зарегистрироваться
+    <div class="main-grid">
+      <div class="main-block">
+        <div class="main-block__logo">
+          <a href="#">
+            <img
+              src="../../assets/StartPage/logo-va-one.png"
+              alt="logo-main"
+              class="main-block__img-one"
+            />
+          </a>
+        </div>
+        <div class="main-block__quantity-people">
+          <div>82 471 723</div>
+          <p>людей уже с нами. Присоединяйтесь!</p>
+        </div>
+        <div class="main-block__information">
+          Найди свою вторую половинку <br/>
+          или веселую вечеринку.
+        </div>
+        <div class="main-block__buttons">
+          <nuxt-link no-prefetch to="/signup/s1">
+            <button class="main-block__btn-one">
+              Зарегистрироваться
+            </button>
+          </nuxt-link>
+          <button
+            class="main-block__btn-two"
+            @click="popup = !popup"
+          >Войти
           </button>
-        </nuxt-link>
-        <button
-          class="main-block__btn-two"
-          @click="popup = !popup"
-        >Войти
-        </button>
+        </div>
       </div>
+      <div class="main-carousel"></div>
     </div>
     <div class="popup-container" v-if="popup" @click.self="popup = !popup">
       <Authorization/>
@@ -76,6 +79,39 @@ export default {
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-color: #fff;
+}
+
+.main-grid {
+  display: grid;
+  grid-template-columns: 1018px 1541px;
+
+  @include breakpoint(dxxxxl) {
+    grid-template-columns: 763px 1157px;
+  }
+
+  @include breakpoint(dxxxl) {
+    grid-template-columns: 636px 964px;
+  }
+
+  @include breakpoint(dxxl) {
+    grid-template-columns: 611px 925px;
+  }
+
+  @include breakpoint(dxl) {
+    grid-template-columns: 573px 867px;
+  }
+
+  @include breakpoint(dlg) {
+    grid-template-columns: 544px 822px;
+  }
+
+  @include breakpoint(dmd) {
+    grid-template-columns: 509px 771px;
+  }
+
+  @include breakpoint(dsm) {
+    grid-template-columns: 408px 616px;
+  }
 }
 
 .main-block {
@@ -332,17 +368,17 @@ export default {
 
   @include breakpoint(dxxxxl) {
     padding-top: 104px;
-    max-width: 756px;
+    max-width: 763px;
   }
 
   @include breakpoint(dxxxl) {
     padding-top: 74px;
-    max-width: 629px;
+    max-width: 636px;
   }
 
   @include breakpoint(dxxl) {
     padding-top: 94px;
-    max-width: 604px;
+    max-width: 611px;
   }
 
   @include breakpoint(dxl) {
