@@ -12,8 +12,8 @@ export default {
   components: {
     StepTwo
   },
-  validate({query, redirect}) {
-    if (query.stepOneIsReg === '1') {
+  validate({query, from, redirect}) {
+    if (query.stepOneIsReg === '1' && from.path === '/signup/s1') {
       return true
     } else {
       redirect('/')

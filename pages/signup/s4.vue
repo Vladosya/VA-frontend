@@ -12,8 +12,8 @@ export default {
   components: {
     StepFour
   },
-  validate({query, redirect}) {
-    if (query.stepThreeIsReg === '1') {
+  validate({query, from, redirect}) {
+    if (query.stepThreeIsReg === '1' && from.path === '/signup/s3') {
       return true
     } else {
       redirect('/')
