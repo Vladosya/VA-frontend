@@ -353,19 +353,19 @@ export default {
         this.formPersonalArea.sex.length || this.formPersonalArea.old.length ||
         this.formPersonalArea.city.length) {
         console.log('Success')
-        const formData = {
-          id: this.myData[0].id,
-          photo: this.formPersonalArea.file,
-          first_name: this.formPersonalArea.name,
-          sex: this.formPersonalArea.sex,
-          birth_day: this.formPersonalArea.old,
-          city: this.formPersonalArea.city,
-          newPassword: this.formPersonalArea.newPassword,
-          confirmNewPassword: this.formPersonalArea.confirmNewPassword
-        }
+
+        const formData = new FormData()
+        formData.append('id', this.myData[0].id)
+        formData.append('photo', this.formPersonalArea.file)
+        formData.append('first_name', this.formPersonalArea.name)
+        formData.append('sex', this.formPersonalArea.sex)
+        formData.append('birth_day', this.formPersonalArea.old)
+        formData.append('city', this.formPersonalArea.city)
+        formData.append('newPassword', this.formPersonalArea.newPassword)
+        formData.append('confirmNewPassword', this.formPersonalArea.confirmNewPassword)
 
         try {
-          this.$store.dispatch('personalArea/updateMyData', formData)
+          this.$store.dispatch('personalArea/updateMyData', {formData, id: this.myData[0].id})
         } catch (e) {
           console.log('error in PersonalArea.vue methods personalAreaSubmit', e)
         }
