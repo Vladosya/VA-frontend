@@ -13,12 +13,14 @@
         />
       </button>
     </nuxt-link>
-    <button>
-      <img
-        src="../../../assets/Home/left-menu/message.svg"
-        alt="message-left-menu"
-      />
-    </button>
+    <nuxt-link to="/home/messenger">
+      <button>
+        <img
+          src="../../../assets/Home/left-menu/message.svg"
+          alt="message-left-menu"
+        />
+      </button>
+    </nuxt-link>
     <button>
       <img src="../../../assets/Home/left-menu/news.svg" alt="news-left-menu"/>
     </button>
