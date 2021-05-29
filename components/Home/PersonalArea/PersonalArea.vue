@@ -83,7 +83,7 @@
           <div class="personal-form-right">
             <div class="personal-info-left">
               <div class="personal-info-left__name">{{ d.name }}</div>
-              <div class="personal-info-left__sex">Мужской</div>
+              <div class="personal-info-left__sex">{{ sexes[Number(d.sex)] }}</div>
               <div class="personal-info-left__old">{{
                   d.old.substr(8, 9) + d.old.substr(4, 4) + d.old.substr(0, 4)
                 }}
@@ -342,9 +342,9 @@ export default {
       popupChangeCity: false,
       popupChangeEmail: false,
       popupChangePassword: false,
-      oldPassword: '24972497',
       myData: process.client ? JSON.parse(localStorage.getItem('myData')) : [],
-      cities: ['', 'Москва', 'Санкт Петербург', 'Екатеринбург', 'Владивосток', 'Владимир']
+      cities: ['', 'Москва', 'Санкт Петербург', 'Екатеринбург', 'Владивосток', 'Владимир'],
+      sexes: ['', 'Мужской', 'Женский', 'Трансгендер']
     }
   },
   methods: {
@@ -353,7 +353,9 @@ export default {
 
       if (this.photoLoading || this.formPersonalArea.name.length ||
         this.formPersonalArea.sex.length || this.formPersonalArea.old.length ||
-        this.formPersonalArea.city.length) {
+        this.formPersonalArea.city.length || this.formPersonalArea.oldPassword.length &&
+        this.formPersonalArea.newPassword.length && this.formPersonalArea.confirmNewPassword.length
+      ) {
         console.log('Success')
 
         const formData = new FormData()
@@ -363,11 +365,39 @@ export default {
         formData.append('sex', this.formPersonalArea.sex)
         formData.append('birth_day', this.formPersonalArea.old)
         formData.append('city', this.formPersonalArea.city)
-        formData.append('newPassword', this.formPersonalArea.newPassword)
-        formData.append('confirmNewPassword', this.formPersonalArea.confirmNewPassword)
+
+        const checkData = JSON.parse(JSON.stringify(Object.fromEntries(formData)))
+        const transformDataInObj = Object.values(checkData)
+        const deleteElem = transformDataInObj.splice(0, 1)
+        const checkDataValues = transformDataInObj.some(elem => elem.length > 0)
+        const isEmpty = (obj) => {
+          for (let key in obj) {
+            return false
+          }
+          return true
+        }
+
+        const formDataPassword = {
+          old_password: this.formPersonalArea.oldPassword,
+          new_password: this.formPersonalArea.newPassword,
+          confirm_new_password: this.formPersonalArea.confirmNewPassword
+        }
+
+        const transformDataPasswordInObj = Object.values(formDataPassword)
+        const checkDataPasswordValues = transformDataPasswordInObj.some(elem => elem.length > 0)
 
         try {
-          this.$store.dispatch('personalArea/updateMyData', {formData, id: this.myData[0].id})
+          if (checkDataValues || isEmpty(this.formPersonalArea.file) === false) {
+            this.$store.dispatch('personalArea/updateMyData', {formData, id: this.myData[0].id})
+          } else {
+            console.log('checkDataValues === false')
+          }
+
+          if (checkDataPasswordValues) {
+            this.$store.dispatch('personalArea/updateMyPassword', formDataPassword)
+          } else {
+            console.log('checkDataPasswordValues === false')
+          }
         } catch (e) {
           console.log('error in PersonalArea.vue methods personalAreaSubmit', e)
         }
