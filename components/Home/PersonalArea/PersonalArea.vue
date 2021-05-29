@@ -82,13 +82,21 @@
           </div>
           <div class="personal-form-right">
             <div class="personal-info-left">
-              <div class="personal-info-left__name">{{ d.name }}</div>
-              <div class="personal-info-left__sex">{{ sexes[Number(d.sex)] }}</div>
+              <div class="personal-info-left__name">
+                {{ formPersonalArea.name.length ? formPersonalArea.name : d.name }}
+              </div>
+              <div class="personal-info-left__sex">
+                {{ formPersonalArea.sex.length ? sexes[Number(formPersonalArea.sex)] : sexes[Number(d.sex)] }}
+              </div>
               <div class="personal-info-left__old">{{
-                  d.old.substr(8, 9) + d.old.substr(4, 4) + d.old.substr(0, 4)
+                  formPersonalArea.old.length ?
+                    formPersonalArea.old.substr(8, 9) + formPersonalArea.old.substr(4, 4) + formPersonalArea.old.substr(0, 4) :
+                    d.old.substr(8, 9) + d.old.substr(4, 4) + d.old.substr(0, 4)
                 }}
               </div>
-              <div class="personal-info-left__city">{{ cities[Number(d.city)] }}</div>
+              <div class="personal-info-left__city">
+                {{ formPersonalArea.city.length ? cities[Number(formPersonalArea.city)] : cities[Number(d.city)] }}
+              </div>
               <div class="personal-info-left__password">Пароль</div>
             </div>
             <div class="personal-info-right">
@@ -133,7 +141,7 @@
                     @blur="$v.formPersonalArea.name.$touch()"
                     :class="status($v.formPersonalArea.name)"
                     class="popup-name-form__username-input"
-                    v-model.trim="formPersonalArea.name"
+                    v-model.trim.lazy="formPersonalArea.name"
                     id="name-personal-area"
                     type="text"
                     placeholder="Введите новое имя"
@@ -161,7 +169,7 @@
                   <select
                     @blur="$v.formPersonalArea.sex.$touch()"
                     :class="status($v.formPersonalArea.sex)"
-                    v-model="formPersonalArea.sex"
+                    v-model.lazy="formPersonalArea.sex"
                     id="sex-personal-area"
                     class="popup-sex-form__username-input"
                   >
@@ -191,7 +199,7 @@
                   <input
                     @blur="$v.formPersonalArea.old.$touch()"
                     :class="status($v.formPersonalArea.old)"
-                    v-model="formPersonalArea.old"
+                    v-model.lazy="formPersonalArea.old"
                     class="popup-date-form__username-input"
                     type="date"
                     id="date-personal-area"
@@ -218,7 +226,7 @@
                   <select
                     @blur="$v.formPersonalArea.city.$touch()"
                     :class="status($v.formPersonalArea.city)"
-                    v-model="formPersonalArea.city"
+                    v-model.lazy="formPersonalArea.city"
                     id="city-personal-area"
                     class="popup-city-form__username-input"
                   >
