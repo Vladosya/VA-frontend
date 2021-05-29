@@ -2,11 +2,11 @@
   <div class="messenger-block">
     <div class="messenger-block-header">
       <div class="messenger-block-header__title">Чат</div>
-      <div class="messenger-block-header__name">Иван Иванов</div>
+      <div class="messenger-block-header__name" v-if="isOpenDialog">Иван Иванов</div>
     </div>
     <div class="messenger-block-chat">
       <div class="messenger-chat-participants">
-        <div class="messenger-participants-person">
+        <a href="#" class="messenger-participants-person">
           <div class="messenger-participants-person__img">
             <img
               src="../../../assets/Home/Message/partnerPhotoTwo.png"
@@ -28,8 +28,8 @@
           <div class="messenger-participants-person__notReaded">
             <p class="messenger-participants-person__read">1</p>
           </div>
-        </div>
-        <div class="messenger-participants-person">
+        </a>
+        <a href="#" class="messenger-participants-person">
           <div class="messenger-participants-person__img">
             <img
               src="../../../assets/Home/Message/partnerPhotoTwo.png"
@@ -48,117 +48,126 @@
               Здесь вы можете р....
             </div>
           </div>
-        </div>
+        </a>
       </div>
 
       <div class="messenger-chat-line"></div>
 
-      <div class="messenger-chat-correspondence">
-        <div class="messenger-chat-dialogs">
-          <div class="messenger-correspondence-person">
-            <div class="messenger-correspondence-person__img">
-              <img
-                src="../../../assets/Home/Message/partnerPhotoTwo.png"
-                alt="dsds"
-                class="messenger-correspondence-person__img-two"
-              />
-              <p
-                class="messenger-correspondence-person__isOnline"
-              ></p>
-            </div>
-            <div class="messenger-correspondence-person__info">
-              <div
-                class="messenger-correspondence-person__name"
-              >
-                Иван Иванов
+      <div
+        class="messenger-chat-correspondence"
+        :class="{'messenger-not-content': !isOpenDialog}"
+      >
+        <div class="messenger-chat-content" v-if="isOpenDialog">
+          <div class="messenger-chat-dialogs">
+            <div class="messenger-correspondence-person">
+              <div class="messenger-correspondence-person__img">
+                <img
+                  src="../../../assets/Home/Message/partnerPhotoTwo.png"
+                  alt="dsds"
+                  class="messenger-correspondence-person__img-two"
+                />
+                <p
+                  class="messenger-correspondence-person__isOnline"
+                ></p>
               </div>
-              <div
-                class="messenger-correspondence-person__letter"
-              >
-                Привет. Здесь вы можете редактировать личные
-                денные в случае ошибки при регистрации или
-                необходимости изменений. Привет. Здесь вы
-                можете редактировать личные денные в случае
-                ошибки при регистрации или необходимости
-                изменений. Привет. Здесь вы можете
-                редактировать личные денные в случае ошибки при
-                регистрации или необходимости изменений.
+              <div class="messenger-correspondence-person__info">
+                <div
+                  class="messenger-correspondence-person__name"
+                >
+                  Иван Иванов
+                </div>
+                <div
+                  class="messenger-correspondence-person__letter"
+                >
+                  Привет. Здесь вы можете редактировать личные
+                  денные в случае ошибки при регистрации или
+                  необходимости изменений. Привет. Здесь вы
+                  можете редактировать личные денные в случае
+                  ошибки при регистрации или необходимости
+                  изменений. Привет. Здесь вы можете
+                  редактировать личные денные в случае ошибки при
+                  регистрации или необходимости изменений.
+                </div>
+              </div>
+            </div>
+            <div class="messenger-correspondence-person">
+              <div class="messenger-correspondence-person__img">
+                <img
+                  src="../../../assets/Home/Message/partnerPhotoTwo.png"
+                  alt="dsds"
+                  class="messenger-correspondence-person__img-two"
+                />
+                <p
+                  class="messenger-correspondence-person__isOnline"
+                ></p>
+              </div>
+              <div class="messenger-correspondence-person__info">
+                <div
+                  class="messenger-correspondence-person__name"
+                >
+                  Иван Иванов
+                </div>
+                <div
+                  class="messenger-correspondence-person__letter"
+                >
+                  Привет. Как дела?
+                </div>
               </div>
             </div>
           </div>
-          <div class="messenger-correspondence-person">
-            <div class="messenger-correspondence-person__img">
-              <img
-                src="../../../assets/Home/Message/partnerPhotoTwo.png"
-                alt="dsds"
-                class="messenger-correspondence-person__img-two"
-              />
-              <p
-                class="messenger-correspondence-person__isOnline"
-              ></p>
+          <div class="messenger-chat-sendMessage">
+            <div class="messenger-chat-sendMessage__clip">
+              <button>
+                <img
+                  src="../../../assets/Home/Message/file.svg"
+                  alt="file"
+                  class="messenger-chat-sendMessage__img"
+                />
+                <img
+                  src="../../../assets/Home/Message/file-two.svg"
+                  alt="file-two"
+                  class="messenger-chat-sendMessage__img-one"
+                />
+              </button>
             </div>
-            <div class="messenger-correspondence-person__info">
-              <div
-                class="messenger-correspondence-person__name"
-              >
-                Иван Иванов
-              </div>
-              <div
-                class="messenger-correspondence-person__letter"
-              >
-                Привет. Как дела?
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="messenger-chat-sendMessage">
-          <div class="messenger-chat-sendMessage__clip">
-            <button>
-              <img
-                src="../../../assets/Home/Message/file.svg"
-                alt="file"
-                class="messenger-chat-sendMessage__img"
-              />
-              <img
-                src="../../../assets/Home/Message/file-two.svg"
-                alt="file-two"
-                class="messenger-chat-sendMessage__img-one"
-              />
-            </button>
-          </div>
-          <div>
-            <label>
+            <div>
+              <label>
                   <textarea
                     class="messenger-chat-sendMessage__input"
                     placeholder="Напишите ваше сообщение..."
                   >
                   </textarea>
-            </label>
+              </label>
+            </div>
+            <div class="messenger-chat-sendMessage__btns">
+              <button class="messenger-chat-sendMessage__btn-one">
+                <img
+                  src="../../../assets/Home/Message/smile.svg"
+                  alt="smile"
+                  class="messenger-chat-sendMessage__smile"
+                />
+              </button>
+              <button class="messenger-chat-sendMessage__btn-two">
+                <img
+                  src="../../../assets/Home/Message/image.svg"
+                  alt="image"
+                  class="messenger-chat-sendMessage__image"
+                />
+              </button>
+            </div>
+            <div class="messenger-chat-sendMessage__send">
+              <button>
+                <img
+                  src="../../../assets/Home/Message/sendMessage.svg"
+                  alt="send"
+                />
+              </button>
+            </div>
           </div>
-          <div class="messenger-chat-sendMessage__btns">
-            <button class="messenger-chat-sendMessage__btn-one">
-              <img
-                src="../../../assets/Home/Message/smile.svg"
-                alt="smile"
-                class="messenger-chat-sendMessage__smile"
-              />
-            </button>
-            <button class="messenger-chat-sendMessage__btn-two">
-              <img
-                src="../../../assets/Home/Message/image.svg"
-                alt="image"
-                class="messenger-chat-sendMessage__image"
-              />
-            </button>
-          </div>
-          <div class="messenger-chat-sendMessage__send">
-            <button>
-              <img
-                src="../../../assets/Home/Message/sendMessage.svg"
-                alt="send"
-              />
-            </button>
-          </div>
+        </div>
+        <div class="messenger-not-style" v-if="!isOpenDialog">
+          <i class="el-icon-folder-opened"></i>
+          <p>Диалоги пусты</p>
         </div>
       </div>
     </div>
@@ -166,7 +175,13 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      isOpenDialog: false
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -210,7 +225,7 @@ export default {}
 
   @include breakpoint(dsm) {
     width: 741px;
-    height: 653px;
+    height: 670px;
   }
 }
 
@@ -362,7 +377,7 @@ export default {}
   }
 
   @include breakpoint(dxxl) {
-    padding: 24px 0 25px 37px;
+    padding: 24px 0 25px 27px;
     height: 630px;
   }
 
@@ -422,7 +437,8 @@ export default {}
 
 .messenger-participants-person {
   display: flex;
-  margin: 0 10px 23px 0;
+  margin: 0 10px 10px 0;
+  padding: 10px 0 0 10px;
 
   &__img-two {
     @include breakpoint(dxxxxl) {
@@ -553,7 +569,7 @@ export default {}
 
     @include breakpoint(dxxxxl) {
       margin-top: 3px;
-      font-size: 16px;
+      font-size: 15px;
       line-height: 19px;
     }
 
@@ -667,28 +683,38 @@ export default {}
     }
   }
 
+  &:hover {
+    border-radius: 10px;
+    color: #771699;
+    background-color: #f8ecff;
+  }
+
   @include breakpoint(dxxxxl) {
-    margin: 0 10px 18px 0;
+    margin: 0 10px 10px 0;
+    padding: 13px 0 0 2px;
   }
 
   @include breakpoint(dxxxl) {
-    margin: 0 10px 18px 0;
+    margin: 0 10px 10px 0;
+    padding: 10px 0 0 10px;
   }
 
   @include breakpoint(dxxl) {
-    margin: 0 10px 18px 0;
+    margin: 0 10px 10px 0;
+    padding: 10px 0 0 10px;
   }
 
   @include breakpoint(dlg) {
-    margin: 0 10px 14px 0;
+    margin: 0 10px 10px 0;
   }
 
   @include breakpoint(dmd) {
-    margin: 0 10px 15px 0;
+    margin: 0 10px 10px 0;
   }
 
   @include breakpoint(dsm) {
-    margin: 0 10px 10px 0;
+    margin: 0 10px 5px 0;
+    padding: 10px 0 0 3px;
   }
 }
 
@@ -696,7 +722,7 @@ export default {}
   position: relative;
   overflow: auto;
   padding: 34px 0 35px 46px;
-  height: 1080px;
+  height: 1075px;
 
   @include breakpoint(dxxxxl) {
     padding: 24px 0 25px 37px;
@@ -728,7 +754,7 @@ export default {}
 
   @include breakpoint(dsm) {
     padding: 20px 0 25px 15px;
-    height: 561px;
+    height: 575px;
   }
 }
 
@@ -1225,7 +1251,7 @@ export default {}
 
 .messenger-chat-line {
   width: 3px;
-  height: 1190px;
+  height: 1196px;
   background: #f6eef9;
 
   @include breakpoint(dxxxxl) {
@@ -1253,6 +1279,76 @@ export default {}
 
   @include breakpoint(dmd) {
     height: 635px;
+  }
+}
+
+.el-icon-folder-opened {
+  font-size: 120px;
+  color: #771699;
+
+  @include breakpoint(dxxxxl) {
+    font-size: 100px;
+  }
+
+  @include breakpoint(dxxxl) {
+    font-size: 70px;
+  }
+
+  @include breakpoint(dxxl) {
+    font-size: 55px;
+  }
+
+  @include breakpoint(dlg) {
+    font-size: 50px;
+  }
+
+  @include breakpoint(dmd) {
+    font-size: 45px;
+  }
+
+  @include breakpoint(dsm) {
+    font-size: 38px;
+  }
+}
+
+.messenger-not-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.messenger-not-style {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  p {
+    font-size: 33px;
+    color: #771699;
+
+    @include breakpoint(dxxxxl) {
+      font-size: 25px;
+    }
+
+    @include breakpoint(dxxxl) {
+      font-size: 20px;
+    }
+
+    @include breakpoint(dxxl) {
+      font-size: 17px;
+    }
+
+    @include breakpoint(dlg) {
+      font-size: 15px;
+    }
+
+    @include breakpoint(dmd) {
+      font-size: 14px;
+    }
+
+    @include breakpoint(dsm) {
+      font-size: 13px;
+    }
   }
 }
 

@@ -20,11 +20,13 @@
         <div class="personalAria-block__title">Личный кабинет</div>
         <div class="personalAria-block__info">
           <button>
-            <img
-              src="../../../assets/Home/PersonalArea/letter.png"
-              alt="letter-personal-aria-two"
-              class="personalAria-block__info-two"
-            />
+            <nuxt-link to="/message">
+              <img
+                src="../../../assets/Home/PersonalArea/letter.png"
+                alt="letter-personal-aria-two"
+                class="personalAria-block__info-two"
+              />
+            </nuxt-link>
           </button>
           <div class="personalAria-block__user">
             <el-dropdown trigger="click">

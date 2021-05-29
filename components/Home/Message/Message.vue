@@ -20,20 +20,31 @@
         <div class="message-header-block__title">Сообщения</div>
         <div class="message-header-block__info">
           <button>
-            <img
-              src="../../../assets/Home/Message/letter-two.png"
-              alt="letter-personal-aria-two"
-              class="message-header-block__info-two"
-            />
+            <nuxt-link to="/personalarea">
+              <img
+                src="../../../assets/Home/Message/user-page.svg"
+                alt="letter-personal-aria-two"
+                class="message-header-block__info-two"
+              />
+            </nuxt-link>
           </button>
           <div class="message-header-block__user">
-            <a href="#">
-              <img
-                src="../../../assets/Home/Message/image-user-two.png"
-                alt="personal-aria-user-two"
-                class="message-header-block__user-two"
-              />
-            </a>
+            <el-dropdown trigger="click">
+              <a href="#" class="el-dropdown-link">
+                <img
+                  src="../../../assets/Home/Message/image-user-two.png"
+                  alt="personal-aria-user-two"
+                  class="message-header-block__user-two"
+                />
+              </a>
+              <el-dropdown-menu class="message-header-block__dropdown" slot="dropdown">
+                <nuxt-link to="/needhelp">
+                  <el-dropdown-item icon="el-icon-help">Помощь</el-dropdown-item>
+                </nuxt-link>
+                <el-dropdown-item icon="el-icon-setting">Настройки</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-circle-close" @click.native="goOut()">Выйти</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
           </div>
         </div>
       </div>
@@ -208,7 +219,28 @@
 </template>
 
 <script>
-export default {}
+export default {
+  methods: {
+    goOut() {
+      this.$confirm('Вы действительно хотите выйти?', 'Выйти', {
+        confirmButtonText: 'Выйти',
+        cancelButtonText: 'Отмена',
+        type: 'warning'
+      }).then(() => {
+        this.$store.dispatch('authorization/goOut')
+        this.$message({
+          type: 'success',
+          message: 'Вы вышли с аккаунта'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: 'Вы остаётесь с нами'
+        })
+      })
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -420,6 +452,17 @@ export default {}
     @include breakpoint(dxxl) {
       width: 38px;
       height: 38px;
+    }
+  }
+
+  &__dropdown {
+    li {
+      color: #771699;
+
+      &:hover {
+        color: #771699;
+        background-color: #f8ecff;
+      }
     }
   }
 
