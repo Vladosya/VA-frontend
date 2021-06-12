@@ -44,6 +44,9 @@
 import Authorization from './Authorization/Authorization.vue'
 
 export default {
+  beforeCreate() {
+    this.$nuxt.$cookies.remove('token')
+  },
   data() {
     return {
       popup: false

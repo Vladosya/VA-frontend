@@ -664,7 +664,7 @@ export default {
 }
 
 .is-invalid {
-  border: 1px solid #dc3545;
+  border: 0.8px solid #dc3545;
   border-radius: 4px;
 }
 
