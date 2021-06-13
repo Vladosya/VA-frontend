@@ -31,7 +31,7 @@ export default {}
 </script>
 
 <style scoped lang="scss">
-@import "../../../assets/settings";
+@import "../../../../assets/settings";
 
 .nuxt-link-active {
   ::after {

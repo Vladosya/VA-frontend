@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import MyParty from '@/components/Home/Menu/MyParty'
+import MyParty from '@/components/Home/Menu/MyParty/MyParty'
 
 export default {
   components: {

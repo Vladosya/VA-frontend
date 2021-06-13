@@ -24,15 +24,15 @@
         </div>
         <div class="myAd-information__buttons">
           <button>
-            <img src="../../../../assets/Home/Menu/MyAd/heart.svg" alt="heart">
+            <img src="../../../../../assets/Home/Menu/MyAd/heart.svg" alt="heart">
             <p class="myAd-information__button-one">9+</p>
           </button>
           <button>
-            <img src="../../../../assets/Home/Menu/MyAd/comment.svg" alt="comment">
+            <img src="../../../../../assets/Home/Menu/MyAd/comment.svg" alt="comment">
             <p class="myAd-information__button-two">9+</p>
           </button>
           <button @click="enableEditing(index)" v-if="!isEnableEditing">
-            <img src="../../../../assets/Home/Menu/MyAd/edit.svg" alt="edit">
+            <img src="../../../../../assets/Home/Menu/MyAd/edit.svg" alt="edit">
           </button>
         </div>
       </div>
@@ -52,7 +52,7 @@
                 updatedAdForm.nameParty.length ? updatedAdForm.nameParty : d.nameParty
               }}</p>
             <button class="myAd-information__editInput" @click="inform[index].editName = true">
-              <img src="../../../../assets/Home/Menu/MyAd/editInput.svg" alt="editInput">
+              <img src="../../../../../assets/Home/Menu/MyAd/editInput.svg" alt="editInput">
             </button>
           </div>
           <div class="myAd-information__item" v-if="inform[index].editName">
@@ -70,10 +70,10 @@
               />
             </el-tooltip>
             <button class="myAd-information__save" @click="saveChangeName(index)">
-              <img src="../../../../assets/Home/Menu/MyAd/save.svg" alt="save">
+              <img src="../../../../../assets/Home/Menu/MyAd/save.svg" alt="save">
             </button>
             <button class="myAd-information__cancel" @click="cancelChangeName(index)">
-              <img src="../../../../assets/Home/Menu/MyAd/cancel.svg" alt="cancel">
+              <img src="../../../../../assets/Home/Menu/MyAd/cancel.svg" alt="cancel">
             </button>
           </div>
 
@@ -81,7 +81,7 @@
             <p class="myAd-information__title">Место вечеринки:</p>
             <p class="myAd-information__value">{{ updatedAdForm.place ? updatedAdForm.place : d.place }}</p>
             <button class="myAd-information__editInput" @click="clickToPlace(index)">
-              <img src="../../../../assets/Home/Menu/MyAd/editInput.svg" alt="editInput">
+              <img src="../../../../../assets/Home/Menu/MyAd/editInput.svg" alt="editInput">
             </button>
           </div>
           <div class="myAd-information__item" v-if="inform[index].editPlace">
@@ -100,10 +100,10 @@
               />
             </el-tooltip>
             <button class="myAd-information__save" @click="saveChangePlace(index)">
-              <img src="../../../../assets/Home/Menu/MyAd/save.svg" alt="save">
+              <img src="../../../../../assets/Home/Menu/MyAd/save.svg" alt="save">
             </button>
             <button class="myAd-information__cancel" @click="cancelChangePlace(index)">
-              <img src="../../../../assets/Home/Menu/MyAd/cancel.svg" alt="cancel">
+              <img src="../../../../../assets/Home/Menu/MyAd/cancel.svg" alt="cancel">
             </button>
           </div>
 
@@ -113,7 +113,7 @@
                 updatedAdForm.dateParty.length ? new Date(updatedAdForm.dateParty).toLocaleDateString() : d.dateParty
               }}</p>
             <button class="myAd-information__editInput" @click="inform[index].editDate = true">
-              <img src="../../../../assets/Home/Menu/MyAd/editInput.svg" alt="editInput">
+              <img src="../../../../../assets/Home/Menu/MyAd/editInput.svg" alt="editInput">
             </button>
           </div>
           <div class="myAd-information__item" v-if="inform[index].editDate">
@@ -132,10 +132,10 @@
               />
             </el-tooltip>
             <button class="myAd-information__save" @click="saveChangeDate(index)">
-              <img src="../../../../assets/Home/Menu/MyAd/save.svg" alt="save">
+              <img src="../../../../../assets/Home/Menu/MyAd/save.svg" alt="save">
             </button>
             <button class="myAd-information__cancel" @click="cancelChangeDate(index)">
-              <img src="../../../../assets/Home/Menu/MyAd/cancel.svg" alt="cancel">
+              <img src="../../../../../assets/Home/Menu/MyAd/cancel.svg" alt="cancel">
             </button>
           </div>
 
@@ -143,7 +143,7 @@
             <p class="myAd-information__title">Кол-во девушек:</p>
             <p class="myAd-information__value">{{ updatedAdForm.girl.length ? updatedAdForm.girl : d.girl }}</p>
             <button class="myAd-information__editInput" @click="inform[index].editGirl = true">
-              <img src="../../../../assets/Home/Menu/MyAd/editInput.svg" alt="editInput">
+              <img src="../../../../../assets/Home/Menu/MyAd/editInput.svg" alt="editInput">
             </button>
           </div>
           <div class="myAd-information__item" v-if="inform[index].editGirl">
@@ -162,10 +162,10 @@
               />
             </el-tooltip>
             <button class="myAd-information__save" @click="saveChangeGirl(index)">
-              <img src="../../../../assets/Home/Menu/MyAd/save.svg" alt="save">
+              <img src="../../../../../assets/Home/Menu/MyAd/save.svg" alt="save">
             </button>
             <button class="myAd-information__cancel" @click="cancelChangeGirl(index)">
-              <img src="../../../../assets/Home/Menu/MyAd/cancel.svg" alt="cancel">
+              <img src="../../../../../assets/Home/Menu/MyAd/cancel.svg" alt="cancel">
             </button>
           </div>
 
@@ -173,7 +173,7 @@
             <p class="myAd-information__title">Кол-во парней:</p>
             <p class="myAd-information__value">{{ updatedAdForm.boy.length ? updatedAdForm.boy : d.boy }}</p>
             <button class="myAd-information__editInput" @click="inform[index].editBoy = true">
-              <img src="../../../../assets/Home/Menu/MyAd/editInput.svg" alt="editInput">
+              <img src="../../../../../assets/Home/Menu/MyAd/editInput.svg" alt="editInput">
             </button>
           </div>
           <div class="myAd-information__item" v-if="inform[index].editBoy">
@@ -192,22 +192,22 @@
               />
             </el-tooltip>
             <button class="myAd-information__save" @click="saveChangeBoy(index)">
-              <img src="../../../../assets/Home/Menu/MyAd/save.svg" alt="save">
+              <img src="../../../../../assets/Home/Menu/MyAd/save.svg" alt="save">
             </button>
             <button class="myAd-information__cancel" @click="cancelChangeBoy(index)">
-              <img src="../../../../assets/Home/Menu/MyAd/cancel.svg" alt="cancel">
+              <img src="../../../../../assets/Home/Menu/MyAd/cancel.svg" alt="cancel">
             </button>
           </div>
 
           <div class="myAd-information__buttons-edit">
             <el-tooltip class="item" effect="dark" content="Отмена" placement="left">
               <button class="myAd-information__buttons-edit-one" @click="cancelEditing(index)">
-                <img src="../../../../assets/Home/Menu/MyAd/cancelChanges.svg" alt="cancelChanges">
+                <img src="../../../../../assets/Home/Menu/MyAd/cancelChanges.svg" alt="cancelChanges">
               </button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="Сохранить" placement="left">
               <button class="myAd-information__buttons-edit-two" type="submit" @click.prevent="updateMyAdSubmit">
-                <img src="../../../../assets/Home/Menu/MyAd/saveChanges.svg" alt="saveChanges">
+                <img src="../../../../../assets/Home/Menu/MyAd/saveChanges.svg" alt="saveChanges">
               </button>
             </el-tooltip>
           </div>
@@ -227,9 +227,9 @@
 </template>
 
 <script>
-import MapForMyAd from '@/components/Home/Menu/MyAd/MapForMyAd'
+import MapForMyAd from '@/components/Home/Menu/MyParty/MyAd/MapForMyAd'
 import MyAdMixin from '@/mixins/MyAdMixin'
-import MapForMyAdEdit from '@/components/Home/Menu/MyAd/MapForMyAdEdit'
+import MapForMyAdEdit from '@/components/Home/Menu/MyParty/MyAd/MapForMyAdEdit'
 
 export default {
   mixins: [MyAdMixin],
@@ -336,7 +336,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../../../assets/settings";
+@import "../../../../../assets/settings";
 
 .myAd {
   position: absolute;
@@ -742,7 +742,7 @@ export default {
   border: 1px solid #000;
   width: 350px;
   height: 350px;
-  background: url("../../../../assets/Home/Menu/MyAd/map-photo.png") 0 0/auto 100% no-repeat;
+  background: url("../../../../../assets/Home/Menu/MyAd/map-photo.png") 0 0/auto 100% no-repeat;
 
   button {
     border: 1px solid #d38eec;

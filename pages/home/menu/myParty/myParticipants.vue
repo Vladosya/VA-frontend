@@ -1,9 +1,15 @@
 <template>
   <div>
-    my participants
+    <MyParticipants/>
   </div>
 </template>
 
 <script>
-export default {}
+import MyParticipants from '@/components/Home/Menu/MyParty/MyParticipants/MyParticipants'
+
+export default {
+  components: {
+    MyParticipants
+  }
+}
 </script>

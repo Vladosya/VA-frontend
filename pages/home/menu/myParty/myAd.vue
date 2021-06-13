@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import MyAd from '@/components/Home/Menu/MyAd/MyAd'
+import MyAd from '@/components/Home/Menu/MyParty/MyAd/MyAd'
 
 export default {
   components: {

@@ -3,13 +3,13 @@
     <div class="requestMyParty-block" v-if="!clickInfoPerson">
       <div class="request-person">
         <img
-          src="../../../assets/Home/Menu/userPage.jpg"
+          src="../../../../../assets/Home/Menu/userPage.jpg"
           alt="s"
           class="request-person__img"
         />
         <nuxt-link to="/home/menu/myParty/requestMyParty/2">
           <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
-            <img src="../../../assets/Home/Menu/burger.svg" alt="burger"/>
+            <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
           </button>
         </nuxt-link>
       </div>
@@ -22,13 +22,13 @@
     <div class="requestMyParty-block" v-if="!clickInfoPerson">
       <div class="request-person">
         <img
-          src="../../../assets/Home/Menu/userPage.jpg"
+          src="../../../../../assets/Home/Menu/userPage.jpg"
           alt="s"
           class="request-person__img"
         />
         <nuxt-link to="/home/menu/myParty/requestMyParty/2">
           <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
-            <img src="../../../assets/Home/Menu/burger.svg" alt="burger"/>
+            <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
           </button>
         </nuxt-link>
       </div>
@@ -41,13 +41,13 @@
     <div class="requestMyParty-block" v-if="!clickInfoPerson">
       <div class="request-person">
         <img
-          src="../../../assets/Home/Menu/userPage.jpg"
+          src="../../../../../assets/Home/Menu/userPage.jpg"
           alt="s"
           class="request-person__img"
         />
         <nuxt-link to="/home/menu/myParty/requestMyParty/2">
           <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
-            <img src="../../../assets/Home/Menu/burger.svg" alt="burger"/>
+            <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
           </button>
         </nuxt-link>
       </div>
@@ -60,13 +60,13 @@
     <div class="requestMyParty-block" v-if="!clickInfoPerson">
       <div class="request-person">
         <img
-          src="../../../assets/Home/Menu/userPage.jpg"
+          src="../../../../../assets/Home/Menu/userPage.jpg"
           alt="s"
           class="request-person__img"
         />
         <nuxt-link to="/home/menu/myParty/requestMyParty/2">
           <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
-            <img src="../../../assets/Home/Menu/burger.svg" alt="burger"/>
+            <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
           </button>
         </nuxt-link>
       </div>
@@ -79,13 +79,13 @@
     <div class="requestMyParty-block" v-if="!clickInfoPerson">
       <div class="request-person">
         <img
-          src="../../../assets/Home/Menu/userPage.jpg"
+          src="../../../../../assets/Home/Menu/userPage.jpg"
           alt="s"
           class="request-person__img"
         />
         <nuxt-link to="/home/menu/myParty/requestMyParty/2">
           <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
-            <img src="../../../assets/Home/Menu/burger.svg" alt="burger"/>
+            <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
           </button>
         </nuxt-link>
       </div>
@@ -98,13 +98,13 @@
     <div class="requestMyParty-block" v-if="!clickInfoPerson">
       <div class="request-person">
         <img
-          src="../../../assets/Home/Menu/userPage.jpg"
+          src="../../../../../assets/Home/Menu/userPage.jpg"
           alt="s"
           class="request-person__img"
         />
         <nuxt-link to="/home/menu/myParty/requestMyParty/2">
           <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
-            <img src="../../../assets/Home/Menu/burger.svg" alt="burger"/>
+            <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
           </button>
         </nuxt-link>
       </div>
@@ -117,13 +117,13 @@
     <div class="requestMyParty-block" v-if="!clickInfoPerson">
       <div class="request-person">
         <img
-          src="../../../assets/Home/Menu/userPage.jpg"
+          src="../../../../../assets/Home/Menu/userPage.jpg"
           alt="s"
           class="request-person__img"
         />
         <nuxt-link to="/home/menu/myParty/requestMyParty/2">
           <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
-            <img src="../../../assets/Home/Menu/burger.svg" alt="burger"/>
+            <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
           </button>
         </nuxt-link>
       </div>
@@ -136,13 +136,13 @@
     <div class="requestMyParty-block" v-if="!clickInfoPerson">
       <div class="request-person">
         <img
-          src="../../../assets/Home/Menu/userPage.jpg"
+          src="../../../../../assets/Home/Menu/userPage.jpg"
           alt="s"
           class="request-person__img"
         />
         <nuxt-link to="/home/menu/myParty/requestMyParty/2">
           <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
-            <img src="../../../assets/Home/Menu/burger.svg" alt="burger"/>
+            <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
           </button>
         </nuxt-link>
       </div>
@@ -155,13 +155,13 @@
     <div class="requestMyParty-block" v-if="!clickInfoPerson">
       <div class="request-person">
         <img
-          src="../../../assets/Home/Menu/userPage.jpg"
+          src="../../../../../assets/Home/Menu/userPage.jpg"
           alt="s"
           class="request-person__img"
         />
         <nuxt-link to="/home/menu/myParty/requestMyParty/2">
           <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
-            <img src="../../../assets/Home/Menu/burger.svg" alt="burger"/>
+            <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
           </button>
         </nuxt-link>
       </div>
@@ -190,7 +190,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../../assets/settings";
+@import "../../../../../assets/settings";
 
 .requestMyParty {
   display: flex;

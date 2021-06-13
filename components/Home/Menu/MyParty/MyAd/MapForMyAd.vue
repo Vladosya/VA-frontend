@@ -44,7 +44,7 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-@import "../../../../assets/settings";
+@import "../../../../../assets/settings";
 
 .map {
   width: 350px;

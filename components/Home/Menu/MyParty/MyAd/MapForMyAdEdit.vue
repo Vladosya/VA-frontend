@@ -73,7 +73,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "assets/settings.scss";
+@import "../../../../../assets/settings";
 
 .map-for-createAd {
   &__title {
