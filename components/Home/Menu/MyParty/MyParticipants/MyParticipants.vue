@@ -1,16 +1,16 @@
 <template>
   <div class="my-participants">
-    <div class="participants-block">
+    <div class="participants-block" v-if="isParticipants" @click.self="isClickInfo = false">
       <div class="participants-block__person">
         <div class="participants-block__person-img">
           <img src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png" alt="photo">
-          <button class="participants-block__person-btn-one">
+          <button class="participants-block__person-btn-one" @click="isClickInfo = true">
             <i class="el-icon-info"></i>
           </button>
           <button class="participants-block__person-btn-two">
             <i class="el-icon-s-comment"></i>
           </button>
-          <button class="participants-block__person-btn-three">
+          <button class="participants-block__person-btn-three" @click="deletePerson">
             <i class="el-icon-delete-solid"></i>
           </button>
         </div>
@@ -22,13 +22,139 @@
       <div class="participants-block__person">
         <div class="participants-block__person-img">
           <img src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png" alt="photo">
-          <button class="participants-block__person-btn-one">
+          <button class="participants-block__person-btn-one" @click="isClickInfo = true">
             <i class="el-icon-info"></i>
           </button>
           <button class="participants-block__person-btn-two">
             <i class="el-icon-s-comment"></i>
           </button>
-          <button class="participants-block__person-btn-three">
+          <button class="participants-block__person-btn-three" @click="deletePerson">
+            <i class="el-icon-delete-solid"></i>
+          </button>
+        </div>
+        <div class="participants-block__info">
+          <div class="participants-block__name">Владислав Новиков</div>
+          <div class="participants-block__reduction-name">(Владислав)</div>
+        </div>
+      </div>
+      <div class="participants-block__person">
+        <div class="participants-block__person-img">
+          <img src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png" alt="photo">
+          <button class="participants-block__person-btn-one" @click="isClickInfo = true">
+            <i class="el-icon-info"></i>
+          </button>
+          <button class="participants-block__person-btn-two">
+            <i class="el-icon-s-comment"></i>
+          </button>
+          <button class="participants-block__person-btn-three" @click="deletePerson">
+            <i class="el-icon-delete-solid"></i>
+          </button>
+        </div>
+        <div class="participants-block__info">
+          <div class="participants-block__name">Владислав Новиков</div>
+          <div class="participants-block__reduction-name">(Владислав)</div>
+        </div>
+      </div>
+      <div class="participants-block__person">
+        <div class="participants-block__person-img">
+          <img src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png" alt="photo">
+          <button class="participants-block__person-btn-one" @click="isClickInfo = true">
+            <i class="el-icon-info"></i>
+          </button>
+          <button class="participants-block__person-btn-two">
+            <i class="el-icon-s-comment"></i>
+          </button>
+          <button class="participants-block__person-btn-three" @click="deletePerson">
+            <i class="el-icon-delete-solid"></i>
+          </button>
+        </div>
+        <div class="participants-block__info">
+          <div class="participants-block__name">Владислав Новиков</div>
+          <div class="participants-block__reduction-name">(Владислав)</div>
+        </div>
+      </div>
+      <div class="participants-block__person">
+        <div class="participants-block__person-img">
+          <img src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png" alt="photo">
+          <button class="participants-block__person-btn-one" @click="isClickInfo = true">
+            <i class="el-icon-info"></i>
+          </button>
+          <button class="participants-block__person-btn-two">
+            <i class="el-icon-s-comment"></i>
+          </button>
+          <button class="participants-block__person-btn-three" @click="deletePerson">
+            <i class="el-icon-delete-solid"></i>
+          </button>
+        </div>
+        <div class="participants-block__info">
+          <div class="participants-block__name">Владислав Новиков</div>
+          <div class="participants-block__reduction-name">(Владислав)</div>
+        </div>
+      </div>
+      <div class="participants-block__person">
+        <div class="participants-block__person-img">
+          <img src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png" alt="photo">
+          <button class="participants-block__person-btn-one" @click="isClickInfo = true">
+            <i class="el-icon-info"></i>
+          </button>
+          <button class="participants-block__person-btn-two">
+            <i class="el-icon-s-comment"></i>
+          </button>
+          <button class="participants-block__person-btn-three" @click="deletePerson">
+            <i class="el-icon-delete-solid"></i>
+          </button>
+        </div>
+        <div class="participants-block__info">
+          <div class="participants-block__name">Владислав Новиков</div>
+          <div class="participants-block__reduction-name">(Владислав)</div>
+        </div>
+      </div>
+      <div class="participants-block__person">
+        <div class="participants-block__person-img">
+          <img src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png" alt="photo">
+          <button class="participants-block__person-btn-one" @click="isClickInfo = true">
+            <i class="el-icon-info"></i>
+          </button>
+          <button class="participants-block__person-btn-two">
+            <i class="el-icon-s-comment"></i>
+          </button>
+          <button class="participants-block__person-btn-three" @click="deletePerson">
+            <i class="el-icon-delete-solid"></i>
+          </button>
+        </div>
+        <div class="participants-block__info">
+          <div class="participants-block__name">Владислав Новиков</div>
+          <div class="participants-block__reduction-name">(Владислав)</div>
+        </div>
+      </div>
+      <div class="participants-block__person">
+        <div class="participants-block__person-img">
+          <img src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png" alt="photo">
+          <button class="participants-block__person-btn-one" @click="isClickInfo = true">
+            <i class="el-icon-info"></i>
+          </button>
+          <button class="participants-block__person-btn-two">
+            <i class="el-icon-s-comment"></i>
+          </button>
+          <button class="participants-block__person-btn-three" @click="deletePerson">
+            <i class="el-icon-delete-solid"></i>
+          </button>
+        </div>
+        <div class="participants-block__info">
+          <div class="participants-block__name">Владислав Новиков</div>
+          <div class="participants-block__reduction-name">(Владислав)</div>
+        </div>
+      </div>
+      <div class="participants-block__person">
+        <div class="participants-block__person-img">
+          <img src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png" alt="photo">
+          <button class="participants-block__person-btn-one" @click="isClickInfo = true">
+            <i class="el-icon-info"></i>
+          </button>
+          <button class="participants-block__person-btn-two">
+            <i class="el-icon-s-comment"></i>
+          </button>
+          <button class="participants-block__person-btn-three" @click="deletePerson">
             <i class="el-icon-delete-solid"></i>
           </button>
         </div>
@@ -38,11 +164,46 @@
         </div>
       </div>
     </div>
+    <div class="participants-person-card" v-if="isClickInfo">
+      <img src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png" alt="tony profile picture">
+      <p class="participants-person-card__name"><strong>Владислав Новиков</strong></p>
+      <p class="participants-person-card__sex"><i>Мужской</i></p>
+      <p class="participants-person-card__info">I have been fishing on the bay for many years. Ice fishing is my
+        specialty.</p>
+    </div>
+    <div class="not-participants" v-if="!isParticipants">
+      <div>
+        <i class="el-icon-male not-participants__icon-one"></i>
+        <i class="el-icon-female not-participants__icon-two"></i>
+      </div>
+      <div class="not-participants__text">Список участников пуст!</div>
+    </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      isParticipants: true,
+      isClickInfo: false
+    }
+  },
+  methods: {
+    deletePerson() {
+      this.$confirm('Вы действительно хотите удалить пользователя из вашей вечеринки?', '', {
+        confirmButtonText: 'Да',
+        cancelButtonText: 'Отмена',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: 'Пользователь успешно выгнан'
+        })
+      })
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -311,6 +472,240 @@ export default {}
   }
 }
 
+.participants-person-card {
+  position: fixed;
+  left: 1200px;
+  top: 550px;
+  border-radius: 10px;
+  padding: 2em;
+  width: 300px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24);
+  text-align: center;
+  background-color: #fff;
+
+  img {
+    border-radius: 50%;
+    height: 230px;
+
+    @include breakpoint(dxxxl) {
+      height: 200px;
+    }
+
+    @include breakpoint(dxxl) {
+      height: 200px;
+    }
+
+    @include breakpoint(dsm) {
+      height: 130px;
+    }
+  }
+
+  &__name {
+    margin-top: 5px;
+
+    strong {
+      font-size: 20px;
+
+      @include breakpoint(dxxxl) {
+        font-size: 14px;
+      }
+
+      @include breakpoint(dxxl) {
+        font-size: 14px;
+      }
+
+      @include breakpoint(dsm) {
+        font-size: 13px;
+      }
+    }
+
+    @include breakpoint(dxxxl) {
+      margin-top: 3px;
+    }
+
+    @include breakpoint(dxxl) {
+      margin-top: 3px;
+    }
+  }
+
+  &__sex {
+    margin-top: 2px;
+
+    i {
+      font-size: 17px;
+
+      @include breakpoint(dxxxl) {
+        font-size: 14px;
+      }
+
+      @include breakpoint(dxxl) {
+        font-size: 14px;
+      }
+
+      @include breakpoint(dsm) {
+        font-size: 12px;
+      }
+    }
+
+    @include breakpoint(dxxxl) {
+      margin-top: 2px;
+    }
+
+    @include breakpoint(dxxl) {
+      margin-top: 2px;
+    }
+  }
+
+  &__info {
+    margin-top: 6px;
+    font-size: 18px;
+
+    @include breakpoint(dxxxl) {
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    @include breakpoint(dxxl) {
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    @include breakpoint(dsm) {
+      font-size: 11px;
+    }
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  @include breakpoint(dxxxxl) {
+    left: 880px;
+    top: 365px;
+  }
+
+  @include breakpoint(dxxxl) {
+    left: 726px;
+    top: 299px;
+    padding: 2em;
+    width: 250px;
+  }
+
+  @include breakpoint(dxxl) {
+    left: 700px;
+    top: 250px;
+    padding: 2em;
+    width: 250px;
+  }
+
+  @include breakpoint(dxl) {
+    left: 650px;
+    top: 300px;
+  }
+
+  @include breakpoint(dlg) {
+    left: 611px;
+    top: 235px;
+  }
+
+  @include breakpoint(dmd) {
+    left: 568px;
+    top: 255px;
+  }
+
+  @include breakpoint(dsm) {
+    left: 474px;
+    top: 270px;
+    width: 190px;
+  }
+}
+
+.not-participants {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 310px;
+
+  &__icon-one {
+    font-size: 95px;
+    color: #771699;
+
+    @include breakpoint(dxxxxl) {
+      font-size: 85px;
+    }
+
+    @include breakpoint(dxxxl) {
+      font-size: 75px;
+    }
+
+    @include breakpoint(dxxl) {
+      font-size: 75px;
+    }
+
+    @include breakpoint(dsm) {
+      font-size: 55px;
+    }
+  }
+
+  &__icon-two {
+    font-size: 95px;
+    color: #771699;
+
+    @include breakpoint(dxxxxl) {
+      font-size: 85px;
+    }
+
+    @include breakpoint(dxxxl) {
+      font-size: 75px;
+    }
+
+    @include breakpoint(dxxl) {
+      font-size: 75px;
+    }
+
+    @include breakpoint(dsm) {
+      font-size: 55px;
+    }
+  }
+
+  &__text {
+    font-size: 24px;
+    color: #771699;
+
+    @include breakpoint(dxxxxl) {
+      font-size: 20px;
+    }
+
+    @include breakpoint(dxxxl) {
+      font-size: 14px;
+    }
+
+    @include breakpoint(dxxl) {
+      font-size: 14px;
+    }
+
+    @include breakpoint(dsm) {
+      font-size: 13px;
+    }
+  }
+
+  @include breakpoint(dxxxxl) {
+    margin-top: 260px;
+  }
+
+  @include breakpoint(dxxxl) {
+    margin-top: 200px;
+  }
+
+  @include breakpoint(dxxl) {
+    margin-top: 200px;
+  }
+
+  @include breakpoint(dsm) {
+    margin-top: 170px;
+  }
+}
+
 @keyframes icon-one {
   100% {
     transform: translate(185px, 40px);
@@ -459,5 +854,19 @@ export default {}
 
 ::-webkit-scrollbar {
   width: 5px;
+}
+
+@media (height: 1024px) {
+  .participants-person-card {
+    left: 568px;
+    top: 355px;
+  }
+}
+
+@media (height: 864px) {
+  .participants-person-card {
+    left: 700px;
+    top: 280px;
+  }
 }
 </style>

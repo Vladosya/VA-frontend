@@ -23,17 +23,29 @@
           <p class="myAd-information__value">{{ d.boy }}</p>
         </div>
         <div class="myAd-information__buttons">
-          <button>
-            <img src="../../../../../assets/Home/Menu/MyAd/heart.svg" alt="heart">
-            <p class="myAd-information__button-one">9+</p>
-          </button>
-          <button>
-            <img src="../../../../../assets/Home/Menu/MyAd/comment.svg" alt="comment">
-            <p class="myAd-information__button-two">9+</p>
-          </button>
-          <button @click="enableEditing(index)" v-if="!isEnableEditing">
-            <img src="../../../../../assets/Home/Menu/MyAd/edit.svg" alt="edit">
-          </button>
+          <el-tooltip
+            class="item" effect="dark" content="Популярность" placement="bottom"
+          >
+            <button>
+              <img src="../../../../../assets/Home/Menu/MyAd/heart.svg" alt="heart">
+              <p class="myAd-information__button-one">9+</p>
+            </button>
+          </el-tooltip>
+          <el-tooltip
+            class="item" effect="dark" content="Обсуждение вечеринки" placement="bottom"
+          >
+            <button>
+              <img src="../../../../../assets/Home/Menu/MyAd/comment.svg" alt="comment">
+              <p class="myAd-information__button-two">9+</p>
+            </button>
+          </el-tooltip>
+          <el-tooltip
+            class="item" effect="dark" content="Редактировать" placement="bottom"
+          >
+            <button @click="enableEditing(index)" v-if="!isEnableEditing">
+              <img src="../../../../../assets/Home/Menu/MyAd/edit.svg" alt="edit">
+            </button>
+          </el-tooltip>
         </div>
       </div>
 
@@ -223,6 +235,12 @@
         </div>
       </form>
     </div>
+    <div class="myAd-paidContent">
+      <button class="myAd-paidContent__btn">
+        <i class="el-icon-document-add myAd-paidContent__icon"></i>
+      </button>
+      <div class="myAd-paidContent__text">Создать больше объявлений</div>
+    </div>
   </div>
 </template>
 
@@ -251,20 +269,6 @@ export default {
           girl: 3,
           boy: 2,
           coordinates: {lat: 55.7522200, lng: 37.7155600},
-          editable: false,
-          editName: false,
-          editPlace: false,
-          editDate: false,
-          editGirl: false,
-          editBoy: false
-        },
-        {
-          nameParty: 'My Party',
-          place: 'Лубянка 2',
-          dateParty: '12.06.21',
-          girl: 1,
-          boy: 2,
-          coordinates: {lat: 55.7522200, lng: 37.6155600},
           editable: false,
           editName: false,
           editPlace: false,
@@ -785,6 +789,105 @@ export default {
   @include breakpoint(dsm) {
     width: 180px;
     height: 180px;
+  }
+}
+
+.myAd-paidContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 136px;
+    border: none;
+    width: 68px;
+    height: 80px;
+    color: #771699;
+    background: none;
+
+    @include breakpoint(dxxxxl) {
+      margin-top: 122px;
+      width: 63px;
+      height: 74px;
+    }
+
+    @include breakpoint(dxxxl) {
+      margin-top: 90px;
+      width: 60px;
+      height: 69px;
+    }
+
+    @include breakpoint(dxxl) {
+      margin-top: 90px;
+      width: 60px;
+      height: 69px;
+    }
+
+    @include breakpoint(dlg) {
+      margin-top: 92px;
+      width: 48px;
+      height: 58px;
+    }
+
+    @include breakpoint(dsm) {
+      margin-top: 75px;
+      width: 38px;
+      height: 45px;
+    }
+  }
+
+  &__icon {
+    font-size: 95px;
+    color: #771699;
+
+    @include breakpoint(dxxxxl) {
+      font-size: 85px;
+    }
+
+    @include breakpoint(dxxxl) {
+      font-size: 75px;
+    }
+
+    @include breakpoint(dxxl) {
+      font-size: 75px;
+    }
+
+    @include breakpoint(dlg) {
+      font-size: 65px;
+    }
+
+    @include breakpoint(dsm) {
+      font-size: 50px;
+    }
+  }
+
+  &__text {
+    margin-top: 10px;
+    font-size: 27px;
+
+    @include breakpoint(dxxxxl) {
+      margin-top: 6px;
+      font-size: 23px;
+    }
+
+    @include breakpoint(dxxxl) {
+      font-size: 20px;
+    }
+
+    @include breakpoint(dxxl) {
+      font-size: 20px;
+    }
+
+    @include breakpoint(dlg) {
+      font-size: 17px;
+    }
+
+    @include breakpoint(dsm) {
+      font-size: 14px;
+    }
   }
 }
 
