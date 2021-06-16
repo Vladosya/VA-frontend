@@ -11,7 +11,7 @@ export const mutations = {
 export const actions = {
   async authorization({state, commit, dispatch}, formData) {
     try {
-      const authorization = await this.$axios.$post('http://127.0.0.1:8000/api/token/', formData)
+      const authorization = await this.$axios.$post(`${process.env.BASE_URL}/token/`, formData)
       if (authorization.access) {
         $nuxt.$cookies.set('token', authorization.access)
         commit('changeIsAuth', true)
@@ -48,7 +48,7 @@ export const actions = {
   async getMyData() {
     const token = $nuxt.$cookies.get('token')
     try {
-      const data = await this.$axios.$get('http://127.0.0.1:8000/api/users/me/', {
+      const data = await this.$axios.$get(`${process.env.BASE_URL}/users/me/`, {
         headers: {'Authorization': 'Bearer ' + token}
       })
 

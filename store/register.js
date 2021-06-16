@@ -5,7 +5,7 @@ export const mutations = {}
 export const actions = {
   async createStepOne(_, {formData, stepOneIsReg}) {
     try {
-      const createStepOne = await this.$axios.$post('http://127.0.0.1:8000/api/users/auth/signup', formData, {
+      const createStepOne = await this.$axios.$post(`${process.env.BASE_URL}/users/auth/signup`, formData, {
         headers: {'Content-Type': 'application/json'}
       })
 
@@ -26,7 +26,7 @@ export const actions = {
   },
   async createStepThree(_, {formData, stepThreeIsReg}) {
     try {
-      const createStepThree = await this.$axios.$post('http://127.0.0.1:8000/api/users/auth/verify-code', formData)
+      const createStepThree = await this.$axios.$post(`${process.env.BASE_URL}/users/auth/verify-code`, formData)
       if (createStepThree.status === 'success') {
         await $nuxt.$router.push(`/signup/s4?stepThreeIsReg=${stepThreeIsReg}`)
         $nuxt.$message({

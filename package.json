@@ -20,6 +20,7 @@
     "vuelidate": "^0.7.6"
   },
   "devDependencies": {
+    "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/stylelint-module": "^4.0.0",
     "fibers": "^5.0.0",
     "sass": "^1.32.12",

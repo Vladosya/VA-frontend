@@ -7,7 +7,7 @@ export const actions = {
     const token = $nuxt.$cookies.get('token')
 
     try {
-      const updateData = await this.$axios.$put(`http://127.0.0.1:8000/api/users/update/${id}/`, formData, {
+      const updateData = await this.$axios.$put(`${process.env.BASE_URL}/users/update/${id}/`, formData, {
         headers: {'Authorization': 'Bearer ' + token}
       })
 
@@ -34,7 +34,7 @@ export const actions = {
     const token = $nuxt.$cookies.get('token')
 
     try {
-      const updatePassword = await this.$axios.$put('http://127.0.0.1:8000/api/users/auth/change-password', formDataPassword, {
+      const updatePassword = await this.$axios.$put(`${process.env.BASE_URL}/users/auth/change-password`, formDataPassword, {
         headers: {'Authorization': 'Bearer ' + token}
       })
 
