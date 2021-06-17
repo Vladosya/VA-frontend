@@ -130,7 +130,7 @@
 
 
         <div class="popup-container" v-if="popupChangeName">
-          <div class="popup-name-position" @click.self="cancelChangeName">
+          <div class="popup-name-position" @click.self="cancelChange('popupCancelName')">
             <div class="popup-name-block">
               <div class="popup-name-block__title">Изменение Имя</div>
               <div class="popup-name-form">
@@ -149,9 +149,12 @@
                   <div class="invalid-feed" v-if="!$v.formPersonalArea.name.alpha">{{ alphaText }}</div>
                 </div>
                 <div class="popup-name-form__buttons">
-                  <button class="popup-name-form__btn-cancel" @click="cancelChangeName">Отмена
+                  <button class="popup-name-form__btn-cancel" @click="cancelChange('popupCancelName')">Отмена
                   </button>
-                  <button class="popup-name-form__btn-create" @click.prevent="NextPopupName">Далее</button>
+                  <button class="popup-name-form__btn-create"
+                          @click.prevent="nextPopup(formPersonalArea.name.length && $v.formPersonalArea.name.alpha, 'popupChangeName', 'Ваше новое имя уже почти готово к изменению', 'Необходимо ввести имя.')">
+                    Далее
+                  </button>
                 </div>
               </div>
             </div>
@@ -159,7 +162,7 @@
         </div>
 
         <div class="popup-container" v-if="popupChangeSex">
-          <div class="popup-sex-position" @click.self="cancelChangeSex">
+          <div class="popup-sex-position" @click.self="cancelChange('popupCancelSex')">
             <div class="popup-sex-block">
               <div class="popup-sex-block__title">Изменение Пола</div>
               <div class="popup-sex-form">
@@ -180,8 +183,11 @@
                   </select>
                 </div>
                 <div class="popup-sex-form__buttons">
-                  <button class="popup-sex-form__btn-cancel" @click="cancelChangeSex">Отмена</button>
-                  <button class="popup-sex-form__btn-create" @click.prevent="NextPopupSex">Далее</button>
+                  <button class="popup-sex-form__btn-cancel" @click="cancelChange('popupCancelSex')">Отмена</button>
+                  <button class="popup-sex-form__btn-create"
+                          @click.prevent="nextPopup(formPersonalArea.sex.length, 'popupChangeSex', 'Ваш новый пол уже почти готово к изменению', 'Необходимо выбрать пол.')">
+                    Далее
+                  </button>
                 </div>
               </div>
             </div>
@@ -189,7 +195,7 @@
         </div>
 
         <div class="popup-container" v-if="popupChangeOld">
-          <div class="popup-date-position" @click.self="cancelChangeOld">
+          <div class="popup-date-position" @click.self="cancelChange('popupCancelOld')">
             <div class="popup-date-block">
               <div class="popup-date-block__title">Изменение Возраста</div>
               <div class="popup-date-form">
@@ -206,9 +212,12 @@
                   />
                 </div>
                 <div class="popup-date-form__buttons">
-                  <button class="popup-date-form__btn-cancel" @click="cancelChangeOld">Отмена
+                  <button class="popup-date-form__btn-cancel" @click="cancelChange('popupCancelOld')">Отмена
                   </button>
-                  <button class="popup-date-form__btn-create" @click.prevent="NextPopupOld">Далее</button>
+                  <button class="popup-date-form__btn-create"
+                          @click.prevent="nextPopup(formPersonalArea.old.length, 'popupChangeOld', 'Ваш новый возраст уже почти готово к изменению', 'Необходимо указать возраст.')">
+                    Далее
+                  </button>
                 </div>
               </div>
             </div>
@@ -216,7 +225,7 @@
         </div>
 
         <div class="popup-container" v-if="popupChangeCity">
-          <div class="popup-city-position" @click.self="cancelChangeCity">
+          <div class="popup-city-position" @click.self="cancelChange('popupCancelCity')">
             <div class="popup-city-block">
               <div class="popup-city-block__title">Изменение Локации</div>
               <div class="popup-city-form">
@@ -239,9 +248,12 @@
                   </select>
                 </div>
                 <div class="popup-city-form__buttons">
-                  <button class="popup-city-form__btn-cancel" @click="cancelChangeCity">Отмена
+                  <button class="popup-city-form__btn-cancel" @click="cancelChange('popupCancelCity')">Отмена
                   </button>
-                  <button class="popup-city-form__btn-create" @click.prevent="NextPopupCity">Далее</button>
+                  <button class="popup-city-form__btn-create"
+                          @click.prevent="nextPopup(formPersonalArea.city.length, 'popupChangeCity', 'Ваш новый выбранный город уже почти готово к изменению', 'Необходимо выбрать город.')">
+                    Далее
+                  </button>
                 </div>
               </div>
             </div>
@@ -309,7 +321,7 @@
                           @click="cancelChangeButton">
                     Отмена
                   </button>
-                  <button class="popup-password-form__btn-create" @click.prevent="NextPopupPassword">Далее</button>
+                  <button class="popup-password-form__btn-create" @click.prevent="nextPopupPassword">Далее</button>
                 </div>
               </div>
             </div>

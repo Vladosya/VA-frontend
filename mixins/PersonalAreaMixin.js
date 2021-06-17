@@ -1,10 +1,19 @@
 export default {
   methods: {
-    NextPopupName() {
-      if (this.formPersonalArea.name.length && this.$v.formPersonalArea.name.alpha) {
-        this.popupChangeName = !this.popupChangeName
+    nextPopup(changeTheValue, needVal, messageSuccess, messageWarning) {
+      if (changeTheValue) {
+        if (needVal === 'popupChangeName') {
+          this.popupChangeName = !this.popupChangeName
+        } else if (needVal === 'popupChangeSex') {
+          this.popupChangeSex = !this.popupChangeSex
+        } else if (needVal === 'popupChangeOld') {
+          this.popupChangeOld = !this.popupChangeOld
+        } else if (needVal === 'popupChangeCity') {
+          this.popupChangeCity = !this.popupChangeCity
+        }
+
         this.$message({
-          message: 'Ваше новое имя уже почти готово к изменению',
+          message: `${messageSuccess}`,
           type: 'success'
         })
         setTimeout(() => {
@@ -13,66 +22,12 @@ export default {
       } else {
         this.$message({
           showClose: true,
-          message: 'Необходимо ввести имя.',
+          message: `${messageWarning}`,
           type: 'warning'
         })
       }
     },
-    NextPopupSex() {
-      if (this.formPersonalArea.sex.length) {
-        this.popupChangeSex = !this.popupChangeSex
-        this.$message({
-          message: 'Ваш новый пол уже почти готово к изменению',
-          type: 'success'
-        })
-        setTimeout(() => {
-          this.$message('Чтобы все изменения вступили в силу нажмите на кнопку "Сохранить изменения".')
-        }, 1500)
-      } else {
-        this.$message({
-          showClose: true,
-          message: 'Необходимо выбрать пол.',
-          type: 'warning'
-        })
-      }
-    },
-    NextPopupOld() {
-      if (this.formPersonalArea.old.length) {
-        this.popupChangeOld = !this.popupChangeOld
-        this.$message({
-          message: 'Ваш новый возраст уже почти готово к изменению',
-          type: 'success'
-        })
-        setTimeout(() => {
-          this.$message('Чтобы все изменения вступили в силу нажмите на кнопку "Сохранить изменения".')
-        }, 1500)
-      } else {
-        this.$message({
-          showClose: true,
-          message: 'Необходимо указать возраст.',
-          type: 'warning'
-        })
-      }
-    },
-    NextPopupCity() {
-      if (this.formPersonalArea.city.length) {
-        this.popupChangeCity = !this.popupChangeCity
-        this.$message({
-          message: 'Ваш новый выбранный город уже почти готово к изменению',
-          type: 'success'
-        })
-        setTimeout(() => {
-          this.$message('Чтобы все изменения вступили в силу нажмите на кнопку "Сохранить изменения".')
-        }, 1500)
-      } else {
-        this.$message({
-          showClose: true,
-          message: 'Необходимо выбрать город.',
-          type: 'warning'
-        })
-      }
-    },
-    NextPopupPassword() {
+    nextPopupPassword() {
       if (this.formPersonalArea.oldPassword.length) {
         if (this.formPersonalArea.newPassword.length && this.formPersonalArea.confirmNewPassword.length && this.$v.formPersonalArea.confirmNewPassword.sameAs && this.formPersonalArea.oldPassword.length) {
           if (this.formPersonalArea.newPassword === this.oldPassword) {
@@ -106,21 +61,20 @@ export default {
         })
       }
     },
-    cancelChangeCity() {
-      this.formPersonalArea.city = ''
-      this.popupChangeCity = !this.popupChangeCity
-    },
-    cancelChangeOld() {
-      this.formPersonalArea.old = ''
-      this.popupChangeOld = !this.popupChangeOld
-    },
-    cancelChangeSex() {
-      this.formPersonalArea.sex = ''
-      this.popupChangeSex = !this.popupChangeSex
-    },
-    cancelChangeName() {
-      this.formPersonalArea.name = ''
-      this.popupChangeName = !this.popupChangeName
+    cancelChange(needVal) {
+      if (needVal === 'popupCancelName') {
+        this.formPersonalArea.name = ''
+        this.popupChangeName = !this.popupChangeName
+      } else if (needVal === 'popupCancelSex') {
+        this.formPersonalArea.sex = ''
+        this.popupChangeSex = !this.popupChangeSex
+      } else if (needVal === 'popupCancelOld') {
+        this.formPersonalArea.old = ''
+        this.popupChangeOld = !this.popupChangeOld
+      } else if (needVal === 'popupCancelCity') {
+        this.formPersonalArea.city = ''
+        this.popupChangeCity = !this.popupChangeCity
+      }
     },
     cancelChangeButton() {
       this.formPersonalArea.oldPassword = ''
