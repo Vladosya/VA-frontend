@@ -124,7 +124,7 @@
         </div>
 
         <div class="createAd-content-form__buttons">
-          <button class="createAd-content-form__btn-cancel" @click="$router.push('/home')">Отмена</button>
+          <button class="createAd-content-form__btn-cancel" @click="$router.go(-1)">Отмена</button>
           <button class="createAd-content-form__btn-create" type="submit" @click.prevent="createAdFormSubmit">Создать
           </button>
         </div>
@@ -165,7 +165,7 @@ export default {
         const formData = {
           title: this.createdAdForm.nameParty,
           city: 1,
-          geolocation: null,
+          geolocation: JSON.stringify(this.createdAdForm.coordinates),
           number_of_person: this.createdAdForm.people,
           number_of_girls: this.createdAdForm.girl,
           number_of_boys: this.createdAdForm.boy,

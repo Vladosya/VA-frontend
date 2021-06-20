@@ -1,255 +1,268 @@
 <template>
-  <div class="myAd">
-    <div class="myAd-block" v-for="(ad, index) in myAd" :key="ad.id">
-      <div class="myAd-information" v-if="!myAd[index].editable">
-        <div class="myAd-information__item">
-          <p class="myAd-information__title">Название:</p>
-          <p class="myAd-information__value">{{ ad.nameParty }}</p>
-        </div>
-        <div class="myAd-information__item">
-          <p class="myAd-information__title">Место вечеринки:</p>
-          <p class="myAd-information__value">{{ ad.place }}</p>
-        </div>
-        <div class="myAd-information__item">
-          <p class="myAd-information__title">Дата вечеринки:</p>
-          <p class="myAd-information__value">{{ ad.dateParty }}</p>
-        </div>
-        <div class="myAd-information__item">
-          <p class="myAd-information__title">Кол-во девушек:</p>
-          <p class="myAd-information__value">{{ ad.girl }}</p>
-        </div>
-        <div class="myAd-information__item">
-          <p class="myAd-information__title">Кол-во парней:</p>
-          <p class="myAd-information__value">{{ ad.boy }}</p>
-        </div>
-        <div class="myAd-information__buttons">
-          <el-tooltip
-            class="item" effect="dark" content="Популярность" placement="bottom"
-          >
-            <button>
-              <img src="../../../../../assets/Home/Menu/MyAd/heart.svg" alt="heart">
-              <p class="myAd-information__button-one">9+</p>
-            </button>
-          </el-tooltip>
-          <el-tooltip
-            class="item" effect="dark" content="Обсуждение вечеринки" placement="bottom"
-          >
-            <button>
-              <img src="../../../../../assets/Home/Menu/MyAd/comment.svg" alt="comment">
-              <p class="myAd-information__button-two">9+</p>
-            </button>
-          </el-tooltip>
-          <el-tooltip
-            class="item" effect="dark" content="Редактировать" placement="bottom"
-          >
-            <button @click="enableEditing(index)" v-if="!isEnableEditing">
-              <img src="../../../../../assets/Home/Menu/MyAd/edit.svg" alt="edit">
-            </button>
-          </el-tooltip>
-        </div>
-      </div>
-
-      <div v-if="!myAd[index].editable">
-        <MapForMyAd
-          :coordinates="ad.coordinates"
-        />
-      </div>
-
-      <form class="myAd-block" @submit.prevent="updateMyAdSubmit">
-        <div class="myAd-information" v-if="myAd[index].editable">
-
-          <div class="myAd-information__item" v-if="!myAd[index].editName">
+  <div>
+    <div class="myAd" v-if="haveAd">
+      <div class="myAd-block" v-for="(ad, index) in myAd" :key="ad.id">
+        <div class="myAd-information" v-if="!myAd[index].editable">
+          <div class="myAd-information__item">
             <p class="myAd-information__title">Название:</p>
-            <p class="myAd-information__value">{{
-                updatedAdForm.nameParty.length ? updatedAdForm.nameParty : ad.nameParty
-              }}</p>
-            <button class="myAd-information__editInput"
-                    @click="commitNeedValue(index, true, 'editName')">
-              <img src="../../../../../assets/Home/Menu/MyAd/editInput.svg" alt="editInput">
-            </button>
+            <p class="myAd-information__value">{{ ad.nameParty }}</p>
           </div>
-          <div class="myAd-information__item" v-if="myAd[index].editName">
-            <label class="myAd-information__title" for="name">Название:</label>
-            <el-tooltip
-              class="item" effect="dark" content="Необходимо указать Название объявления" placement="right"
-            >
-              <input
-                @blur="$v.updatedAdForm.nameParty.$touch()"
-                v-model.trim.lazy="updatedAdForm.nameParty"
-                type="text"
-                id="name"
-                placeholder="Введите название объявления"
-                class="myAd-information__input"
-              />
-            </el-tooltip>
-            <button class="myAd-information__save"
-                    @click="saveChanges(index, false, 'editName', updatedAdForm.nameParty.length, 'Ваше название вечеринки уже почти готово к изменению', 'Необходимо ввести название вечеринки.')">
-              <img src="../../../../../assets/Home/Menu/MyAd/save.svg" alt="save">
-            </button>
-            <button class="myAd-information__cancel"
-                    @click="cancelChanges(index, false, 'editName', updatedAdForm.nameParty)">
-              <img src="../../../../../assets/Home/Menu/MyAd/cancel.svg" alt="cancel">
-            </button>
-          </div>
-
-          <div class="myAd-information__item" v-if="!myAd[index].editPlace">
+          <div class="myAd-information__item">
             <p class="myAd-information__title">Место вечеринки:</p>
-            <p class="myAd-information__value">{{ updatedAdForm.place ? updatedAdForm.place : ad.place }}</p>
-            <button class="myAd-information__editInput" @click="clickToPlace(index, true, 'editPlace')">
-              <img src="../../../../../assets/Home/Menu/MyAd/editInput.svg" alt="editInput">
-            </button>
+            <p class="myAd-information__value">{{ ad.place }}</p>
           </div>
-          <div class="myAd-information__item" v-if="myAd[index].editPlace">
-            <label class="myAd-information__title" for="place">Место вечеринки:</label>
-            <el-tooltip
-              class="item" effect="dark" content="Необходимо на карте указать место вписки" placement="right"
-            >
-              <input
-                @blur="$v.updatedAdForm.place.$touch()"
-                id="place"
-                v-model="updatedAdForm.place"
-                placeholder="Место вечеринки"
-                class="myAd-information__input-two"
-                clearable
-                readonly
-              />
-            </el-tooltip>
-            <button class="myAd-information__save"
-                    @click="saveChanges(index, false, 'editPlace', updatedAdForm.place, 'Ваше новое место вечеринки уже почти готово к изменению', 'Необходимо выбрать место вечеринки.')">
-              <img src="../../../../../assets/Home/Menu/MyAd/save.svg" alt="save">
-            </button>
-            <button class="myAd-information__cancel"
-                    @click="cancelChanges(index, false, 'editPlace', updatedAdForm.place)">
-              <img src="../../../../../assets/Home/Menu/MyAd/cancel.svg" alt="cancel">
-            </button>
-          </div>
-
-          <div class="myAd-information__item" v-if="!myAd[index].editDate">
+          <div class="myAd-information__item">
             <p class="myAd-information__title">Дата вечеринки:</p>
-            <p class="myAd-information__value">{{
-                updatedAdForm.dateParty.length ? new Date(updatedAdForm.dateParty).toLocaleDateString() : ad.dateParty
-              }}</p>
-            <button class="myAd-information__editInput" @click="commitNeedValue(index, true, 'editDate')">
-              <img src="../../../../../assets/Home/Menu/MyAd/editInput.svg" alt="editInput">
-            </button>
+            <p class="myAd-information__value">{{ calculateDate(ad.dateParty) }}</p>
           </div>
-          <div class="myAd-information__item" v-if="myAd[index].editDate">
-            <label class="myAd-information__title" for="date">Дата вечеринки:</label>
-            <el-tooltip
-              class="item" effect="dark" content="Необходимо указать дату и время начала вечеринки" placement="right"
-            >
-              <input
-                @blur="$v.updatedAdForm.dateParty.$touch()"
-                v-model.trim="updatedAdForm.dateParty"
-                type="datetime-local"
-                id="date"
-                v-model="updatedAdForm.dateParty"
-                placeholder="Выберите дату и время вечеринки"
-                class="myAd-information__input-two"
-              />
-            </el-tooltip>
-            <button class="myAd-information__save"
-                    @click="saveChanges(index, false, 'editDate', updatedAdForm.dateParty.length, 'Ваша новая дата и время вечеринки уже почти готово к изменению', 'Необходимо выбрать дату и время начала вечеринки.')">
-              <img src="../../../../../assets/Home/Menu/MyAd/save.svg" alt="save">
-            </button>
-            <button class="myAd-information__cancel"
-                    @click="cancelChanges(index, false, 'editDate', updatedAdForm.dateParty)">
-              <img src="../../../../../assets/Home/Menu/MyAd/cancel.svg" alt="cancel">
-            </button>
-          </div>
-
-          <div class="myAd-information__item" v-if="!myAd[index].editGirl">
+          <div class="myAd-information__item">
             <p class="myAd-information__title">Кол-во девушек:</p>
-            <p class="myAd-information__value">{{ updatedAdForm.girl.length ? updatedAdForm.girl : ad.girl }}</p>
-            <button class="myAd-information__editInput" @click="commitNeedValue(index, true, 'editGirl')">
-              <img src="../../../../../assets/Home/Menu/MyAd/editInput.svg" alt="editInput">
-            </button>
+            <p class="myAd-information__value">{{ ad.girl }}</p>
           </div>
-          <div class="myAd-information__item" v-if="myAd[index].editGirl">
-            <label class="myAd-information__title" for="girl">Кол-во девушек:</label>
-            <el-tooltip
-              class="item" effect="dark" content="Необходимо указать кол-во девушек на вечеринке" placement="right"
-            >
-              <input
-                @blur="$v.updatedAdForm.girl.$touch()"
-                v-model.trim="updatedAdForm.girl"
-                type="number"
-                id="girl"
-                :min="0"
-                class="myAd-information__input-two"
-                placeholder="Укажите кол-во девушек"
-              />
-            </el-tooltip>
-            <button class="myAd-information__save"
-                    @click="saveChanges(index, false, 'editGirl', updatedAdForm.girl.length, 'Количество девушек на вечеринке уже почти готово к изменению', 'Необходимо выбрать количество девушек на вечеринке.')">
-              <img src="../../../../../assets/Home/Menu/MyAd/save.svg" alt="save">
-            </button>
-            <button class="myAd-information__cancel"
-                    @click="cancelChanges(index, false, 'editGirl', updatedAdForm.girl)">
-              <img src="../../../../../assets/Home/Menu/MyAd/cancel.svg" alt="cancel">
-            </button>
-          </div>
-
-          <div class="myAd-information__item" v-if="!myAd[index].editBoy">
+          <div class="myAd-information__item">
             <p class="myAd-information__title">Кол-во парней:</p>
-            <p class="myAd-information__value">{{ updatedAdForm.boy.length ? updatedAdForm.boy : ad.boy }}</p>
-            <button class="myAd-information__editInput" @click="commitNeedValue(index, true, 'editBoy')">
-              <img src="../../../../../assets/Home/Menu/MyAd/editInput.svg" alt="editInput">
-            </button>
+            <p class="myAd-information__value">{{ ad.boy }}</p>
           </div>
-          <div class="myAd-information__item" v-if="myAd[index].editBoy">
-            <label class="myAd-information__title" for="boy">Кол-во парней:</label>
+          <div class="myAd-information__buttons">
             <el-tooltip
-              class="item" effect="dark" content="Необходимо указать кол-во парней на вечеринке" placement="right"
+              class="item" effect="dark" content="Популярность" placement="bottom"
             >
-              <input
-                @blur="$v.updatedAdForm.boy.$touch()"
-                v-model.trim="updatedAdForm.boy"
-                type="number"
-                id="boy"
-                :min="0"
-                class="myAd-information__input-two"
-                placeholder="Укажите кол-во парней"
-              />
-            </el-tooltip>
-            <button class="myAd-information__save"
-                    @click="saveChanges(index, false, 'editBoy', updatedAdForm.boy.length, 'Количество парней на вечеринке уже почти готово к изменению', 'Необходимо выбрать количество парней на вечеринке.')">
-              <img src="../../../../../assets/Home/Menu/MyAd/save.svg" alt="save">
-            </button>
-            <button class="myAd-information__cancel" @click="cancelChanges(index, false, 'editBoy', updatedAdForm.boy)">
-              <img src="../../../../../assets/Home/Menu/MyAd/cancel.svg" alt="cancel">
-            </button>
-          </div>
-
-          <div class="myAd-information__buttons-edit">
-            <el-tooltip class="item" effect="dark" content="Отмена" placement="left">
-              <button class="myAd-information__buttons-edit-one" @click="cancelEditing(index)">
-                <img src="../../../../../assets/Home/Menu/MyAd/cancelChanges.svg" alt="cancelChanges">
+              <button>
+                <img src="../../../../../assets/Home/Menu/MyAd/heart.svg" alt="heart">
+                <p class="myAd-information__button-one">9+</p>
               </button>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="Сохранить" placement="left">
-              <button class="myAd-information__buttons-edit-two" type="submit" @click.prevent="updateMyAdSubmit">
-                <img src="../../../../../assets/Home/Menu/MyAd/saveChanges.svg" alt="saveChanges">
+            <el-tooltip
+              class="item" effect="dark" content="Обсуждение вечеринки" placement="bottom"
+            >
+              <button>
+                <img src="../../../../../assets/Home/Menu/MyAd/comment.svg" alt="comment">
+                <p class="myAd-information__button-two">9+</p>
+              </button>
+            </el-tooltip>
+            <el-tooltip
+              class="item" effect="dark" content="Редактировать" placement="bottom"
+            >
+              <button @click="enableEditing(index)" v-if="!isEnableEditing">
+                <img src="../../../../../assets/Home/Menu/MyAd/edit.svg" alt="edit">
               </button>
             </el-tooltip>
           </div>
         </div>
 
-        <div class="myAd-map" v-if="myAd[index].editable">
-          <button @click="clickToChoosePlace = true">Изменить место вписки</button>
-        </div>
-        <div class="myAd-edit-map" v-if="clickToChoosePlace">
-          <MapForMyAdEdit
-            @createMarker="infoMarket"
+        <div v-if="!myAd[index].editable">
+          <MapForMyAd
+            :coordinates="ad.geolocation"
           />
         </div>
-      </form>
+
+        <form class="myAd-block" @submit.prevent="updateMyAdSubmit(index)">
+          <div class="myAd-information" v-if="myAd[index].editable">
+
+            <div class="myAd-information__item" v-if="!myAd[index].editName">
+              <p class="myAd-information__title">Название:</p>
+              <p class="myAd-information__value">{{
+                  updatedAdForm.nameParty.length ? updatedAdForm.nameParty : ad.nameParty
+                }}</p>
+              <button class="myAd-information__editInput"
+                      @click.prevent="commitNeedValue(index, true, 'editName')">
+                <img src="../../../../../assets/Home/Menu/MyAd/editInput.svg" alt="editInput">
+              </button>
+            </div>
+            <div class="myAd-information__item" v-if="myAd[index].editName">
+              <label class="myAd-information__title" for="name">Название:</label>
+              <el-tooltip
+                class="item" effect="dark" content="Необходимо указать Название объявления" placement="right"
+              >
+                <input
+                  @blur="$v.updatedAdForm.nameParty.$touch()"
+                  v-model.trim.lazy="updatedAdForm.nameParty"
+                  type="text"
+                  id="name"
+                  placeholder="Введите название объявления"
+                  class="myAd-information__input"
+                />
+              </el-tooltip>
+              <button class="myAd-information__save"
+                      @click="saveChanges(index, false, 'editName', updatedAdForm.nameParty, 'Ваше название вечеринки уже почти готово к изменению', 'Необходимо ввести название вечеринки.')">
+                <img src="../../../../../assets/Home/Menu/MyAd/save.svg" alt="save">
+              </button>
+              <button class="myAd-information__cancel"
+                      @click.prevent="cancelChanges(index, false, 'editName', updatedAdForm.nameParty)">
+                <img src="../../../../../assets/Home/Menu/MyAd/cancel.svg" alt="cancel">
+              </button>
+            </div>
+
+            <div class="myAd-information__item" v-if="!myAd[index].editPlace">
+              <p class="myAd-information__title">Место вечеринки:</p>
+              <p class="myAd-information__value">{{ updatedAdForm.place ? updatedAdForm.place : ad.place }}</p>
+              <button class="myAd-information__editInput" @click.prevent="clickToPlace(index, true, 'editPlace')">
+                <img src="../../../../../assets/Home/Menu/MyAd/editInput.svg" alt="editInput">
+              </button>
+            </div>
+            <div class="myAd-information__item" v-if="myAd[index].editPlace">
+              <label class="myAd-information__title" for="place">Место вечеринки:</label>
+              <el-tooltip
+                class="item" effect="dark" content="Необходимо на карте указать место вписки" placement="right"
+              >
+                <input
+                  @blur="$v.updatedAdForm.place.$touch()"
+                  id="place"
+                  v-model="updatedAdForm.place"
+                  placeholder="Место вечеринки"
+                  class="myAd-information__input-two"
+                  clearable
+                  readonly
+                />
+              </el-tooltip>
+              <button class="myAd-information__save"
+                      @click="saveChanges(index, false, 'editPlace', updatedAdForm.place, 'Ваше новое место вечеринки уже почти готово к изменению', 'Необходимо выбрать место вечеринки.')">
+                <img src="../../../../../assets/Home/Menu/MyAd/save.svg" alt="save">
+              </button>
+              <button class="myAd-information__cancel"
+                      @click.prevent="cancelChanges(index, false, 'editPlace', updatedAdForm.place)">
+                <img src="../../../../../assets/Home/Menu/MyAd/cancel.svg" alt="cancel">
+              </button>
+            </div>
+
+            <div class="myAd-information__item" v-if="!myAd[index].editDate">
+              <p class="myAd-information__title">Дата вечеринки:</p>
+              <p class="myAd-information__value">{{
+                  updatedAdForm.dateParty.length ? calculateDate(updatedAdForm.dateParty) : calculateDate(ad.dateParty)
+                }}</p>
+              <button class="myAd-information__editInput" @click.prevent="commitNeedValue(index, true, 'editDate')">
+                <img src="../../../../../assets/Home/Menu/MyAd/editInput.svg" alt="editInput">
+              </button>
+            </div>
+            <div class="myAd-information__item" v-if="myAd[index].editDate">
+              <label class="myAd-information__title" for="date">Дата вечеринки:</label>
+              <el-tooltip
+                class="item" effect="dark" content="Необходимо указать дату и время начала вечеринки" placement="right"
+              >
+                <input
+                  @blur="$v.updatedAdForm.dateParty.$touch()"
+                  v-model.trim="updatedAdForm.dateParty"
+                  type="datetime-local"
+                  id="date"
+                  v-model="updatedAdForm.dateParty"
+                  placeholder="Выберите дату и время вечеринки"
+                  class="myAd-information__input-two"
+                />
+              </el-tooltip>
+              <button class="myAd-information__save"
+                      @click="saveChanges(index, false, 'editDate', updatedAdForm.dateParty, 'Ваша новая дата и время вечеринки уже почти готово к изменению', 'Необходимо выбрать дату и время начала вечеринки.')">
+                <img src="../../../../../assets/Home/Menu/MyAd/save.svg" alt="save">
+              </button>
+              <button class="myAd-information__cancel"
+                      @click.prevent="cancelChanges(index, false, 'editDate', updatedAdForm.dateParty)">
+                <img src="../../../../../assets/Home/Menu/MyAd/cancel.svg" alt="cancel">
+              </button>
+            </div>
+
+            <div class="myAd-information__item" v-if="!myAd[index].editGirl">
+              <p class="myAd-information__title">Кол-во девушек:</p>
+              <p class="myAd-information__value">{{ updatedAdForm.girl.length ? updatedAdForm.girl : ad.girl }}</p>
+              <button class="myAd-information__editInput" @click.prevent="commitNeedValue(index, true, 'editGirl')">
+                <img src="../../../../../assets/Home/Menu/MyAd/editInput.svg" alt="editInput">
+              </button>
+            </div>
+            <div class="myAd-information__item" v-if="myAd[index].editGirl">
+              <label class="myAd-information__title" for="girl">Кол-во девушек:</label>
+              <el-tooltip
+                class="item" effect="dark" content="Необходимо указать кол-во девушек на вечеринке" placement="right"
+              >
+                <input
+                  @blur="$v.updatedAdForm.girl.$touch()"
+                  v-model.trim="updatedAdForm.girl"
+                  type="number"
+                  id="girl"
+                  :min="0"
+                  class="myAd-information__input-two"
+                  placeholder="Укажите кол-во девушек"
+                />
+              </el-tooltip>
+              <button class="myAd-information__save"
+                      @click="saveChanges(index, false, 'editGirl', updatedAdForm.girl, 'Количество девушек на вечеринке уже почти готово к изменению', 'Необходимо выбрать количество девушек на вечеринке.')">
+                <img src="../../../../../assets/Home/Menu/MyAd/save.svg" alt="save">
+              </button>
+              <button class="myAd-information__cancel"
+                      @click.prevent="cancelChanges(index, false, 'editGirl', updatedAdForm.girl)">
+                <img src="../../../../../assets/Home/Menu/MyAd/cancel.svg" alt="cancel">
+              </button>
+            </div>
+
+            <div class="myAd-information__item" v-if="!myAd[index].editBoy">
+              <p class="myAd-information__title">Кол-во парней:</p>
+              <p class="myAd-information__value">{{ updatedAdForm.boy.length ? updatedAdForm.boy : ad.boy }}</p>
+              <button class="myAd-information__editInput" @click.prevent="commitNeedValue(index, true, 'editBoy')">
+                <img src="../../../../../assets/Home/Menu/MyAd/editInput.svg" alt="editInput">
+              </button>
+            </div>
+            <div class="myAd-information__item" v-if="myAd[index].editBoy">
+              <label class="myAd-information__title" for="boy">Кол-во парней:</label>
+              <el-tooltip
+                class="item" effect="dark" content="Необходимо указать кол-во парней на вечеринке" placement="right"
+              >
+                <input
+                  @blur="$v.updatedAdForm.boy.$touch()"
+                  v-model.trim="updatedAdForm.boy"
+                  type="number"
+                  id="boy"
+                  :min="0"
+                  class="myAd-information__input-two"
+                  placeholder="Укажите кол-во парней"
+                />
+              </el-tooltip>
+              <button class="myAd-information__save"
+                      @click="saveChanges(index, false, 'editBoy', updatedAdForm.boy, 'Количество парней на вечеринке уже почти готово к изменению', 'Необходимо выбрать количество парней на вечеринке.')">
+                <img src="../../../../../assets/Home/Menu/MyAd/save.svg" alt="save">
+              </button>
+              <button class="myAd-information__cancel"
+                      @click.prevent="cancelChanges(index, false, 'editBoy', updatedAdForm.boy)">
+                <img src="../../../../../assets/Home/Menu/MyAd/cancel.svg" alt="cancel">
+              </button>
+            </div>
+
+            <div class="myAd-information__buttons-edit">
+              <el-tooltip class="item" effect="dark" content="Отмена" placement="left">
+                <button class="myAd-information__buttons-edit-one" @click="cancelEditing(index)">
+                  <img src="../../../../../assets/Home/Menu/MyAd/cancelChanges.svg" alt="cancelChanges">
+                </button>
+              </el-tooltip>
+              <el-tooltip class="item" effect="dark" content="Сохранить" placement="left">
+                <button class="myAd-information__buttons-edit-two" type="submit"
+                        @click.prevent="updateMyAdSubmit(index)">
+                  <img src="../../../../../assets/Home/Menu/MyAd/saveChanges.svg" alt="saveChanges">
+                </button>
+              </el-tooltip>
+            </div>
+          </div>
+
+          <div class="myAd-map" v-if="myAd[index].editable">
+            <button @click="clickToChoosePlace = true">Изменить место вписки</button>
+          </div>
+          <div class="myAd-edit-map" v-if="clickToChoosePlace">
+            <MapForMyAdEdit
+              @createMarker="infoMarket"
+            />
+          </div>
+        </form>
+      </div>
+      <div class="myAd-paidContent">
+        <button class="myAd-paidContent__btn">
+          <i class="el-icon-document-add myAd-paidContent__icon"></i>
+        </button>
+        <div class="myAd-paidContent__text">Создать больше объявлений</div>
+      </div>
     </div>
-    <div class="myAd-paidContent">
-      <button class="myAd-paidContent__btn">
-        <i class="el-icon-document-add myAd-paidContent__icon"></i>
-      </button>
-      <div class="myAd-paidContent__text">Создать больше объявлений</div>
+    <div class="not-advert" v-if="!haveAd">
+      <div>
+        <i class="el-icon-tickets not-advert__icon-one"></i>
+      </div>
+      <div class="not-advert__text">У вас нет созданных объявлений.</div>
+      <nuxt-link to="/home/createAd">
+        <button class="not-advert__btn">Создать объявление</button>
+      </nuxt-link>
     </div>
   </div>
 </template>
@@ -263,7 +276,11 @@ export default {
   name: 'MyAd',
   mixins: [MyAdMixin],
   beforeCreate() {
-    this.$store.dispatch('myParty/getMyAd')
+    if (process.browser) {
+      if (this.$store.getters['myParty/myAd'].length === 0) {
+        this.$store.dispatch('myParty/getMyAd')
+      }
+    }
   },
   data() {
     return {
@@ -275,33 +292,38 @@ export default {
         boy: '',
         coordinates: ''
       },
-      inform: [
-        {
-          nameParty: 'VA',
-          place: 'Чернышевского 9 / 13 к 2',
-          dateParty: '10.06.21',
-          girl: 3,
-          boy: 2,
-          coordinates: {lat: 55.7522200, lng: 37.7155600},
-          editable: false,
-          editName: false,
-          editPlace: false,
-          editDate: false,
-          editGirl: false,
-          editBoy: false
-        }
-      ],
       clickToChoosePlace: false,
       isEnableEditing: false,
     }
   },
   methods: {
-    updateMyAdSubmit() {
+    updateMyAdSubmit(index) {
       this.$v.$touch()
       if (this.updatedAdForm.nameParty.length || this.updatedAdForm.place || this.updatedAdForm.dateParty.length || this.updatedAdForm.girl.length || this.updatedAdForm.boy.length) {
         console.log('success')
+
+        const formData = {
+          title: this.updatedAdForm.nameParty.length > 0 ? this.updatedAdForm.nameParty : this.myAd[index].nameParty,
+          city: this.myAd[index].city,
+          geolocation: this.updatedAdForm.coordinates.lat && this.updatedAdForm.coordinates.lng ? JSON.stringify(this.updatedAdForm.coordinates) : JSON.stringify(this.myAd[index].geolocation),
+          number_of_girls: this.updatedAdForm.girl.length > 0 ? Number(this.updatedAdForm.girl) : this.myAd[index].girl,
+          number_of_boys: this.updatedAdForm.boy.length > 0 ? Number(this.updatedAdForm.boy) : this.myAd[index].boy,
+          party_date: this.updatedAdForm.dateParty.length > 0 ? this.updatedAdForm.dateParty : this.myAd[index].dateParty
+        }
+
+        formData.number_of_person = formData.number_of_boys + formData.number_of_girls
+        try {
+          this.$store.dispatch('myParty/updateMyAd', {formData, id: this.myAd[index].id})
+        } catch (e) {
+          console.log('error in MyAd.vue methods updateMyAdSubmit', e)
+        }
+
       } else {
         console.log('error')
+        this.$message({
+          message: 'Вы не изменили ни одного поля. Чтобы сохранить изменения нужно отредактировать хотя бы одно поле',
+          duration: 4500
+        })
       }
     },
     status(validation) {
@@ -372,12 +394,17 @@ export default {
           needVal: needVal
         })
       }
+    },
+    calculateDate(value) {
+      return value.substr(8, 2) + value.substr(4, 3) + value.substr(4, 1) + value.substr(0, 4) + ' вр:' + value.substr(11, 5)
     }
-
   },
   computed: {
     myAd() {
       return this.$store.getters['myParty/myAd']
+    },
+    haveAd() {
+      return this.$store.getters['myParty/haveAd']
     }
   },
   components: {
@@ -945,6 +972,106 @@ export default {
     @include breakpoint(dsm) {
       font-size: 14px;
     }
+  }
+}
+
+.not-advert {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 280px;
+
+  &__icon-one {
+    font-size: 95px;
+    color: #771699;
+
+    @include breakpoint(dxxxxl) {
+      font-size: 85px;
+    }
+
+    @include breakpoint(dxxxl) {
+      font-size: 75px;
+    }
+
+    @include breakpoint(dxxl) {
+      font-size: 75px;
+    }
+
+    @include breakpoint(dsm) {
+      font-size: 55px;
+    }
+  }
+
+  &__text {
+    font-size: 24px;
+    color: #771699;
+
+    @include breakpoint(dxxxxl) {
+      font-size: 20px;
+    }
+
+    @include breakpoint(dxxxl) {
+      font-size: 14px;
+    }
+
+    @include breakpoint(dxxl) {
+      font-size: 14px;
+    }
+
+    @include breakpoint(dsm) {
+      font-size: 13px;
+    }
+  }
+
+  &__btn {
+    margin-top: 10px;
+    border: 1px solid #d38eec;
+    border-radius: 5px;
+    width: 150px;
+    height: 40px;
+    box-sizing: border-box;
+    font-family: "Manrope", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 13px;
+    line-height: 18px;
+    color: #771699;
+    background: #fff;
+
+    &:hover {
+      outline-color: rgba(255, 255, 255, 0);
+      outline-offset: 15px;
+      border: 1px solid #771699;
+      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
+      text-shadow: 1px 1px 2px #9ebecb;
+    }
+
+    @include breakpoint(dxxxl) {
+      width: 145px;
+    }
+
+    @include breakpoint(dsm) {
+      margin-top: 8px;
+      width: 130px;
+      height: 34px;
+      font-size: 12px;
+    }
+  }
+
+  @include breakpoint(dxxxxl) {
+    margin-top: 243px;
+  }
+
+  @include breakpoint(dxxxl) {
+    margin-top: 170px;
+  }
+
+  @include breakpoint(dxxl) {
+    margin-top: 172px;
+  }
+
+  @include breakpoint(dsm) {
+    margin-top: 141px;
   }
 }
 

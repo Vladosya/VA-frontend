@@ -1,10 +1,14 @@
 export const state = () => ({
-  myAd: []
+  myAd: [],
+  haveAd: false
 })
 
 export const mutations = {
   getAd(state, payload) {
     state.myAd = payload
+  },
+  haveAdvert(state, payload) {
+    state.haveAd = payload
   },
   changeEditableByIndex(state, {index, value}) {
     state.myAd[index].editable = value
@@ -35,12 +39,14 @@ export const actions = {
       if (getMyAd.length > 0) {
         const myAdByData = getMyAd.map((ad) => {
           return {
+            id: ad.id,
             nameParty: ad.title,
+            city: ad.city,
             place: 'Чернышевского 9 / 13 к 2',
-            dateParty: ad.party_date.substring(10, 2).split('').reverse().join('').split('').reverse().join(''),
+            dateParty: ad.party_date,
             girl: ad.number_of_girls,
             boy: ad.number_of_boys,
-            coordinates: {lat: 55.7522200, lng: 37.7155600},
+            geolocation: JSON.parse(ad.geolocation),
             editable: false,
             editName: false,
             editPlace: false,
@@ -54,10 +60,37 @@ export const actions = {
           return new Date(b.dateParty) - new Date(a.dateParty)
         })
 
+        commit('haveAdvert', true)
         commit('getAd', sortByDateAd)
+      } else {
+        commit('haveAdvert', false)
       }
     } catch (e) {
-      console.log('error in action getMyAd', e.response)
+      console.log('error in getMyAd action in myParty.js', e)
+    }
+  },
+  async updateMyAd(_, {formData, id}) {
+    const token = $nuxt.$cookies.get('token')
+
+    try {
+      const updateMyAd = await this.$axios.$put(`${process.env.BASE_URL}/ad/update/${id}/`, formData, {
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        }
+      })
+
+      if (updateMyAd.status === 'success') {
+        $nuxt.$message({
+          message: `${updateMyAd.message}`,
+          type: 'success'
+        })
+        setTimeout(() => {
+          $nuxt.$router.go(0)
+        }, 2500)
+      }
+    } catch (e) {
+      console.log('error in updateMyAd action in myParty.js', e.response)
     }
   }
 }
@@ -65,5 +98,8 @@ export const actions = {
 export const getters = {
   myAd(state) {
     return state.myAd
+  },
+  haveAd(state) {
+    return state.haveAd
   }
 }

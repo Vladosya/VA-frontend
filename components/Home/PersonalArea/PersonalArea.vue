@@ -422,7 +422,10 @@ export default {
           console.log('error in PersonalArea.vue methods personalAreaSubmit', e)
         }
       } else {
-        console.log('Error')
+        this.$message({
+          message: 'Вы не изменили ни одного поля. Чтобы сохранить изменения нужно отредактировать хотя бы одно поле',
+          duration: 4500
+        })
       }
     },
     status(validation) {
