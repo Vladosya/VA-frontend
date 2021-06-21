@@ -27,53 +27,53 @@
 </template>
 
 <script>
-import LeftMenu from "../../../components/Home/LeftMenu/LeftMenu.vue";
+import LeftMenu from '../HomeMenu/HomeMenu.vue'
 
 export default {
   data() {
     return {
-      center: { lat: 55.75222, lng: 37.61556 },
+      center: {lat: 55.75222, lng: 37.61556},
       markers: [],
       isCreateMarker: false,
       place: null
-    };
+    }
   },
   methods: {
     onMapClick(e) {
-      console.log("einOnMapClick", e);
+      console.log('einOnMapClick', e)
       if (!this.markers.length) {
-        this.isCreateMarker = true;
+        this.isCreateMarker = true
         this.markers.push({
           id: 1 + Math.max(0, ...this.markers.map(n => n.id)),
           position: {
             lat: e.latLng.lat(),
             lng: e.latLng.lng()
           }
-        });
+        })
       }
     },
     setPlace(place) {
-      this.place = place;
+      this.place = place
     },
     infoMarker() {
-      console.log("this.markers", this.markers);
+      console.log('this.markers', this.markers)
     },
     onMarkerDblClick() {
-      this.markers = [];
-      this.isCreateMarker = false;
+      this.markers = []
+      this.isCreateMarker = false
     },
     updateCoordinates(location) {
-      this.markers[0].position = {};
+      this.markers[0].position = {}
       this.markers[0].position = {
         lat: location.latLng.lat(),
         lng: location.latLng.lng()
-      };
+      }
     }
   },
   components: {
     LeftMenu
   }
-};
+}
 </script>
 
 <style scoped lang="scss">

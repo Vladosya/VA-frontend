@@ -9,7 +9,7 @@
     >
     </gmap-map>
     <div class="left-menu">
-      <LeftMenu/>
+      <HomeMenu/>
     </div>
     <div class="user-menu">
       <UserMenu/>
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import LeftMenu from '@/components/Home/LeftMenu/LeftMenu.vue'
+import HomeMenu from '@/components/Home/HomeMenu/HomeMenu.vue'
 import UserMenu from '@/components/Home/UserMenu/UserMenu'
 
 export default {
@@ -37,7 +37,7 @@ export default {
     }
   },
   components: {
-    LeftMenu,
+    HomeMenu,
     UserMenu
   }
 }
@@ -51,8 +51,8 @@ export default {
 
 .left-menu {
   position: fixed;
-  left: 5px;
-  top: 40%;
+  right: 5px;
+  top: 5px;
   z-index: 1000;
   display: flex;
   align-items: center;
