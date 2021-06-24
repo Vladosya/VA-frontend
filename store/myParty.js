@@ -1,14 +1,38 @@
 export const state = () => ({
   myAd: [],
-  haveAd: false
+  myAdByFilter: [],
+  myAdById: [],
+  haveAd: false,
+  haveAdCreateAdMenu: false,
+  haveMyParticipants: false,
+  haveRequestMyParty: false,
+  selectedId: null
 })
 
 export const mutations = {
   getAd(state, payload) {
     state.myAd = payload
   },
-  haveAdvert(state, payload) {
+  filterAd(state, payload) {
+    state.myAdByFilter = payload
+  },
+  selectedId(state, payload) {
+    state.selectedId = payload
+  },
+  getMyAdById(state, payload) {
+    state.myAdById = state.myAd.filter((i) => {
+      return i.id === state.selectedId
+    })
     state.haveAd = payload
+  },
+  haveAdCreateAdMenu(state, payload) {
+    state.haveAdCreateAdMenu = payload
+  },
+  haveMyParticipants(state, payload) {
+    state.haveMyParticipants = payload
+  },
+  haveRequestMyParty(state, payload) {
+    state.haveRequestMyParty = payload
   },
   changeEditableByIndex(state, {index, value}) {
     state.myAd[index].editable = value
@@ -60,10 +84,21 @@ export const actions = {
           return new Date(b.dateParty) - new Date(a.dateParty)
         })
 
-        commit('haveAdvert', true)
+        const myAdByFilter = getMyAd.map((adf) => {
+          return {
+            id: adf.id,
+            nameParty: adf.title,
+            dateParty: adf.party_date,
+          }
+        })
+
+        const sortByDateAdFilter = myAdByFilter.sort((a, b) => {
+          return new Date(b.dateParty) - new Date(a.dateParty)
+        })
+
         commit('getAd', sortByDateAd)
-      } else {
-        commit('haveAdvert', false)
+        commit('filterAd', sortByDateAdFilter)
+        commit('haveAdCreateAdMenu', true)
       }
     } catch (e) {
       console.log('error in getMyAd action in myParty.js', e)
@@ -92,6 +127,42 @@ export const actions = {
     } catch (e) {
       console.log('error in updateMyAd action in myParty.js', e.response)
     }
+  },
+  async getMyParticipants({state, commit}) {
+    const token = $nuxt.$cookies.get('token')
+
+    try {
+      const getMyParticipants = await this.$axios.$get(`${process.env.BASE_URL}/participant/my_participants/${state.selectedId}/`, {
+        headers: {'Authorization': 'Bearer ' + token}
+      })
+
+      if (getMyParticipants.status === 'success') {
+        commit('haveMyParticipants', true)
+      } else {
+        commit('haveMyParticipants', false)
+      }
+
+    } catch (e) {
+      console.log('error in getMyParticipants action in myParty.js', e)
+    }
+  },
+  async getRequestMyParty({state, commit}) {
+    const token = $nuxt.$cookies.get('token')
+
+    try {
+      const getRequestMyParty = await this.$axios.$get(`${process.env.BASE_URL}/bid/my_bids/${state.selectedId}/`, {
+        headers: {'Authorization': 'Bearer ' + token}
+      })
+
+      if (getRequestMyParty.status === 'success') {
+        commit('haveRequestMyParty', true)
+      } else {
+        commit('haveRequestMyParty', false)
+      }
+
+    } catch (e) {
+      console.log('error in getRequestMyParty action in myParty.js', e)
+    }
   }
 }
 
@@ -101,5 +172,20 @@ export const getters = {
   },
   haveAd(state) {
     return state.haveAd
+  },
+  haveAdCreateAdMenu(state) {
+    return state.haveAdCreateAdMenu
+  },
+  haveMyParticipants(state) {
+    return state.haveMyParticipants
+  },
+  haveRequestMyParty(state) {
+    return state.haveRequestMyParty
+  },
+  myAdByFilter(state) {
+    return state.myAdByFilter
+  },
+  myAdById(state) {
+    return state.myAdById
   }
 }

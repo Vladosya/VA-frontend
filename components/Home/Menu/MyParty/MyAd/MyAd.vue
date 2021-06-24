@@ -52,6 +52,8 @@
 
         <div v-if="!myAd[index].editable">
           <MapForMyAd
+            :width="['350px', '300px', '235px', '235px', '180px']"
+            :height="['350px', '300px', '235px', '235px', '180px']"
             :coordinates="ad.geolocation"
           />
         </div>
@@ -259,7 +261,9 @@
       <div>
         <i class="el-icon-tickets not-advert__icon-one"></i>
       </div>
-      <div class="not-advert__text">У вас нет созданных объявлений.</div>
+      <div class="not-advert__text">У вас нет созданных объявлений. <br> Нажмите на выпадающий список в правом верхнем
+        углу окна. <br> Если он пуст, то создайте объявление
+      </div>
       <nuxt-link to="/home/createAd">
         <button class="not-advert__btn">Создать объявление</button>
       </nuxt-link>
@@ -275,13 +279,6 @@ import MapForMyAdEdit from '@/components/Home/Menu/MyParty/MyAd/MapForMyAdEdit'
 export default {
   name: 'MyAd',
   mixins: [MyAdMixin],
-  beforeCreate() {
-    if (process.browser) {
-      if (this.$store.getters['myParty/myAd'].length === 0) {
-        this.$store.dispatch('myParty/getMyAd')
-      }
-    }
-  },
   data() {
     return {
       updatedAdForm: {
@@ -397,15 +394,15 @@ export default {
     },
     calculateDate(value) {
       return value.substr(8, 2) + value.substr(4, 3) + value.substr(4, 1) + value.substr(0, 4) + ' вр:' + value.substr(11, 5)
-    }
+    },
   },
   computed: {
     myAd() {
-      return this.$store.getters['myParty/myAd']
+      return this.$store.getters['myParty/myAdById']
     },
     haveAd() {
       return this.$store.getters['myParty/haveAd']
-    }
+    },
   },
   components: {
     MapForMyAd,
@@ -979,7 +976,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 280px;
+  margin-top: 250px;
 
   &__icon-one {
     font-size: 95px;
@@ -1004,6 +1001,7 @@ export default {
 
   &__text {
     font-size: 24px;
+    text-align: center;
     color: #771699;
 
     @include breakpoint(dxxxxl) {
@@ -1059,19 +1057,19 @@ export default {
   }
 
   @include breakpoint(dxxxxl) {
-    margin-top: 243px;
+    margin-top: 213px;
   }
 
   @include breakpoint(dxxxl) {
-    margin-top: 170px;
+    margin-top: 155px;
   }
 
   @include breakpoint(dxxl) {
-    margin-top: 172px;
+    margin-top: 152px;
   }
 
   @include breakpoint(dsm) {
-    margin-top: 141px;
+    margin-top: 121px;
   }
 }
 

@@ -98,7 +98,7 @@
               controls-position="right"
               v-model="createdAdForm.girl"
               :class="status($v.createdAdForm.girl)"
-              :min="1"
+              :min="0"
               class="createAd-content-form__girl-input"
               placeholder="Укажите кол-во девушек"
             ></el-input-number>
@@ -116,7 +116,7 @@
               controls-position="right"
               v-model="createdAdForm.boy"
               :class="status($v.createdAdForm.boy)"
-              :min="1"
+              :min="0"
               class="createAd-content-form__boy-input"
               placeholder="Укажите кол-во парней"
             ></el-input-number>

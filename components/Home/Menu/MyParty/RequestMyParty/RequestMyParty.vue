@@ -1,181 +1,192 @@
 <template>
-  <div class="requestMyParty">
-    <div class="requestMyParty-block" v-if="!clickInfoPerson">
-      <div class="request-person">
-        <img
-          src="../../../../../assets/Home/Menu/userPage.jpg"
-          alt="s"
-          class="request-person__img"
-        />
-        <nuxt-link to="/home/menu/myParty/requestMyParty/2">
-          <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
-            <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
-          </button>
-        </nuxt-link>
+  <div>
+    <div class="requestMyParty" v-if="haveRequestMyParty">
+      <div class="requestMyParty-block" v-if="!clickInfoPerson">
+        <div class="request-person">
+          <img
+            src="../../../../../assets/Home/Menu/userPage.jpg"
+            alt="s"
+            class="request-person__img"
+          />
+          <nuxt-link to="/home/menu/myParty/requestMyParty/2">
+            <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
+              <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
+            </button>
+          </nuxt-link>
+        </div>
+        <div class="request-info">
+          <h2>
+            <span>Влад Новиков</span>
+          </h2>
+        </div>
       </div>
-      <div class="request-info">
-        <h2>
-          <span>Влад Новиков</span>
-        </h2>
+      <div class="requestMyParty-block" v-if="!clickInfoPerson">
+        <div class="request-person">
+          <img
+            src="../../../../../assets/Home/Menu/userPage.jpg"
+            alt="s"
+            class="request-person__img"
+          />
+          <nuxt-link to="/home/menu/myParty/requestMyParty/2">
+            <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
+              <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
+            </button>
+          </nuxt-link>
+        </div>
+        <div class="request-info">
+          <h2>
+            <span>Влад Новиков</span>
+          </h2>
+        </div>
+      </div>
+      <div class="requestMyParty-block" v-if="!clickInfoPerson">
+        <div class="request-person">
+          <img
+            src="../../../../../assets/Home/Menu/userPage.jpg"
+            alt="s"
+            class="request-person__img"
+          />
+          <nuxt-link to="/home/menu/myParty/requestMyParty/2">
+            <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
+              <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
+            </button>
+          </nuxt-link>
+        </div>
+        <div class="request-info">
+          <h2>
+            <span>Влад Новиков</span>
+          </h2>
+        </div>
+      </div>
+      <div class="requestMyParty-block" v-if="!clickInfoPerson">
+        <div class="request-person">
+          <img
+            src="../../../../../assets/Home/Menu/userPage.jpg"
+            alt="s"
+            class="request-person__img"
+          />
+          <nuxt-link to="/home/menu/myParty/requestMyParty/2">
+            <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
+              <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
+            </button>
+          </nuxt-link>
+        </div>
+        <div class="request-info">
+          <h2>
+            <span>Влад Новиков</span>
+          </h2>
+        </div>
+      </div>
+      <div class="requestMyParty-block" v-if="!clickInfoPerson">
+        <div class="request-person">
+          <img
+            src="../../../../../assets/Home/Menu/userPage.jpg"
+            alt="s"
+            class="request-person__img"
+          />
+          <nuxt-link to="/home/menu/myParty/requestMyParty/2">
+            <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
+              <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
+            </button>
+          </nuxt-link>
+        </div>
+        <div class="request-info">
+          <h2>
+            <span>Влад Новиков</span>
+          </h2>
+        </div>
+      </div>
+      <div class="requestMyParty-block" v-if="!clickInfoPerson">
+        <div class="request-person">
+          <img
+            src="../../../../../assets/Home/Menu/userPage.jpg"
+            alt="s"
+            class="request-person__img"
+          />
+          <nuxt-link to="/home/menu/myParty/requestMyParty/2">
+            <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
+              <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
+            </button>
+          </nuxt-link>
+        </div>
+        <div class="request-info">
+          <h2>
+            <span>Влад Новиков</span>
+          </h2>
+        </div>
+      </div>
+      <div class="requestMyParty-block" v-if="!clickInfoPerson">
+        <div class="request-person">
+          <img
+            src="../../../../../assets/Home/Menu/userPage.jpg"
+            alt="s"
+            class="request-person__img"
+          />
+          <nuxt-link to="/home/menu/myParty/requestMyParty/2">
+            <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
+              <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
+            </button>
+          </nuxt-link>
+        </div>
+        <div class="request-info">
+          <h2>
+            <span>Влад Новиков</span>
+          </h2>
+        </div>
+      </div>
+      <div class="requestMyParty-block" v-if="!clickInfoPerson">
+        <div class="request-person">
+          <img
+            src="../../../../../assets/Home/Menu/userPage.jpg"
+            alt="s"
+            class="request-person__img"
+          />
+          <nuxt-link to="/home/menu/myParty/requestMyParty/2">
+            <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
+              <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
+            </button>
+          </nuxt-link>
+        </div>
+        <div class="request-info">
+          <h2>
+            <span>Влад Новиков</span>
+          </h2>
+        </div>
+      </div>
+      <div class="requestMyParty-block" v-if="!clickInfoPerson">
+        <div class="request-person">
+          <img
+            src="../../../../../assets/Home/Menu/userPage.jpg"
+            alt="s"
+            class="request-person__img"
+          />
+          <nuxt-link to="/home/menu/myParty/requestMyParty/2">
+            <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
+              <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
+            </button>
+          </nuxt-link>
+        </div>
+        <div class="request-info">
+          <h2>
+            <span>Влад Новиков</span>
+          </h2>
+        </div>
+      </div>
+      <nuxt-child
+        v-if="clickInfoPerson"
+        @closeInformationPerson="clickInfoPerson = false"
+        :clickInfoPerson="clickInfoPerson"
+      ></nuxt-child>
+    </div>
+    <div class="not-requestMyParty" v-if="!haveRequestMyParty">
+      <div>
+        <i class="el-icon-magic-stick not-requestMyParty__icon"></i>
+      </div>
+      <div class="not-requestMyParty__text">Список заявок пуст!
+        <br> Нажмите на выпадающий список в правом верхнем
+        углу окна. <br> Если он пуст, то создайте объявление
       </div>
     </div>
-    <div class="requestMyParty-block" v-if="!clickInfoPerson">
-      <div class="request-person">
-        <img
-          src="../../../../../assets/Home/Menu/userPage.jpg"
-          alt="s"
-          class="request-person__img"
-        />
-        <nuxt-link to="/home/menu/myParty/requestMyParty/2">
-          <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
-            <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
-          </button>
-        </nuxt-link>
-      </div>
-      <div class="request-info">
-        <h2>
-          <span>Влад Новиков</span>
-        </h2>
-      </div>
-    </div>
-    <div class="requestMyParty-block" v-if="!clickInfoPerson">
-      <div class="request-person">
-        <img
-          src="../../../../../assets/Home/Menu/userPage.jpg"
-          alt="s"
-          class="request-person__img"
-        />
-        <nuxt-link to="/home/menu/myParty/requestMyParty/2">
-          <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
-            <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
-          </button>
-        </nuxt-link>
-      </div>
-      <div class="request-info">
-        <h2>
-          <span>Влад Новиков</span>
-        </h2>
-      </div>
-    </div>
-    <div class="requestMyParty-block" v-if="!clickInfoPerson">
-      <div class="request-person">
-        <img
-          src="../../../../../assets/Home/Menu/userPage.jpg"
-          alt="s"
-          class="request-person__img"
-        />
-        <nuxt-link to="/home/menu/myParty/requestMyParty/2">
-          <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
-            <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
-          </button>
-        </nuxt-link>
-      </div>
-      <div class="request-info">
-        <h2>
-          <span>Влад Новиков</span>
-        </h2>
-      </div>
-    </div>
-    <div class="requestMyParty-block" v-if="!clickInfoPerson">
-      <div class="request-person">
-        <img
-          src="../../../../../assets/Home/Menu/userPage.jpg"
-          alt="s"
-          class="request-person__img"
-        />
-        <nuxt-link to="/home/menu/myParty/requestMyParty/2">
-          <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
-            <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
-          </button>
-        </nuxt-link>
-      </div>
-      <div class="request-info">
-        <h2>
-          <span>Влад Новиков</span>
-        </h2>
-      </div>
-    </div>
-    <div class="requestMyParty-block" v-if="!clickInfoPerson">
-      <div class="request-person">
-        <img
-          src="../../../../../assets/Home/Menu/userPage.jpg"
-          alt="s"
-          class="request-person__img"
-        />
-        <nuxt-link to="/home/menu/myParty/requestMyParty/2">
-          <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
-            <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
-          </button>
-        </nuxt-link>
-      </div>
-      <div class="request-info">
-        <h2>
-          <span>Влад Новиков</span>
-        </h2>
-      </div>
-    </div>
-    <div class="requestMyParty-block" v-if="!clickInfoPerson">
-      <div class="request-person">
-        <img
-          src="../../../../../assets/Home/Menu/userPage.jpg"
-          alt="s"
-          class="request-person__img"
-        />
-        <nuxt-link to="/home/menu/myParty/requestMyParty/2">
-          <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
-            <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
-          </button>
-        </nuxt-link>
-      </div>
-      <div class="request-info">
-        <h2>
-          <span>Влад Новиков</span>
-        </h2>
-      </div>
-    </div>
-    <div class="requestMyParty-block" v-if="!clickInfoPerson">
-      <div class="request-person">
-        <img
-          src="../../../../../assets/Home/Menu/userPage.jpg"
-          alt="s"
-          class="request-person__img"
-        />
-        <nuxt-link to="/home/menu/myParty/requestMyParty/2">
-          <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
-            <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
-          </button>
-        </nuxt-link>
-      </div>
-      <div class="request-info">
-        <h2>
-          <span>Влад Новиков</span>
-        </h2>
-      </div>
-    </div>
-    <div class="requestMyParty-block" v-if="!clickInfoPerson">
-      <div class="request-person">
-        <img
-          src="../../../../../assets/Home/Menu/userPage.jpg"
-          alt="s"
-          class="request-person__img"
-        />
-        <nuxt-link to="/home/menu/myParty/requestMyParty/2">
-          <button class="request-person__btn" @click="clickInfoPerson = !clickInfoPerson">
-            <img src="../../../../../assets/Home/Menu/burger.svg" alt="burger"/>
-          </button>
-        </nuxt-link>
-      </div>
-      <div class="request-info">
-        <h2>
-          <span>Влад Новиков</span>
-        </h2>
-      </div>
-    </div>
-    <nuxt-child
-      v-if="clickInfoPerson"
-      @closeInformationPerson="clickInfoPerson = false"
-      :clickInfoPerson="clickInfoPerson"
-    ></nuxt-child>
   </div>
 </template>
 
@@ -183,7 +194,12 @@
 export default {
   data() {
     return {
-      clickInfoPerson: false
+      clickInfoPerson: false,
+    }
+  },
+  computed: {
+    haveRequestMyParty() {
+      return this.$store.getters['myParty/haveRequestMyParty']
     }
   }
 }
@@ -525,6 +541,72 @@ export default {
       line-height: 1.6em;
       color: #fff;
     }
+  }
+}
+
+.not-requestMyParty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 260px;
+
+  &__icon {
+    font-size: 95px;
+    color: #771699;
+
+    @include breakpoint(dxxxxl) {
+      font-size: 85px;
+    }
+
+    @include breakpoint(dxxxl) {
+      font-size: 75px;
+    }
+
+    @include breakpoint(dxxl) {
+      font-size: 75px;
+    }
+
+    @include breakpoint(dsm) {
+      font-size: 55px;
+    }
+  }
+
+  &__text {
+    font-size: 24px;
+    text-align: center;
+    color: #771699;
+
+    @include breakpoint(dxxxxl) {
+      font-size: 20px;
+    }
+
+    @include breakpoint(dxxxl) {
+      font-size: 14px;
+    }
+
+    @include breakpoint(dxxl) {
+      font-size: 14px;
+    }
+
+    @include breakpoint(dsm) {
+      font-size: 13px;
+    }
+  }
+
+  @include breakpoint(dxxxxl) {
+    margin-top: 220px;
+  }
+
+  @include breakpoint(dxxxl) {
+    margin-top: 165px;
+  }
+
+  @include breakpoint(dxxl) {
+    margin-top: 175px;
+  }
+
+  @include breakpoint(dsm) {
+    margin-top: 135px;
   }
 }
 

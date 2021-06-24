@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import HomeMenu from '@/components/Home/HomeMenu/HomeMenu.vue'
+import HomeMenu from '@/components/Home/NavMenu/NavMenu.vue'
 import UserMenu from '@/components/Home/UserMenu/UserMenu'
 
 export default {

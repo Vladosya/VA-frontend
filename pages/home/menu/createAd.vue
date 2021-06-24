@@ -1,9 +1,15 @@
 <template>
   <div>
-    CreateAd Page
+    <CreateAdMenu/>
   </div>
 </template>
 
 <script>
-export default {}
+import CreateAdMenu from '@/components/Home/Menu/CreateAdMenu/CreateAdMenu'
+
+export default {
+  components: {
+    CreateAdMenu
+  }
+}
 </script>

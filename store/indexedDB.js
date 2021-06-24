@@ -14,11 +14,17 @@ export const actions = {
   addElementToDb({commit}, {element, key}) {
     return api.createElement({element, key})
   },
-  async getElementFromDb({commit}, key) {
+  async getElementFromDb({state, commit}, key) {
     let element = await api.getElement(key)
     commit('SET_ELEMENT', element)
   },
   deleteBookFromDb({commit}, key) {
     return api.deleteElement(key)
+  }
+}
+
+export const getters = {
+  element(state) {
+    return state.element
   }
 }

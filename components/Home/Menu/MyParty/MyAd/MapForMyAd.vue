@@ -5,6 +5,7 @@
     map-type-id="terrain"
     :options="options"
     class="map"
+    :style="cssVars"
   >
     <GmapMarker
       :key="index"
@@ -16,11 +17,9 @@
   </GmapMap>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
-  props: ['coordinates'],
+<script>
+export default {
+  props: ['coordinates', 'width', 'height'],
   data() {
     return {
       center: JSON.parse(JSON.stringify(this.coordinates)),
@@ -39,35 +38,51 @@ export default Vue.extend({
         disableDefaultUI: false
       }
     }
+  },
+  computed: {
+    cssVars() {
+      return {
+        '--width': this.width[0],
+        '--widthDxxxxl': this.width[1],
+        '--widthDxxxl': this.width[2],
+        '--widthDxxl': this.width[3],
+        '--widthDsm': this.width[4],
+        '--height': this.height[0],
+        '--heightDxxxxl': this.height[1],
+        '--heightDxxxl': this.height[2],
+        '--heightDxxl': this.height[3],
+        '--heightDsm': this.height[4],
+      }
+    }
   }
-})
+}
 </script>
 
 <style scoped lang="scss">
 @import "../../../../../assets/settings";
 
 .map {
-  width: 350px;
-  height: 350px;
+  width: var(--width);
+  height: var(--height);
 
   @include breakpoint(dxxxxl) {
-    width: 300px;
-    height: 300px;
+    width: var(--widthDxxxxl);
+    height: var(--heightDxxxxl);
   }
 
   @include breakpoint(dxxxl) {
-    width: 235px;
-    height: 235px;
+    width: var(--widthDxxxl);
+    height: var(--heightDxxxl);
   }
 
   @include breakpoint(dxxl) {
-    width: 235px;
-    height: 235px;
+    width: var(--widthDxxl);
+    height: var(--heightDxxl);
   }
 
   @include breakpoint(dsm) {
-    width: 180px;
-    height: 180px;
+    width: var(--widthDsm);
+    height: var(--heightDsm);
   }
 }
 </style>

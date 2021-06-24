@@ -1,6 +1,6 @@
 <template>
   <div class="my-participants">
-    <div class="participants-block" v-if="isParticipants" @click.self="isClickInfo = false">
+    <div class="participants-block" v-if="haveMyParticipants" @click.self="isClickInfo = false">
       <div class="participants-block__person">
         <div class="participants-block__person-img">
           <img src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png" alt="photo">
@@ -171,12 +171,15 @@
       <p class="participants-person-card__info">I have been fishing on the bay for many years. Ice fishing is my
         specialty.</p>
     </div>
-    <div class="not-participants" v-if="!isParticipants">
+    <div class="not-participants" v-if="!haveMyParticipants">
       <div>
         <i class="el-icon-male not-participants__icon-one"></i>
         <i class="el-icon-female not-participants__icon-two"></i>
       </div>
-      <div class="not-participants__text">Список участников пуст!</div>
+      <div class="not-participants__text">Список участников пуст!
+        <br> Нажмите на выпадающий список в правом верхнем
+        углу окна. <br> Если он пуст, то создайте объявление
+      </div>
     </div>
   </div>
 </template>
@@ -186,7 +189,7 @@ export default {
   data() {
     return {
       isParticipants: true,
-      isClickInfo: false
+      isClickInfo: false,
     }
   },
   methods: {
@@ -201,6 +204,11 @@ export default {
           message: 'Пользователь успешно выгнан'
         })
       })
+    }
+  },
+  computed: {
+    haveMyParticipants() {
+      return this.$store.getters['myParty/haveMyParticipants']
     }
   }
 }
@@ -624,7 +632,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 310px;
+  margin-top: 260px;
 
   &__icon-one {
     font-size: 95px;
@@ -670,6 +678,7 @@ export default {
 
   &__text {
     font-size: 24px;
+    text-align: center;
     color: #771699;
 
     @include breakpoint(dxxxxl) {
@@ -690,19 +699,19 @@ export default {
   }
 
   @include breakpoint(dxxxxl) {
-    margin-top: 260px;
+    margin-top: 220px;
   }
 
   @include breakpoint(dxxxl) {
-    margin-top: 200px;
+    margin-top: 165px;
   }
 
   @include breakpoint(dxxl) {
-    margin-top: 200px;
+    margin-top: 175px;
   }
 
   @include breakpoint(dsm) {
-    margin-top: 170px;
+    margin-top: 135px;
   }
 }
 
