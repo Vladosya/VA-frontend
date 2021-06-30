@@ -1,9 +1,15 @@
 <template>
   <div>
-    Request Party Page
+    <RequestParty/>
   </div>
 </template>
 
 <script>
-export default {}
+import RequestParty from '@/components/Home/Menu/RequestParty/RequestParty'
+
+export default {
+  components: {
+    RequestParty
+  }
+}
 </script>

@@ -33,12 +33,20 @@
         </div>
         <div class="createAd-menu-choose">
           <div class="createAd-menu-choose__btn">
-            <button class="createAd-menu-choose__btn-one">
-              <i class="el-icon-info"></i>
-            </button>
-            <button class="createAd-menu-choose__btn-two" @click="deleteAd(crAd.id)">
-              <i class="el-icon-delete"></i>
-            </button>
+            <el-tooltip
+              class="item" effect="dark" content="Подробная информация" placement="right"
+            >
+              <button class="createAd-menu-choose__btn-one">
+                <i class="el-icon-info"></i>
+              </button>
+            </el-tooltip>
+            <el-tooltip
+              class="item" effect="dark" content="Удалить объявление" placement="right"
+            >
+              <button class="createAd-menu-choose__btn-two" @click="deleteAd(crAd.id)">
+                <i class="el-icon-delete"></i>
+              </button>
+            </el-tooltip>
           </div>
           <div class="createAd-menu-choose__moderation">{{ crAd.editable ? 'Готово' : 'На модерации' }}</div>
         </div>

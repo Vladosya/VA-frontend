@@ -19,7 +19,6 @@ export const actions = {
           $nuxt.$router.go(0)
         }, 1000)
       }
-      console.log('deleteAd:', deleteAd)
     } catch (e) {
       console.log('error in deleteAd action in createAdMenu.js', e)
     }
