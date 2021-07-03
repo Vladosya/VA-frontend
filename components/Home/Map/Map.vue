@@ -8,8 +8,11 @@
       class="container"
     >
     </gmap-map>
+    <div class="sortAd-menu">
+      <SortMenu/>
+    </div>
     <div class="left-menu">
-      <HomeMenu/>
+      <NavMenu/>
     </div>
     <div class="user-menu">
       <UserMenu/>
@@ -18,8 +21,9 @@
 </template>
 
 <script>
-import HomeMenu from '@/components/Home/NavMenu/NavMenu.vue'
+import NavMenu from '@/components/Home/NavMenu/NavMenu.vue'
 import UserMenu from '@/components/Home/UserMenu/UserMenu'
+import SortMenu from '@/components/Home/SortMenu/SortMenu'
 
 export default {
   data() {
@@ -37,8 +41,9 @@ export default {
     }
   },
   components: {
-    HomeMenu,
-    UserMenu
+    NavMenu,
+    UserMenu,
+    SortMenu
   }
 }
 </script>
@@ -47,6 +52,16 @@ export default {
 .container {
   width: 100%;
   height: 100vh;
+}
+
+.sortAd-menu {
+  position: fixed;
+  right: 5px;
+  bottom: 5px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .left-menu {
