@@ -1,54 +1,69 @@
 <template>
   <div>
-    <div class="createAd" v-for="crAd in myAd" :key="crAd.id" v-if="haveAdCreateAdMenu">
-      <div class="createAd-menu">
-        <div class="createAd-menu-map">
-          <MapForMyAd
-            :width="['300px', '270px', '200px', '200px', '160px']"
-            :height="['300px', '270px', '204px', '204px', '160px']"
-            :coordinates="crAd.geolocation"
-          />
-        </div>
-        <div class="createAd-menu-info">
-          <div class="createAd-menu-info__item">
-            <div class="createAd-menu-info__title">Название:</div>
-            <div class="createAd-menu-info__value">{{ crAd.nameParty }}</div>
+    <div v-if="haveAdCreateAdMenu">
+      <div class="createAd" v-for="crAd in myAd" :key="crAd.id">
+        <div class="createAd-menu">
+          <div class="createAd-menu-map">
+            <MapForMyAd
+              :width="['300px', '270px', '200px', '200px', '160px']"
+              :height="['300px', '270px', '204px', '204px', '160px']"
+              :coordinates="crAd.geolocation"
+            />
           </div>
-          <div class="createAd-menu-info__item">
-            <div class="createAd-menu-info__title">Место вечеринки:</div>
-            <div class="createAd-menu-info__value">{{ crAd.place }}</div>
+          <div class="createAd-menu-info">
+            <div class="createAd-menu-info__item">
+              <div class="createAd-menu-info__title">Название:</div>
+              <div class="createAd-menu-info__value">{{ crAd.nameParty }}</div>
+            </div>
+            <div class="createAd-menu-info__item">
+              <div class="createAd-menu-info__title">Место вечеринки:</div>
+              <div class="createAd-menu-info__value">{{ crAd.place }}</div>
+            </div>
+            <div class="createAd-menu-info__item">
+              <div class="createAd-menu-info__title">Дата вечеринки:</div>
+              <div class="createAd-menu-info__value">
+                {{ calculateDate(crAd.dateParty) }}
+              </div>
+            </div>
+            <div class="createAd-menu-info__item">
+              <div class="createAd-menu-info__title">Кол-во девушек:</div>
+              <div class="createAd-menu-info__value">{{ crAd.girl }}</div>
+            </div>
+            <div class="createAd-menu-info__item-end">
+              <div class="createAd-menu-info__title">Кол-во парней:</div>
+              <div class="createAd-menu-info__value">{{ crAd.boy }}</div>
+            </div>
           </div>
-          <div class="createAd-menu-info__item">
-            <div class="createAd-menu-info__title">Дата вечеринки:</div>
-            <div class="createAd-menu-info__value">{{ calculateDate(crAd.dateParty) }}</div>
+          <div class="createAd-menu-choose">
+            <div class="createAd-menu-choose__btn">
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="Подробная информация"
+                placement="right"
+              >
+                <button class="createAd-menu-choose__btn-one">
+                  <i class="el-icon-info"></i>
+                </button>
+              </el-tooltip>
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="Удалить объявление"
+                placement="right"
+              >
+                <button
+                  class="createAd-menu-choose__btn-two"
+                  @click="deleteAd(crAd.id)"
+                >
+                  <i class="el-icon-delete"></i>
+                </button>
+              </el-tooltip>
+            </div>
+            <div class="createAd-menu-choose__moderation">
+              {{ crAd.editable ? "Готово" : "На модерации" }}
+            </div>
           </div>
-          <div class="createAd-menu-info__item">
-            <div class="createAd-menu-info__title">Кол-во девушек:</div>
-            <div class="createAd-menu-info__value">{{ crAd.girl }}</div>
-          </div>
-          <div class="createAd-menu-info__item-end">
-            <div class="createAd-menu-info__title">Кол-во парней:</div>
-            <div class="createAd-menu-info__value">{{ crAd.boy }}</div>
-          </div>
-        </div>
-        <div class="createAd-menu-choose">
-          <div class="createAd-menu-choose__btn">
-            <el-tooltip
-              class="item" effect="dark" content="Подробная информация" placement="right"
-            >
-              <button class="createAd-menu-choose__btn-one">
-                <i class="el-icon-info"></i>
-              </button>
-            </el-tooltip>
-            <el-tooltip
-              class="item" effect="dark" content="Удалить объявление" placement="right"
-            >
-              <button class="createAd-menu-choose__btn-two" @click="deleteAd(crAd.id)">
-                <i class="el-icon-delete"></i>
-              </button>
-            </el-tooltip>
-          </div>
-          <div class="createAd-menu-choose__moderation">{{ crAd.editable ? 'Готово' : 'На модерации' }}</div>
         </div>
       </div>
     </div>
@@ -65,45 +80,56 @@
 </template>
 
 <script>
-import MapForMyAd from '@/components/Home/Menu/MyParty/MyAd/MapForMyAd'
+import MapForMyAd from "@/components/Home/Menu/MyParty/MyAd/MapForMyAd";
 
 export default {
   beforeCreate() {
     if (process.browser) {
-      if (this.$store.getters['myParty/myAd'].length === 0) {
-        this.$store.dispatch('myParty/getMyAd')
+      if (this.$store.getters["myParty/myAd"].length === 0) {
+        this.$store.dispatch("myParty/getMyAd");
       }
     }
   },
   methods: {
     calculateDate(value) {
-      return value.substr(8, 2) + value.substr(4, 3) + value.substr(4, 1) + value.substr(0, 4) + ' вр:' + value.substr(11, 5)
+      return (
+        value.substr(8, 2) +
+        value.substr(4, 3) +
+        value.substr(4, 1) +
+        value.substr(0, 4) +
+        " вр:" +
+        value.substr(11, 5)
+      );
     },
     deleteAd(id) {
-      const idAd = Number(id)
+      const idAd = Number(id);
       if (idAd) {
-        this.$confirm('Вы действительно хотите удалить объявление?', 'Предупреждение', {
-          confirmButtonText: 'Да',
-          cancelButtonText: 'Отмена',
-          type: 'warning'
-        }).then(() => {
-          this.$store.dispatch('createAdMenu/deleteAd', idAd)
-        })
+        this.$confirm(
+          "Вы действительно хотите удалить объявление?",
+          "Предупреждение",
+          {
+            confirmButtonText: "Да",
+            cancelButtonText: "Отмена",
+            type: "warning",
+          }
+        ).then(() => {
+          this.$store.dispatch("createAdMenu/deleteAd", idAd);
+        });
       }
-    }
+    },
   },
   computed: {
     myAd() {
-      return this.$store.getters['myParty/myAd']
+      return this.$store.getters["myParty/myAd"];
     },
     haveAdCreateAdMenu() {
-      return this.$store.getters['myParty/haveAdCreateAdMenu']
-    }
+      return this.$store.getters["myParty/haveAdCreateAdMenu"];
+    },
   },
   components: {
-    MapForMyAd
-  }
-}
+    MapForMyAd,
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -460,7 +486,6 @@ export default {
       outline-color: rgba(255, 255, 255, 0);
       outline-offset: 15px;
       border: 1px solid #771699;
-      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
       text-shadow: 1px 1px 2px #9ebecb;
     }
 

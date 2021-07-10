@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="personalAria-block" v-for="(d, idx) in myData" @key="idx">
+    <div class="personalAria-block" v-for="d in myData" :key="d.id">
       <div class="personalAria-block__header">
         <div>
           <nuxt-link to="/home">

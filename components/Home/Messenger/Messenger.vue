@@ -2,25 +2,28 @@
   <div class="messenger-block">
     <div class="messenger-block-header">
       <div class="messenger-block-header__title">Чат</div>
-      <div class="messenger-block-header__name" v-if="isOpenDialog">Иван Иванов</div>
+      <div class="messenger-block-header__name" v-if="isOpenDialog">
+        Иван Иванов
+      </div>
     </div>
     <div class="messenger-block-chat">
       <div class="messenger-chat-participants">
-        <div @click="clickToDialog">
-          <nuxt-link to="/home/messenger/1" class="messenger-participants-person">
+        <div @click="clickToDialog" v-for="room in rooms" :key="room.id">
+          <nuxt-link
+            :to="`/home/messenger/${room.id}?idRoom=${room.id}`"
+            class="messenger-participants-person"
+          >
             <div class="messenger-participants-person__img">
               <img
                 src="../../../assets/Home/Message/partnerPhotoTwo.png"
                 alt="dsds"
                 class="messenger-participants-person__img-two"
               />
-              <p
-                class="messenger-participants-person__isOnline"
-              ></p>
+              <p class="messenger-participants-person__isOnline"></p>
             </div>
             <div class="messenger-participants-person__info">
               <div class="messenger-participants-person__name">
-                Иван Иванов
+                {{ room.ad.title }}
               </div>
               <div class="messenger-participants-person__letter">
                 Здесь вы можете р....
@@ -31,35 +34,13 @@
             </div>
           </nuxt-link>
         </div>
-        <div @click="clickToDialog">
-          <nuxt-link to="/home/messenger/2" class="messenger-participants-person">
-            <div class="messenger-participants-person__img">
-              <img
-                src="../../../assets/Home/Message/partnerPhotoTwo.png"
-                alt="dsds"
-                class="messenger-participants-person__img-two"
-              />
-              <p
-                class="messenger-participants-person__isOnline"
-              ></p>
-            </div>
-            <div class="messenger-participants-person__info">
-              <div class="messenger-participants-person__name">
-                Иван Иванов
-              </div>
-              <div class="messenger-participants-person__letter">
-                Здесь вы можете р....
-              </div>
-            </div>
-          </nuxt-link>
-        </div>
       </div>
 
       <div class="messenger-chat-line"></div>
 
       <div
         class="messenger-chat-correspondence"
-        :class="{'messenger-not-content': !isOpenDialog}"
+        :class="{ 'messenger-not-content': !isOpenDialog }"
       >
         <div v-if="isOpenDialog">
           <nuxt-child></nuxt-child>
@@ -75,18 +56,30 @@
 
 <script>
 export default {
+  beforeCreate() {
+    if (process.client) {
+      if (!this.$store.getters["message/rooms"].length) {
+        this.$store.dispatch("message/getRooms");
+      }
+    }
+  },
   data() {
     return {
       isOpenDialog: false,
-      connection: ''
-    }
+      connection: "",
+    };
+  },
+  computed: {
+    rooms() {
+      return this.$store.getters["message/rooms"];
+    },
   },
   methods: {
     clickToDialog() {
-      this.isOpenDialog = true
+      this.isOpenDialog = true;
     },
-  }
-}
+  },
+};
 </script>
 
 <style scoped lang="scss">

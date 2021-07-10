@@ -1,26 +1,24 @@
 <template>
   <div class="messenger-chat-content">
     <div class="messenger-chat-dialogs">
-      <div class="messenger-correspondence-person" v-for="m in messages" :key="m.id">
+      <div
+        class="messenger-correspondence-person"
+        v-for="m in chooseRoom"
+        :key="m.id"
+      >
         <div class="messenger-correspondence-person__img">
           <img
-            src="../../../assets/Home/Message/partnerPhotoTwo.png"
+            :src="`http://127.0.0.1:8000${m.user.photo}`"
             alt="dsds"
             class="messenger-correspondence-person__img-two"
           />
-          <p
-            class="messenger-correspondence-person__isOnline"
-          ></p>
+          <p class="messenger-correspondence-person__isOnline"></p>
         </div>
         <div class="messenger-correspondence-person__info">
-          <div
-            class="messenger-correspondence-person__name"
-          >
-            {{ m.author }}
+          <div class="messenger-correspondence-person__name">
+            {{ m.user.username }}
           </div>
-          <div
-            class="messenger-correspondence-person__letter"
-          >
+          <div class="messenger-correspondence-person__letter">
             {{ m.text }}
           </div>
         </div>
@@ -43,13 +41,13 @@
       </div>
       <div>
         <label>
-                  <textarea
-                    v-model="messageText"
-                    class="messenger-chat-sendMessage__input"
-                    placeholder="Напишите ваше сообщение..."
-                    @keydown.enter.prevent.exact="sendMessage"
-                  >
-                  </textarea>
+          <textarea
+            v-model="messageText"
+            class="messenger-chat-sendMessage__input"
+            placeholder="Напишите ваше сообщение..."
+            @keydown.enter.prevent.exact="sendMessage"
+          >
+          </textarea>
         </label>
       </div>
       <div class="messenger-chat-sendMessage__btns">
@@ -70,10 +68,7 @@
       </div>
       <div class="messenger-chat-sendMessage__send" @click="sendMessage">
         <button>
-          <img
-            src="../../../assets/Home/Message/sendMessage.svg"
-            alt="send"
-          />
+          <img src="../../../assets/Home/Message/sendMessage.svg" alt="send" />
         </button>
       </div>
     </div>
@@ -82,50 +77,64 @@
 
 <script>
 export default {
+  beforeCreate() {
+    if (!this.$store.getters["message/chooseRoom"].length) {
+      this.$store.dispatch("message/getChooseRoom", {
+        id: Number(this.$route.query.idRoom),
+      });
+    }
+  },
   data() {
     return {
-      messageText: '',
+      messageText: "",
       messages: [
         {
           id: 1,
-          author: 'Иван Иванов',
-          text: 'Привет. Здесь вы можете редактировать личные денные в случае ошибки при регистрации или необходимости изменений. Привет. Здесь вы'
+          author: "Иван Иванов",
+          text: "Привет. Здесь вы можете редактировать личные денные в случае ошибки при регистрации или необходимости изменений. Привет. Здесь вы",
         },
       ],
-      connection: ''
-    }
+      connection: "",
+    };
   },
   created() {
     if (process.client) {
-      this.connected()
+      this.connected();
     }
+  },
+  computed: {
+    chooseRoom() {
+      return this.$store.getters["message/chooseRoom"];
+    },
   },
   methods: {
     connected() {
-      this.connection = new WebSocket('wss://echo.websocket.org')
+      this.connection = new WebSocket(
+        `ws://127.0.0.1:8000/ws/notification/user/`
+      );
 
       this.connection.onopen = () => {
-        console.log('connected with address')
-      }
+        console.log("connected with address");
+      };
 
       this.connection.onmessage = (event) => {
-        console.log(`Данные получены с сервера!`)
+        console.log(`Данные получены с сервера!`);
+        console.log("event:", event);
         this.messages.push({
           id: Math.random(),
-          author: 'VOVA',
-          text: event.data
-        })
-      }
+          author: "VOVA",
+          text: event.data,
+        });
+      };
     },
     sendMessage() {
       if (this.messageText.length > 0) {
-        console.log('connection:', this.connection)
-        this.connection.send(this.messageText)
-        this.messageText = ''
+        this.connection.send(this.messageText);
+        this.messageText = "";
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -176,6 +185,8 @@ export default {
   margin: 0 10px 23px 0;
 
   &__img-two {
+    border-radius: 100%;
+
     @include breakpoint(dxxxxl) {
       width: 53px;
       height: 53px;
