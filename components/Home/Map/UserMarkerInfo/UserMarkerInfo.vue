@@ -33,33 +33,27 @@
           <div class="marker-progress__count">
             {{ ad.participants }}/{{ ad.number_of_person }}
           </div>
-          <div class="marker-progress__person">
-            <button class="marker-progress__left-arrow">
+          <div class="marker-progress__person" v-if="havePersonLength > 0">
+            <button
+              class="marker-progress__left-arrow"
+              :disabled="currentPagePeople === 0"
+              @click="prevPerson"
+            >
               <i class="el-icon-d-arrow-left"></i>
             </button>
-            <div>
+            <div class="marker-progress__img">
               <img
-                src="@/assets/Home/markerInfo/onePerson.svg"
+                v-for="p in paginatedDataPerson"
+                :key="p.id"
+                :src="p.img"
                 alt="onePerson-img"
               />
-              <img
-                src="@/assets/Home/markerInfo/twoPerson.svg"
-                alt="twoPerson-img"
-              />
-              <img
-                src="@/assets/Home/markerInfo/threePerson.svg"
-                alt="threePerson-img"
-              />
-              <img
-                src="@/assets/Home/markerInfo/fourPerson.svg"
-                alt="fourPerson-img"
-              />
-              <img
-                src="@/assets/Home/markerInfo/fivePerson.svg"
-                alt="fivePerson-img"
-              />
             </div>
-            <button class="marker-progress__right-arrow">
+            <button
+              class="marker-progress__right-arrow"
+              :disabled="currentPagePeople >= pageCountPerson - 1"
+              @click="nextPerson"
+            >
               <i class="el-icon-d-arrow-right"></i>
             </button>
           </div>
@@ -112,6 +106,58 @@ export default {
         "Ноября",
         "Декабря",
       ],
+      currentPagePeople: 0,
+      size: 5,
+      person: [
+        {
+          id: 1,
+          img: "https://virtualgallery1-293846.c.cdn77.org/img_HTML/mr_nobody_new.svg",
+        },
+        {
+          id: 2,
+          img: "https://www.dentalain.ru/local/templates/dentaline/img/no-user-photo.png",
+        },
+        {
+          id: 3,
+          img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbgp6zdCRgOIcBhFNJJ_XW6haxrT7Ya1Drww&usqp=CAU",
+        },
+        {
+          id: 4,
+          img: "https://virtualgallery1-293846.c.cdn77.org/img_HTML/mr_nobody_new.svg",
+        },
+        {
+          id: 5,
+          img: "https://www.dentalain.ru/local/templates/dentaline/img/no-user-photo.png",
+        },
+        {
+          id: 6,
+          img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbgp6zdCRgOIcBhFNJJ_XW6haxrT7Ya1Drww&usqp=CAU",
+        },
+        {
+          id: 4,
+          img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbgp6zdCRgOIcBhFNJJ_XW6haxrT7Ya1Drww&usqp=CAU",
+        },
+        {
+          id: 5,
+          img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7R_43bSfVqYmTXgSJe3vv67pmdcURFAQWZhCeBJrI6fD9HlQ1PikuqsE90tg1n0wuEDE&usqp=CAU",
+        },
+        {
+          id: 6,
+          img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgOum8r1wH4vte2O8g9f3RVuFY4h750UDELvzHXPM_67S228-eiTy54Qo4MASiW--w2qg&usqp=CAU",
+        },
+        {
+          id: 7,
+          img: "https://thumbs.dreamstime.com/b/%D0%B7%D0%BD%D0%B0%D1%87%D0%BE%D0%BA-%D0%BF%D1%80%D0%BE%D1%84%D0%B8%D0%BB%D1%8F-%D0%B2%D0%BE%D0%BF%D0%BB%D0%BE%D1%89%D0%B5%D0%BD%D0%B8%D1%8F-%D0%B7%D0%BD%D0%B0%D1%87%D0%B5%D0%BD%D0%B8%D1%8F-%D0%BF%D0%BE-%D1%83%D0%BC%D0%BE%D0%BB%D1%87%D0%B0%D0%BD%D0%B8%D1%8E-%D1%81%D0%B5%D1%80%D1%8B%D0%B9-%D1%83%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D0%B5%D0%BB%D1%8C-%D0%BC%D0%B5%D1%81%D1%82%D0%B0-102846161.jpg",
+        },
+        {
+          id: 8,
+          img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgOum8r1wH4vte2O8g9f3RVuFY4h750UDELvzHXPM_67S228-eiTy54Qo4MASiW--w2qg&usqp=CAU",
+        },
+        {
+          id: 9,
+          img: "https://thumbs.dreamstime.com/b/%D0%B7%D0%BD%D0%B0%D1%87%D0%BE%D0%BA-%D0%BF%D1%80%D0%BE%D1%84%D0%B8%D0%BB%D1%8F-%D0%B2%D0%BE%D0%BF%D0%BB%D0%BE%D1%89%D0%B5%D0%BD%D0%B8%D1%8F-%D0%B7%D0%BD%D0%B0%D1%87%D0%B5%D0%BD%D0%B8%D1%8F-%D0%BF%D0%BE-%D1%83%D0%BC%D0%BE%D0%BB%D1%87%D0%B0%D0%BD%D0%B8%D1%8E-%D1%81%D0%B5%D1%80%D1%8B%D0%B9-%D1%83%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D0%B5%D0%BB%D1%8C-%D0%BC%D0%B5%D1%81%D1%82%D0%B0-102846161.jpg",
+        },
+      ],
     };
   },
   created() {
@@ -123,6 +169,19 @@ export default {
     },
     countProgressBar() {
       return this.$store.getters["map/countProgressBar"];
+    },
+    pageCountPerson() {
+      let l = this.person.length,
+        s = this.size;
+      return Math.ceil(l / s);
+    },
+    paginatedDataPerson() {
+      const start = this.currentPagePeople * this.size,
+        end = start + this.size;
+      return this.person.slice(start, end);
+    },
+    havePersonLength() {
+      return this.person.length;
     },
   },
   methods: {
@@ -137,11 +196,19 @@ export default {
         value.substr(0, 4)
       );
     },
+    nextPerson() {
+      this.currentPagePeople++;
+    },
+    prevPerson() {
+      this.currentPagePeople--;
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+@import "../../../../assets/settings";
+
 .marker-info {
   width: 450px;
 }
@@ -279,8 +346,9 @@ export default {
   &__person {
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-top: 15px;
+    overflow: hidden;
+    margin: 15px 0 0 9px;
+    width: 157px;
 
     button {
       display: flex;
@@ -296,8 +364,53 @@ export default {
     margin-right: 2px;
   }
 
+  &__img {
+    display: flex;
+    align-items: center;
+    max-width: 145px;
+
+    img {
+      width: 30px;
+      height: 29px;
+    }
+  }
+
   &__right-arrow {
-    margin-left: 2px;
+    position: fixed;
+    margin-left: 159px;
+  }
+
+  &__not-person {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3px;
+    width: 100%;
+    height: 84px;
+    font-size: 20px;
+    color: #9f5db5;
+
+    @include breakpoint(dxxxxl) {
+      height: 84px;
+      font-size: 18px;
+    }
+
+    @include breakpoint(dxxxl) {
+      margin-top: 3px;
+      height: 60px;
+      font-size: 14px;
+    }
+
+    @include breakpoint(dxxl) {
+      margin-top: 3px;
+      height: 60px;
+      font-size: 14px;
+    }
+
+    @include breakpoint(dsm) {
+      height: 60px;
+      font-size: 13px;
+    }
   }
 
   &__progress {
