@@ -87,13 +87,6 @@ export default {
   data() {
     return {
       messageText: "",
-      messages: [
-        {
-          id: 1,
-          author: "Иван Иванов",
-          text: "Привет. Здесь вы можете редактировать личные денные в случае ошибки при регистрации или необходимости изменений. Привет. Здесь вы",
-        },
-      ],
       connection: "",
     };
   },
@@ -109,8 +102,10 @@ export default {
   },
   methods: {
     connected() {
+      const token = $nuxt.$cookies.get("token");
+
       this.connection = new WebSocket(
-        `ws://127.0.0.1:8000/ws/notification/user/`
+        `ws://127.0.0.1:8000/ws/chat/${this.$route.query.idRoom}/?token=${token}`
       );
 
       this.connection.onopen = () => {
@@ -119,12 +114,26 @@ export default {
 
       this.connection.onmessage = (event) => {
         console.log(`Данные получены с сервера!`);
-        console.log("event:", event);
-        this.messages.push({
-          id: Math.random(),
-          author: "VOVA",
-          text: event.data,
-        });
+
+        function getRandomInt(min, max) {
+          min = Math.ceil(min);
+          max = Math.floor(max);
+          return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
+        }
+
+        const createMessage = {
+          date: new Date(),
+          id: getRandomInt(1, 999),
+          room: this.$route.query.idRoom,
+          text: JSON.parse(event.data).message_to_room[0].text,
+          user: {
+            id: JSON.parse(event.data).message_to_room[0].id,
+            photo: JSON.parse(event.data).message_to_room[0].photo,
+            username: JSON.parse(event.data).message_to_room[0].username,
+          },
+        };
+
+        this.$store.commit("message/createMessage", createMessage);
       };
     },
     sendMessage() {

@@ -9,6 +9,9 @@ export const mutations = {
   },
   getChooseRoom(state, payload) {
     state.chooseRoom = payload;
+  },
+  createMessage(state, payload) {
+    state.chooseRoom.push(payload);
   }
 };
 
