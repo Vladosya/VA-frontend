@@ -24,6 +24,8 @@ export const actions = {
         headers: { Authorization: "Bearer " + token }
       });
 
+      console.log("room:", room);
+
       if (rooms.data.length > 0) {
         commit("getRooms", rooms.data);
       }

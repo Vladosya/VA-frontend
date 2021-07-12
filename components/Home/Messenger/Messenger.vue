@@ -34,6 +34,10 @@
             </div>
           </nuxt-link>
         </div>
+        <div class="messenger-not-dialog" v-if="!isOpenDialog">
+          <i class="el-icon-notebook-1"></i>
+          <p>Список диалогов пуст</p>
+        </div>
       </div>
 
       <div class="messenger-chat-line"></div>
@@ -684,10 +688,104 @@ export default {
   justify-content: center;
 }
 
+.messenger-not-dialog {
+  i {
+    margin: 480px 0 0 140px;
+    font-size: 110px;
+    color: #771699;
+
+    @include breakpoint(dxxxxl) {
+      margin: 360px 0 0 100px;
+      font-size: 80px;
+    }
+
+    @include breakpoint(dxxxl) {
+      margin: 290px 0 0 100px;
+      font-size: 70px;
+    }
+
+    @include breakpoint(dxxl) {
+      margin: 245px 0 0 110px;
+      font-size: 55px;
+    }
+
+    @include breakpoint(dxl) {
+      margin: 305px 0 0 110px;
+    }
+
+    @include breakpoint(dlg) {
+      margin: 240px 0 0 100px;
+    }
+
+    @include breakpoint(dmd) {
+      margin: 255px 0 0 90px;
+    }
+
+    @include breakpoint(dsm) {
+      margin: 270px 0 0 80px;
+      font-size: 38px;
+    }
+  }
+
+  p {
+    margin-left: 40px;
+    font-size: 33px;
+    color: #771699;
+
+    @include breakpoint(dxxxxl) {
+      margin-left: 28px;
+      font-size: 23px;
+    }
+
+    @include breakpoint(dxxxl) {
+      margin-left: 37px;
+      font-size: 20px;
+    }
+
+    @include breakpoint(dxxl) {
+      margin-left: 50px;
+      font-size: 17px;
+    }
+
+    @include breakpoint(dlg) {
+      margin-left: 45px;
+    }
+
+    @include breakpoint(dmd) {
+      font-size: 14px;
+    }
+
+    @include breakpoint(dsm) {
+      margin-left: 35px;
+      font-size: 13px;
+    }
+  }
+}
+
 .messenger-not-style {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  i {
+    font-size: 110px;
+
+    @include breakpoint(dxxxxl) {
+      font-size: 80px;
+    }
+
+    @include breakpoint(dxxxl) {
+      font-size: 70px;
+    }
+
+    @include breakpoint(dxxl) {
+      font-size: 55px;
+    }
+
+    @include breakpoint(dsm) {
+      font-size: 38px;
+    }
+  }
 
   p {
     font-size: 33px;
@@ -732,6 +830,18 @@ export default {
   .messenger-chat-line {
     width: 2px;
     height: 700px;
+  }
+
+  .messenger-not-dialog {
+    i {
+      margin: 280px 0 0 110px;
+    }
+  }
+
+  .messenger-not-style {
+    i {
+      font-size: 55px;
+    }
   }
 }
 </style>

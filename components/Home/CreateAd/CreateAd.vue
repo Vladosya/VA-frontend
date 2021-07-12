@@ -1,29 +1,26 @@
 <template>
   <div class="createAd-block">
     <div class="createAd-block__logo">
-      <img
-        src="../../../assets/Home/CreateAd/logo.svg"
-        alt="createdAd-logo"
-      />
+      <img src="../../../assets/Home/CreateAd/logo.svg" alt="createdAd-logo" />
       <p>Создание объявления</p>
     </div>
     <div class="createAd-content">
       <div class="createAd-content-map">
-        <MapForCreateAd
-          @createMarker="infoMarket"
-        />
+        <MapForCreateAd @createMarker="infoMarket" />
       </div>
       <form class="createAd-content-form" @submit.prevent="createAdFormSubmit">
-
         <div class="createAd-content-form__name">
           <label for="name">Название вечеринки</label>
           <el-tooltip
-            class="item" effect="dark" content="Необходимо указать Название объявления" placement="right"
+            class="item"
+            effect="dark"
+            content="Необходимо указать Название объявления"
+            placement="right"
           >
             <input
               @blur="$v.createdAdForm.nameParty.$touch()"
               v-model="createdAdForm.nameParty"
-              :class="{'is-invalid-name': $v.createdAdForm.nameParty.$error}"
+              :class="{ 'is-invalid-name': $v.createdAdForm.nameParty.$error }"
               type="text"
               id="name"
               placeholder="Введите название объявления"
@@ -35,7 +32,10 @@
         <div class="createAd-content-form__place">
           <label for="place">Место вечеринки</label>
           <el-tooltip
-            class="item" effect="dark" content="Необходимо на карте указать место вписки" placement="right"
+            class="item"
+            effect="dark"
+            content="Необходимо на карте указать место вписки"
+            placement="right"
           >
             <el-input
               @blur="$v.createdAdForm.place.$touch()"
@@ -54,7 +54,10 @@
         <div class="createAd-content-form__date">
           <label>Дата вечеринки (дата и время начала)</label>
           <el-tooltip
-            class="item" effect="dark" content="Необходимо указать дату и время проведения вечеринки" placement="right"
+            class="item"
+            effect="dark"
+            content="Необходимо указать дату и время проведения вечеринки"
+            placement="right"
           >
             <el-date-picker
               @blur="$v.createdAdForm.dateParty.$touch()"
@@ -72,7 +75,10 @@
         <div class="createAd-content-form__people">
           <label>Кол-во человек</label>
           <el-tooltip
-            class="item" effect="dark" content="Необходимо указать кол-во человек на вечеринке" placement="right"
+            class="item"
+            effect="dark"
+            content="Необходимо указать кол-во человек на вечеринке"
+            placement="right"
           >
             <el-input-number
               @blur="$v.createdAdForm.people.$touch()"
@@ -90,7 +96,10 @@
         <div class="createAd-content-form__girl">
           <label>Кол-во девушек</label>
           <el-tooltip
-            class="item" effect="dark" content="Необходимо указать кол-во девушек на вечеринке" placement="right"
+            class="item"
+            effect="dark"
+            content="Необходимо указать кол-во девушек на вечеринке"
+            placement="right"
           >
             <el-input-number
               @blur="$v.createdAdForm.girl.$touch()"
@@ -108,7 +117,10 @@
         <div class="createAd-content-form__boy">
           <label>Кол-во парней</label>
           <el-tooltip
-            class="item" effect="dark" content="Необходимо указать кол-во парней на вечеринке" placement="right"
+            class="item"
+            effect="dark"
+            content="Необходимо указать кол-во парней на вечеринке"
+            placement="right"
           >
             <el-input-number
               @blur="$v.createdAdForm.boy.$touch()"
@@ -124,43 +136,52 @@
         </div>
 
         <div class="createAd-content-form__buttons">
-          <button class="createAd-content-form__btn-cancel" @click="$router.go(-1)">Отмена</button>
-          <button class="createAd-content-form__btn-create" type="submit" @click.prevent="createAdFormSubmit">Создать
+          <button
+            class="createAd-content-form__btn-cancel"
+            @click="$router.go(-1)"
+          >
+            Отмена
+          </button>
+          <button
+            class="createAd-content-form__btn-create"
+            type="submit"
+            @click.prevent="createAdFormSubmit"
+          >
+            Создать
           </button>
         </div>
-
       </form>
     </div>
   </div>
 </template>
 
 <script>
-import MapForCreateAd from './MapForCreateAd.vue'
-import {required, requiredIf} from 'vuelidate/lib/validators'
+import MapForCreateAd from "./MapForCreateAd.vue";
+import { required, requiredIf } from "vuelidate/lib/validators";
 
 export default {
   data() {
     return {
       createdAdForm: {
-        nameParty: '',
-        place: '',
-        dateParty: '',
+        nameParty: "",
+        place: "",
+        dateParty: "",
         people: undefined,
         girl: undefined,
         boy: undefined,
-        coordinates: ''
+        coordinates: "",
       },
-      choicePlace: false
-    }
+      choicePlace: false,
+    };
   },
   methods: {
     createAdFormSubmit() {
-      this.$v.$touch()
+      this.$v.$touch();
 
       if (this.$v.$invalid) {
-        console.log('Error')
+        console.log("Error");
       } else {
-        console.log('Success')
+        console.log("Success");
 
         const formData = {
           title: this.createdAdForm.nameParty,
@@ -169,60 +190,63 @@ export default {
           number_of_person: this.createdAdForm.people,
           number_of_girls: this.createdAdForm.girl,
           number_of_boys: this.createdAdForm.boy,
-          party_date: this.createdAdForm.dateParty
-        }
+          party_date: this.createdAdForm.dateParty,
+        };
 
         try {
-          this.$store.dispatch('createAd/createAd', formData)
+          this.$store.dispatch("createAd/createAd", formData);
         } catch (e) {
-          console.log('error in CreateAd.vue methods createAdFormSubmit', e)
+          console.log("error in CreateAd.vue methods createAdFormSubmit", e);
         }
       }
     },
     status(validation) {
       return {
-        'is-invalid': validation.$error,
-      }
+        "is-invalid": validation.$error,
+      };
     },
     infoMarket(data) {
       if (data.length) {
-        this.createdAdForm.place = data[0].position.lat
+        this.createdAdForm.place = data[0].position.lat;
         this.createdAdForm.coordinates = {
           lat: data[0].position.lat,
-          lng: data[0].position.lng
-        }
-        console.log('this.createdAdForm.coordinates', this.createdAdForm.coordinates)
+          lng: data[0].position.lng,
+        };
+        console.log(
+          "this.createdAdForm.coordinates",
+          this.createdAdForm.coordinates
+        );
       }
-    }
+    },
   },
   components: {
-    MapForCreateAd
+    MapForCreateAd,
   },
   validations: {
     createdAdForm: {
       nameParty: {
-        required
+        required,
       },
       place: {
         required: requiredIf(function (nestedModel) {
-          return !this.choicePlace
-        })
+          return !this.choicePlace;
+        }),
       },
       dateParty: {
-        required
+        required,
       },
       people: {
-        required
+        required,
       },
       girl: {
-        required
+        required,
       },
       boy: {
-        required
-      }
-    }
-  }
-}
+        required,
+      },
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -634,7 +658,6 @@ export default {
       outline-color: rgba(255, 255, 255, 0);
       outline-offset: 15px;
       border: 1px solid #771699;
-      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
       text-shadow: 1px 1px 2px #9ebecb;
     }
   }
@@ -657,7 +680,6 @@ export default {
       outline-color: rgba(255, 255, 255, 0);
       outline-offset: 15px;
       border: 1px solid;
-      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
       text-shadow: 1px 1px 2px #427388;
     }
   }
@@ -704,5 +726,4 @@ export default {
     font-size: 10px;
   }
 }
-
 </style>
