@@ -53,11 +53,14 @@ export const actions = {
         }
       );
 
-      if (adById) {
+      if (adById.status === "success") {
+        const modernAdById = [];
         const countProgressBar =
-          (adById[0].participants.length / adById[0].number_of_person) * 100;
+          (adById.ad.participants.length / adById.ad.number_of_person) * 100;
 
-        commit("getAdById", adById);
+        modernAdById.push(adById.ad);
+
+        commit("getAdById", modernAdById);
         commit("countProgressBar", countProgressBar);
       }
     } catch (e) {

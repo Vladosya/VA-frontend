@@ -51,7 +51,7 @@
               <img
                 v-for="p in paginatedDataPerson"
                 :key="p.id"
-                :src="p.photo"
+                :src="`http://127.0.0.1:8000${p.photo}`"
                 alt="onePerson-img"
               />
             </div>
@@ -79,7 +79,10 @@
         <div class="marker-author">
           <div class="marker-author__title">Автор</div>
           <div class="marker-author__img">
-            <img :src="ad.author.photo" alt="author-img" />
+            <img
+              :src="`http://127.0.0.1:8000${ad.author.photo}`"
+              alt="author-img"
+            />
           </div>
         </div>
       </div>
@@ -193,13 +196,13 @@ export default {
   methods: {
     calculateDate(value) {
       return (
-        value.substr(8, 2) +
+        value.substr(9, 2) +
         ` ${
-          value.charAt(5) === "0"
-            ? `${this.month[value.charAt(6)]} `
-            : ` ${this.month[value.substr(5, 2)]} `
+          value.charAt(6, 1) === "0"
+            ? `${this.month[value.charAt(7, 1)]} `
+            : ` ${this.month[value.substr(6, 2)]} `
         }` +
-        value.substr(0, 4)
+        value.substr(1, 4)
       );
     },
     nextPerson() {
