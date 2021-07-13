@@ -54,13 +54,10 @@ export const actions = {
       );
 
       if (adById) {
-        const modernAdById = [];
         const countProgressBar =
-          (adById.participants / adById.number_of_person) * 100;
+          (adById[0].participants.length / adById[0].number_of_person) * 100;
 
-        modernAdById.push(adById);
-
-        commit("getAdById", modernAdById);
+        commit("getAdById", adById);
         commit("countProgressBar", countProgressBar);
       }
     } catch (e) {

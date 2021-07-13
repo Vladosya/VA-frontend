@@ -4,13 +4,19 @@
       <div class="marker-header">
         <div class="marker-header__comments">
           <button>
-            <i class="el-icon-message"></i>
+            <img
+              src="@/assets/Home/markerInfo/openComments.svg"
+              alt="open-comments"
+            />
           </button>
         </div>
         <div class="marker-header__title">{{ ad.title }}</div>
         <div class="marker-header__close">
           <button @click="$emit('closeInfoPerson')">
-            <i class="el-icon-circle-close"></i>
+            <img
+              src="@/assets/Home/markerInfo/closeWindow.svg"
+              alt="close-window"
+            />
           </button>
         </div>
       </div>
@@ -31,7 +37,7 @@
             {{ calculateDate(ad.party_date) }}
           </div>
           <div class="marker-progress__count">
-            {{ ad.participants }}/{{ ad.number_of_person }}
+            {{ ad.participants.length }}/{{ ad.number_of_person }}
           </div>
           <div class="marker-progress__person" v-if="havePersonLength > 0">
             <button
@@ -45,7 +51,7 @@
               <img
                 v-for="p in paginatedDataPerson"
                 :key="p.id"
-                :src="p.img"
+                :src="p.photo"
                 alt="onePerson-img"
               />
             </div>
@@ -171,17 +177,17 @@ export default {
       return this.$store.getters["map/countProgressBar"];
     },
     pageCountPerson() {
-      let l = this.person.length,
+      let l = this.adInfo[0].participants.length,
         s = this.size;
       return Math.ceil(l / s);
     },
     paginatedDataPerson() {
       const start = this.currentPagePeople * this.size,
         end = start + this.size;
-      return this.person.slice(start, end);
+      return this.adInfo[0].participants.slice(start, end);
     },
     havePersonLength() {
-      return this.person.length;
+      return this.adInfo[0].participants.length;
     },
   },
   methods: {
@@ -370,6 +376,7 @@ export default {
     max-width: 145px;
 
     img {
+      border-radius: 100%;
       width: 30px;
       height: 29px;
     }
