@@ -1,18 +1,25 @@
 export const state = () => ({
   markers: [],
   adInfo: [],
-  countProgressBar: 0
+  countProgressBar: 0,
+  canIApply: false
 });
 
 export const mutations = {
   getAdForMap(state, payload) {
     state.markers = payload;
   },
+  addAdInMarkers(state, payload) {
+    state.markers.push(payload);
+  },
   getAdById(state, payload) {
     state.adInfo = payload;
   },
   countProgressBar(state, payload) {
     state.countProgressBar = payload;
+  },
+  canIApply(state, payload) {
+    state.canIApply = payload;
   }
 };
 
@@ -42,7 +49,7 @@ export const actions = {
       console.log("error in getAdForMap action in map.js", e);
     }
   },
-  async getAdById({ commit }, id) {
+  async getAdById({ commit }, { id, myId }) {
     const token = $nuxt.$cookies.get("token");
 
     try {
@@ -57,14 +64,42 @@ export const actions = {
         const modernAdById = [];
         const countProgressBar =
           (adById.ad.participants.length / adById.ad.number_of_person) * 100;
+        const modernCountProgressBar = Number(countProgressBar).toFixed(0);
 
         modernAdById.push(adById.ad);
+        if (modernAdById[0].author.id === myId) {
+          commit("canIApply", false);
+        } else {
+          commit("canIApply", true);
+        }
 
         commit("getAdById", modernAdById);
-        commit("countProgressBar", countProgressBar);
+        commit("countProgressBar", Number(modernCountProgressBar));
       }
     } catch (e) {
       console.log("error in getAdById action in map.js", e);
+    }
+  },
+  async applyForMembership({ commit }, formData) {
+    const token = $nuxt.$cookies.get("token");
+
+    try {
+      const applyMembership = await this.$axios.$post(
+        `${process.env.BASE_URL}/bid/create`,
+        formData,
+        {
+          headers: { Authorization: "Bearer " + token }
+        }
+      );
+
+      if (applyMembership.status === "success") {
+        $nuxt.$message({
+          message: `${applyMembership.message}`,
+          type: "success"
+        });
+      }
+    } catch (e) {
+      console.log("error in applyForMembership action in map.js", e);
     }
   }
 };

@@ -73,7 +73,12 @@
             </div>
           </div>
           <div class="marker-progress__btn">
-            <button>Подать заявку</button>
+            <button
+              @click="applyForMembership"
+              v-if="myData[0].id !== ad.author.id"
+            >
+              Подать заявку
+            </button>
           </div>
         </div>
         <div class="marker-author">
@@ -117,60 +122,15 @@ export default {
       ],
       currentPagePeople: 0,
       size: 5,
-      person: [
-        {
-          id: 1,
-          img: "https://virtualgallery1-293846.c.cdn77.org/img_HTML/mr_nobody_new.svg",
-        },
-        {
-          id: 2,
-          img: "https://www.dentalain.ru/local/templates/dentaline/img/no-user-photo.png",
-        },
-        {
-          id: 3,
-          img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbgp6zdCRgOIcBhFNJJ_XW6haxrT7Ya1Drww&usqp=CAU",
-        },
-        {
-          id: 4,
-          img: "https://virtualgallery1-293846.c.cdn77.org/img_HTML/mr_nobody_new.svg",
-        },
-        {
-          id: 5,
-          img: "https://www.dentalain.ru/local/templates/dentaline/img/no-user-photo.png",
-        },
-        {
-          id: 6,
-          img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbgp6zdCRgOIcBhFNJJ_XW6haxrT7Ya1Drww&usqp=CAU",
-        },
-        {
-          id: 4,
-          img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbgp6zdCRgOIcBhFNJJ_XW6haxrT7Ya1Drww&usqp=CAU",
-        },
-        {
-          id: 5,
-          img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7R_43bSfVqYmTXgSJe3vv67pmdcURFAQWZhCeBJrI6fD9HlQ1PikuqsE90tg1n0wuEDE&usqp=CAU",
-        },
-        {
-          id: 6,
-          img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgOum8r1wH4vte2O8g9f3RVuFY4h750UDELvzHXPM_67S228-eiTy54Qo4MASiW--w2qg&usqp=CAU",
-        },
-        {
-          id: 7,
-          img: "https://thumbs.dreamstime.com/b/%D0%B7%D0%BD%D0%B0%D1%87%D0%BE%D0%BA-%D0%BF%D1%80%D0%BE%D1%84%D0%B8%D0%BB%D1%8F-%D0%B2%D0%BE%D0%BF%D0%BB%D0%BE%D1%89%D0%B5%D0%BD%D0%B8%D1%8F-%D0%B7%D0%BD%D0%B0%D1%87%D0%B5%D0%BD%D0%B8%D1%8F-%D0%BF%D0%BE-%D1%83%D0%BC%D0%BE%D0%BB%D1%87%D0%B0%D0%BD%D0%B8%D1%8E-%D1%81%D0%B5%D1%80%D1%8B%D0%B9-%D1%83%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D0%B5%D0%BB%D1%8C-%D0%BC%D0%B5%D1%81%D1%82%D0%B0-102846161.jpg",
-        },
-        {
-          id: 8,
-          img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgOum8r1wH4vte2O8g9f3RVuFY4h750UDELvzHXPM_67S228-eiTy54Qo4MASiW--w2qg&usqp=CAU",
-        },
-        {
-          id: 9,
-          img: "https://thumbs.dreamstime.com/b/%D0%B7%D0%BD%D0%B0%D1%87%D0%BE%D0%BA-%D0%BF%D1%80%D0%BE%D1%84%D0%B8%D0%BB%D1%8F-%D0%B2%D0%BE%D0%BF%D0%BB%D0%BE%D1%89%D0%B5%D0%BD%D0%B8%D1%8F-%D0%B7%D0%BD%D0%B0%D1%87%D0%B5%D0%BD%D0%B8%D1%8F-%D0%BF%D0%BE-%D1%83%D0%BC%D0%BE%D0%BB%D1%87%D0%B0%D0%BD%D0%B8%D1%8E-%D1%81%D0%B5%D1%80%D1%8B%D0%B9-%D1%83%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D0%B5%D0%BB%D1%8C-%D0%BC%D0%B5%D1%81%D1%82%D0%B0-102846161.jpg",
-        },
-      ],
+      myData: process.client ? JSON.parse(localStorage.getItem("myData")) : [],
     };
   },
   created() {
-    this.$store.dispatch("map/getAdById", this.idPerson);
+    this.$store.dispatch("map/getAdById", {
+      id: this.idPerson,
+      canIApply: this.canIApply,
+      myId: this.myData[0].id,
+    });
   },
   computed: {
     adInfo() {
@@ -210,6 +170,27 @@ export default {
     },
     prevPerson() {
       this.currentPagePeople--;
+    },
+    applyForMembership() {
+      if (this.adInfo.length > 0) {
+        const formData = {
+          id_ad: this.adInfo[0].id,
+          number_of_person:
+            this.adInfo[0].number_of_girls + this.adInfo[0].number_of_boys,
+          number_of_girls: this.adInfo[0].number_of_girls,
+          number_of_boys: this.adInfo[0].number_of_boys,
+          photos: this.myData[0].photo.toString(),
+        };
+
+        try {
+          this.$store.dispatch("map/applyForMembership", formData);
+        } catch (e) {
+          console.log(
+            "error in applyForMembership method from UserMarkerInfo.vue",
+            e
+          );
+        }
+      }
     },
   },
 };

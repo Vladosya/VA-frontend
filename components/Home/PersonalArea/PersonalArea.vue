@@ -37,12 +37,23 @@
                   class="personalAria-block__user-two"
                 />
               </a>
-              <el-dropdown-menu class="personalAria-block__dropdown" slot="dropdown">
+              <el-dropdown-menu
+                class="personalAria-block__dropdown"
+                slot="dropdown"
+              >
                 <nuxt-link to="/needhelp">
-                  <el-dropdown-item icon="el-icon-help">Помощь</el-dropdown-item>
+                  <el-dropdown-item icon="el-icon-help"
+                    >Помощь</el-dropdown-item
+                  >
                 </nuxt-link>
-                <el-dropdown-item icon="el-icon-setting">Настройки</el-dropdown-item>
-                <el-dropdown-item icon="el-icon-circle-close" @click.native="goOut()">Выйти</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-setting"
+                  >Настройки</el-dropdown-item
+                >
+                <el-dropdown-item
+                  icon="el-icon-circle-close"
+                  @click.native="goOut()"
+                  >Выйти</el-dropdown-item
+                >
               </el-dropdown-menu>
             </el-dropdown>
           </div>
@@ -51,8 +62,8 @@
       <div class="personal-info-block">
         <div class="personal-info-block__title">Личный кабинет</div>
         <div class="personal-info-block__info">
-          Здесь вы можете редактировать личные денные в случае ошибки
-          при регистрации или необходимости изменений.
+          Здесь вы можете редактировать личные денные в случае ошибки при
+          регистрации или необходимости изменений.
         </div>
       </div>
       <form class="personal-form" @submit.prevent="personalAreaSubmit">
@@ -66,77 +77,126 @@
               @change="handleFileUpload($event)"
               multiple="multiple"
             />
-            <el-tooltip class="item" effect="dark" content="Для изменения своей аватарки кликните на картинку"
-                        placement="bottom">
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="Для изменения своей аватарки кликните на картинку"
+              placement="bottom"
+            >
               <label for="input-file">
-                <img v-show="photoLoading" class="personal-form-left__img-loading" id="myImage" src="" alt="dsds">
+                <img
+                  v-show="photoLoading"
+                  class="personal-form-left__img-loading"
+                  id="myImage"
+                  src=""
+                  alt="dsds"
+                />
                 <span v-if="!photoLoading">
-                           <img
-                             :src="d.photo"
-                             alt="img-personal-aria"
-                             class="personal-form-left__img"
-                           />
-                        </span>
+                  <img
+                    :src="d.photo"
+                    alt="img-personal-aria"
+                    class="personal-form-left__img"
+                  />
+                </span>
               </label>
             </el-tooltip>
           </div>
           <div class="personal-form-right">
             <div class="personal-info-left">
               <div class="personal-info-left__name">
-                {{ formPersonalArea.name.length ? formPersonalArea.name : d.name }}
+                {{
+                  formPersonalArea.name.length ? formPersonalArea.name : d.name
+                }}
               </div>
               <div class="personal-info-left__sex">
-                {{ formPersonalArea.sex.length ? sexes[Number(formPersonalArea.sex)] : sexes[Number(d.sex)] }}
+                {{
+                  formPersonalArea.sex.length
+                    ? sexes[Number(formPersonalArea.sex)]
+                    : sexes[Number(d.sex)]
+                }}
               </div>
-              <div class="personal-info-left__old">{{
-                  formPersonalArea.old.length ?
-                    formPersonalArea.old.substr(8, 9) + formPersonalArea.old.substr(4, 4) + formPersonalArea.old.substr(0, 4) :
-                    d.old.substr(8, 9) + d.old.substr(4, 4) + d.old.substr(0, 4)
+              <div class="personal-info-left__old">
+                {{
+                  formPersonalArea.old.length
+                    ? formPersonalArea.old.substr(8, 9) +
+                      formPersonalArea.old.substr(4, 4) +
+                      formPersonalArea.old.substr(0, 4)
+                    : d.old.substr(8, 9) +
+                      d.old.substr(4, 4) +
+                      d.old.substr(0, 4)
                 }}
               </div>
               <div class="personal-info-left__city">
-                {{ formPersonalArea.city.length ? cities[Number(formPersonalArea.city)] : cities[Number(d.city)] }}
+                {{
+                  formPersonalArea.city.length
+                    ? cities[Number(formPersonalArea.city)]
+                    : cities[Number(d.city)]
+                }}
               </div>
               <div class="personal-info-left__password">Пароль</div>
             </div>
             <div class="personal-info-right">
-              <button class="personal-info-right__btn-name" @click.prevent="popupChangeName = !popupChangeName">
+              <button
+                class="personal-info-right__btn-name"
+                @click.prevent="popupChangeName = !popupChangeName"
+              >
                 Изменить
               </button>
-              <button class="personal-info-right__btn-sex" @click.prevent="popupChangeSex = !popupChangeSex">
+              <button
+                class="personal-info-right__btn-sex"
+                @click.prevent="popupChangeSex = !popupChangeSex"
+              >
                 Изменить
               </button>
-              <button class="personal-info-right__btn-old" @click.prevent="popupChangeOld = !popupChangeOld">
+              <button
+                class="personal-info-right__btn-old"
+                @click.prevent="popupChangeOld = !popupChangeOld"
+              >
                 Изменить
               </button>
-              <button class="personal-info-right__btn-city" @click.prevent="popupChangeCity = !popupChangeCity">
+              <button
+                class="personal-info-right__btn-city"
+                @click.prevent="popupChangeCity = !popupChangeCity"
+              >
                 Изменить
               </button>
-              <button class="personal-info-right__btn-password"
-                      @click.prevent="popupChangePassword = !popupChangePassword">
+              <button
+                class="personal-info-right__btn-password"
+                @click.prevent="popupChangePassword = !popupChangePassword"
+              >
                 Изменить
               </button>
             </div>
           </div>
         </div>
         <div class="personal-form__buttons">
-          <button class="personal-form__btn-one personal-form__btn-cancel" @click.prevent="$router.go(-1)">Отмена
+          <button
+            class="personal-form__btn-one personal-form__btn-cancel"
+            @click.prevent="$router.go(-1)"
+          >
+            Отмена
           </button>
-          <button class="personal-form__btn-two personal-form__btn-create" type="submit"
-                  @click.prevent="personalAreaSubmit">
+          <button
+            class="personal-form__btn-two personal-form__btn-create"
+            type="submit"
+            @click.prevent="personalAreaSubmit"
+          >
             Сохранить изменения
           </button>
         </div>
 
-
         <div class="popup-container" v-if="popupChangeName">
-          <div class="popup-name-position" @click.self="cancelChange('popupCancelName')">
+          <div
+            class="popup-name-position"
+            @click.self="cancelChange('popupCancelName')"
+          >
             <div class="popup-name-block">
               <div class="popup-name-block__title">Изменение Имя</div>
               <div class="popup-name-form">
                 <div class="popup-name-form__email">
-                  <label for="name-personal-area">Заполните поле для изменения
-                    имени</label>
+                  <label for="name-personal-area"
+                    >Заполните поле для изменения имени</label
+                  >
                   <input
                     @blur="$v.formPersonalArea.name.$touch()"
                     :class="status($v.formPersonalArea.name)"
@@ -146,13 +206,32 @@
                     type="text"
                     placeholder="Введите новое имя"
                   />
-                  <div class="invalid-feed" v-if="!$v.formPersonalArea.name.alpha">{{ alphaText }}</div>
+                  <div
+                    class="invalid-feed"
+                    v-if="!$v.formPersonalArea.name.alpha"
+                  >
+                    {{ alphaText }}
+                  </div>
                 </div>
                 <div class="popup-name-form__buttons">
-                  <button class="popup-name-form__btn-cancel" @click="cancelChange('popupCancelName')">Отмена
+                  <button
+                    class="popup-name-form__btn-cancel"
+                    @click="cancelChange('popupCancelName')"
+                  >
+                    Отмена
                   </button>
-                  <button class="popup-name-form__btn-create"
-                          @click.prevent="nextPopup(formPersonalArea.name.length && $v.formPersonalArea.name.alpha, 'popupChangeName', 'Ваше новое имя уже почти готово к изменению', 'Необходимо ввести имя.')">
+                  <button
+                    class="popup-name-form__btn-create"
+                    @click.prevent="
+                      nextPopup(
+                        formPersonalArea.name.length &&
+                          $v.formPersonalArea.name.alpha,
+                        'popupChangeName',
+                        'Ваше новое имя уже почти готово к изменению',
+                        'Необходимо ввести имя.'
+                      )
+                    "
+                  >
                     Далее
                   </button>
                 </div>
@@ -162,13 +241,17 @@
         </div>
 
         <div class="popup-container" v-if="popupChangeSex">
-          <div class="popup-sex-position" @click.self="cancelChange('popupCancelSex')">
+          <div
+            class="popup-sex-position"
+            @click.self="cancelChange('popupCancelSex')"
+          >
             <div class="popup-sex-block">
               <div class="popup-sex-block__title">Изменение Пола</div>
               <div class="popup-sex-form">
                 <div class="popup-sex-form__email">
-                  <label for="sex-personal-area">Заполните поле для изменения
-                    пола</label>
+                  <label for="sex-personal-area"
+                    >Заполните поле для изменения пола</label
+                  >
                   <select
                     @blur="$v.formPersonalArea.sex.$touch()"
                     :class="status($v.formPersonalArea.sex)"
@@ -183,9 +266,23 @@
                   </select>
                 </div>
                 <div class="popup-sex-form__buttons">
-                  <button class="popup-sex-form__btn-cancel" @click="cancelChange('popupCancelSex')">Отмена</button>
-                  <button class="popup-sex-form__btn-create"
-                          @click.prevent="nextPopup(formPersonalArea.sex.length, 'popupChangeSex', 'Ваш новый пол уже почти готово к изменению', 'Необходимо выбрать пол.')">
+                  <button
+                    class="popup-sex-form__btn-cancel"
+                    @click="cancelChange('popupCancelSex')"
+                  >
+                    Отмена
+                  </button>
+                  <button
+                    class="popup-sex-form__btn-create"
+                    @click.prevent="
+                      nextPopup(
+                        formPersonalArea.sex.length,
+                        'popupChangeSex',
+                        'Ваш новый пол уже почти готово к изменению',
+                        'Необходимо выбрать пол.'
+                      )
+                    "
+                  >
                     Далее
                   </button>
                 </div>
@@ -195,12 +292,16 @@
         </div>
 
         <div class="popup-container" v-if="popupChangeOld">
-          <div class="popup-date-position" @click.self="cancelChange('popupCancelOld')">
+          <div
+            class="popup-date-position"
+            @click.self="cancelChange('popupCancelOld')"
+          >
             <div class="popup-date-block">
               <div class="popup-date-block__title">Изменение Возраста</div>
               <div class="popup-date-form">
                 <div class="popup-date-form__email">
-                  <label for="date-personal-area">Выберите дату своего рождения
+                  <label for="date-personal-area"
+                    >Выберите дату своего рождения
                   </label>
                   <input
                     @blur="$v.formPersonalArea.old.$touch()"
@@ -212,10 +313,23 @@
                   />
                 </div>
                 <div class="popup-date-form__buttons">
-                  <button class="popup-date-form__btn-cancel" @click="cancelChange('popupCancelOld')">Отмена
+                  <button
+                    class="popup-date-form__btn-cancel"
+                    @click="cancelChange('popupCancelOld')"
+                  >
+                    Отмена
                   </button>
-                  <button class="popup-date-form__btn-create"
-                          @click.prevent="nextPopup(formPersonalArea.old.length, 'popupChangeOld', 'Ваш новый возраст уже почти готово к изменению', 'Необходимо указать возраст.')">
+                  <button
+                    class="popup-date-form__btn-create"
+                    @click.prevent="
+                      nextPopup(
+                        formPersonalArea.old.length,
+                        'popupChangeOld',
+                        'Ваш новый возраст уже почти готово к изменению',
+                        'Необходимо указать возраст.'
+                      )
+                    "
+                  >
                     Далее
                   </button>
                 </div>
@@ -225,13 +339,15 @@
         </div>
 
         <div class="popup-container" v-if="popupChangeCity">
-          <div class="popup-city-position" @click.self="cancelChange('popupCancelCity')">
+          <div
+            class="popup-city-position"
+            @click.self="cancelChange('popupCancelCity')"
+          >
             <div class="popup-city-block">
               <div class="popup-city-block__title">Изменение Локации</div>
               <div class="popup-city-form">
                 <div class="popup-city-form__email">
-                  <label for="city-personal-area">Выберите новый город
-                  </label>
+                  <label for="city-personal-area">Выберите новый город </label>
                   <select
                     @blur="$v.formPersonalArea.city.$touch()"
                     :class="status($v.formPersonalArea.city)"
@@ -248,10 +364,23 @@
                   </select>
                 </div>
                 <div class="popup-city-form__buttons">
-                  <button class="popup-city-form__btn-cancel" @click="cancelChange('popupCancelCity')">Отмена
+                  <button
+                    class="popup-city-form__btn-cancel"
+                    @click="cancelChange('popupCancelCity')"
+                  >
+                    Отмена
                   </button>
-                  <button class="popup-city-form__btn-create"
-                          @click.prevent="nextPopup(formPersonalArea.city.length, 'popupChangeCity', 'Ваш новый выбранный город уже почти готово к изменению', 'Необходимо выбрать город.')">
+                  <button
+                    class="popup-city-form__btn-create"
+                    @click.prevent="
+                      nextPopup(
+                        formPersonalArea.city.length,
+                        'popupChangeCity',
+                        'Ваш новый выбранный город уже почти готово к изменению',
+                        'Необходимо выбрать город.'
+                      )
+                    "
+                  >
                     Далее
                   </button>
                 </div>
@@ -283,9 +412,7 @@
                   />
                 </div>
                 <div class="popup-password-form__password-new">
-                  <label for="new-password-personal-area">
-                    Новый пароль
-                  </label>
+                  <label for="new-password-personal-area"> Новый пароль </label>
                   <input
                     @blur="$v.formPersonalArea.newPassword.$touch()"
                     :class="status($v.formPersonalArea.newPassword)"
@@ -295,8 +422,11 @@
                     id="new-password-personal-area"
                     placeholder="**********"
                   />
-                  <div class="invalid-feed"
-                       v-if="!$v.formPersonalArea.newPassword.minLength">{{ minLengthText }}
+                  <div
+                    class="invalid-feed"
+                    v-if="!$v.formPersonalArea.newPassword.minLength"
+                  >
+                    {{ minLengthText }}
                   </div>
                 </div>
                 <div class="popup-password-form__password-repeat">
@@ -312,16 +442,26 @@
                     id="repeat-password-personal-area"
                     placeholder="**********"
                   />
-                  <div class="invalid-feed"
-                       v-if="!$v.formPersonalArea.confirmNewPassword.sameAs">{{ passwordConfirmText }}
+                  <div
+                    class="invalid-feed"
+                    v-if="!$v.formPersonalArea.confirmNewPassword.sameAs"
+                  >
+                    {{ passwordConfirmText }}
                   </div>
                 </div>
                 <div class="popup-password-form__buttons">
-                  <button class="popup-password-form__btn-cancel"
-                          @click="cancelChangeButton">
+                  <button
+                    class="popup-password-form__btn-cancel"
+                    @click="cancelChangeButton"
+                  >
                     Отмена
                   </button>
-                  <button class="popup-password-form__btn-create" @click.prevent="nextPopupPassword">Далее</button>
+                  <button
+                    class="popup-password-form__btn-create"
+                    @click.prevent="nextPopupPassword"
+                  >
+                    Далее
+                  </button>
                 </div>
               </div>
             </div>
@@ -333,28 +473,28 @@
 </template>
 
 <script>
-import {helpers, minLength, sameAs} from 'vuelidate/lib/validators'
-import PersonalAreaMixin from '~/mixins/PersonalAreaMixin'
+import { helpers, minLength, sameAs } from "vuelidate/lib/validators";
+import PersonalAreaMixin from "~/mixins/PersonalAreaMixin";
 
-const alpha = helpers.regex('alpha', /^[a-zA-Zа-яёА-ЯЁ]*$/)
+const alpha = helpers.regex("alpha", /^[a-zA-Zа-яёА-ЯЁ]*$/);
 export default {
   mixins: [PersonalAreaMixin],
   data() {
     return {
       formPersonalArea: {
         file: [],
-        name: '',
-        sex: '',
-        old: '',
-        city: '',
-        oldPassword: '',
-        newPassword: '',
-        confirmNewPassword: ''
+        name: "",
+        sex: "",
+        old: "",
+        city: "",
+        oldPassword: "",
+        newPassword: "",
+        confirmNewPassword: "",
       },
-      alphaText: 'Запрещены цифры, пробелы и другие символы',
-      minLengthText: 'Минимальная длина 8 символов!',
-      passwordConfirmText: 'Пароли не совпадают',
-      formatPhoto: ['image/jpeg', 'image/png', 'image/gif'],
+      alphaText: "Запрещены цифры, пробелы и другие символы",
+      minLengthText: "Минимальная длина 8 символов!",
+      passwordConfirmText: "Пароли не совпадают",
+      formatPhoto: ["image/jpeg", "image/png", "image/gif"],
       photoLoading: false,
       popupChangeName: false,
       popupChangeSex: false,
@@ -362,158 +502,198 @@ export default {
       popupChangeCity: false,
       popupChangeEmail: false,
       popupChangePassword: false,
-      myData: process.client ? JSON.parse(localStorage.getItem('myData')) : [],
-      cities: ['', 'Москва', 'Санкт Петербург', 'Екатеринбург', 'Владивосток', 'Владимир'],
-      sexes: ['', 'Мужской', 'Женский', 'Трансгендер']
-    }
+      myData: process.client ? JSON.parse(localStorage.getItem("myData")) : [],
+      cities: [
+        "",
+        "Москва",
+        "Санкт Петербург",
+        "Екатеринбург",
+        "Владивосток",
+        "Владимир",
+      ],
+      sexes: ["", "Мужской", "Женский", "Трансгендер"],
+    };
   },
   methods: {
     personalAreaSubmit() {
-      this.$v.$touch()
+      this.$v.$touch();
 
-      if (this.photoLoading || this.formPersonalArea.name.length ||
-        this.formPersonalArea.sex.length || this.formPersonalArea.old.length ||
-        this.formPersonalArea.city.length || this.formPersonalArea.oldPassword.length &&
-        this.formPersonalArea.newPassword.length && this.formPersonalArea.confirmNewPassword.length
+      if (
+        this.photoLoading ||
+        this.formPersonalArea.name.length ||
+        this.formPersonalArea.sex.length ||
+        this.formPersonalArea.old.length ||
+        this.formPersonalArea.city.length ||
+        (this.formPersonalArea.oldPassword.length &&
+          this.formPersonalArea.newPassword.length &&
+          this.formPersonalArea.confirmNewPassword.length)
       ) {
-        console.log('Success')
+        console.log("Success");
 
-        const formData = new FormData()
-        formData.append('id', this.myData[0].id)
-        formData.append('photo', this.formPersonalArea.file)
-        formData.append('first_name', this.formPersonalArea.name)
-        formData.append('sex', this.formPersonalArea.sex)
-        formData.append('birth_day', this.formPersonalArea.old)
-        formData.append('city', this.formPersonalArea.city)
+        const formData = new FormData();
+        formData.append("id", this.myData[0].id);
+        formData.append("photo", this.formPersonalArea.file);
+        formData.append("first_name", this.formPersonalArea.name);
+        formData.append("sex", this.formPersonalArea.sex);
+        formData.append("birth_day", this.formPersonalArea.old);
+        formData.append("city", this.formPersonalArea.city);
 
-        const checkData = JSON.parse(JSON.stringify(Object.fromEntries(formData)))
-        const transformDataInObj = Object.values(checkData)
-        const deleteElem = transformDataInObj.splice(0, 1)
-        const checkDataValues = transformDataInObj.some(elem => elem.length > 0)
+        const checkData = JSON.parse(
+          JSON.stringify(Object.fromEntries(formData))
+        );
+        const transformDataInObj = Object.values(checkData);
+        const deleteElem = transformDataInObj.splice(0, 1);
+        const checkDataValues = transformDataInObj.some(
+          (elem) => elem.length > 0
+        );
         const isEmpty = (obj) => {
           for (let key in obj) {
-            return false
+            return false;
           }
-          return true
-        }
+          return true;
+        };
 
         const formDataPassword = {
           old_password: this.formPersonalArea.oldPassword,
           new_password: this.formPersonalArea.newPassword,
-          confirm_new_password: this.formPersonalArea.confirmNewPassword
-        }
+          confirm_new_password: this.formPersonalArea.confirmNewPassword,
+        };
 
-        const transformDataPasswordInObj = Object.values(formDataPassword)
-        const checkDataPasswordValues = transformDataPasswordInObj.some(elem => elem.length > 0)
+        const transformDataPasswordInObj = Object.values(formDataPassword);
+        const checkDataPasswordValues = transformDataPasswordInObj.some(
+          (elem) => elem.length > 0
+        );
 
         try {
-          if (checkDataValues || isEmpty(this.formPersonalArea.file) === false) {
-            this.$store.dispatch('personalArea/updateMyData', {formData, id: this.myData[0].id})
+          if (
+            checkDataValues ||
+            isEmpty(this.formPersonalArea.file) === false
+          ) {
+            this.$store.dispatch("personalArea/updateMyData", {
+              formData,
+              id: this.myData[0].id,
+            });
           } else {
-            console.log('checkDataValues === false')
+            console.log("checkDataValues === false");
           }
 
           if (checkDataPasswordValues) {
-            this.$store.dispatch('personalArea/updateMyPassword', formDataPassword)
+            this.$store.dispatch(
+              "personalArea/updateMyPassword",
+              formDataPassword
+            );
           } else {
-            console.log('checkDataPasswordValues === false')
+            console.log("checkDataPasswordValues === false");
           }
         } catch (e) {
-          console.log('error in PersonalArea.vue methods personalAreaSubmit', e)
+          console.log(
+            "error in PersonalArea.vue methods personalAreaSubmit",
+            e
+          );
         }
       } else {
         this.$message({
-          message: 'Вы не изменили ни одного поля. Чтобы сохранить изменения нужно отредактировать хотя бы одно поле',
-          duration: 4500
-        })
+          message:
+            "Вы не изменили ни одного поля. Чтобы сохранить изменения нужно отредактировать хотя бы одно поле",
+          duration: 4500,
+        });
       }
     },
     status(validation) {
       return {
-        'is-invalid': validation.$error,
-      }
+        "is-invalid": validation.$error,
+      };
     },
     handleFileUpload(e) {
       if (e.target.files.length > 0) {
-        const file = e.target.files[0]
+        const file = e.target.files[0];
 
         if (this.formatPhoto.includes(file.type)) {
-
-          const selectedFile = e.target.files[0]
-          const reader = new FileReader()
-          const imgtag = document.getElementById('myImage')
-          imgtag.title = selectedFile.name
-          this.photoLoading = true
+          const selectedFile = e.target.files[0];
+          const reader = new FileReader();
+          const imgtag = document.getElementById("myImage");
+          imgtag.title = selectedFile.name;
+          this.photoLoading = true;
           reader.onload = function (event) {
-            imgtag.src = event.target.result
-          }
+            imgtag.src = event.target.result;
+          };
 
-          reader.readAsDataURL(selectedFile)
-          this.formPersonalArea.file = file
-          console.log('this.formPersonalArea.fileinhandle', this.formPersonalArea.file)
+          reader.readAsDataURL(selectedFile);
+          this.formPersonalArea.file = file;
+          console.log(
+            "this.formPersonalArea.fileinhandle",
+            this.formPersonalArea.file
+          );
 
           this.$message({
-            message: 'Ваше новое имя уже почти готово к изменению',
-            type: 'success'
-          })
+            message: "Ваше новое имя уже почти готово к изменению",
+            type: "success",
+          });
           setTimeout(() => {
             this.$message({
-              message: 'Если хотите поменять фото, то кликните по значку "Загрузить вашу фотографию"',
-              type: 'message'
-            })
-          }, 2000)
+              message:
+                'Если хотите поменять фото, то кликните по значку "Загрузить вашу фотографию"',
+              type: "message",
+            });
+          }, 2000);
           setTimeout(() => {
-            this.$message('Чтобы все изменения вступили в силу нажмите на кнопку "Сохранить изменения".')
-          }, 3500)
+            this.$message(
+              'Чтобы все изменения вступили в силу нажмите на кнопку "Сохранить изменения".'
+            );
+          }, 3500);
         } else {
-          this.$message.error('Данный формат для загрузки фото недоступен. Доступные форматы для загрузки: png, jpeg, gif')
-          this.formStepOne.file = []
+          this.$message.error(
+            "Данный формат для загрузки фото недоступен. Доступные форматы для загрузки: png, jpeg, gif"
+          );
+          this.formStepOne.file = [];
         }
       } else {
         this.$message({
-          message: 'Изображение не было загружено',
-          type: 'warning'
-        })
+          message: "Изображение не было загружено",
+          type: "warning",
+        });
       }
     },
     goOut() {
-      this.$confirm('Вы действительно хотите выйти?', 'Выйти', {
-        confirmButtonText: 'Выйти',
-        cancelButtonText: 'Отмена',
-        type: 'warning'
-      }).then(() => {
-        this.$store.dispatch('authorization/goOut')
-        this.$message({
-          type: 'success',
-          message: 'Вы вышли с аккаунта'
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: 'Delete canceled'
-        })
+      this.$confirm("Вы действительно хотите выйти?", "Выйти", {
+        confirmButtonText: "Выйти",
+        cancelButtonText: "Отмена",
+        type: "warning",
       })
-    }
+        .then(() => {
+          this.$store.dispatch("authorization/goOut");
+          this.$message({
+            type: "success",
+            message: "Вы вышли с аккаунта",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "Delete canceled",
+          });
+        });
+    },
   },
   validations: {
     formPersonalArea: {
       file: {},
       name: {
-        alpha
+        alpha,
       },
       sex: {},
       old: {},
       city: {},
       oldPassword: {},
       newPassword: {
-        minLength: minLength(8)
+        minLength: minLength(8),
       },
       confirmNewPassword: {
-        sameAs: sameAs('newPassword')
-      }
-    }
-  }
-}
+        sameAs: sameAs("newPassword"),
+      },
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -895,7 +1075,6 @@ export default {
       outline-color: rgba(255, 255, 255, 0);
       outline-offset: 15px;
       border: 1px solid #771699;
-      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
       text-shadow: 1px 1px 2px #9ebecb;
     }
 
@@ -949,7 +1128,6 @@ export default {
       outline-color: rgba(255, 255, 255, 0);
       outline-offset: 15px;
       border: 1px solid;
-      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
       text-shadow: 1px 1px 2px #427388;
     }
 
@@ -1845,7 +2023,6 @@ export default {
       outline-color: rgba(255, 255, 255, 0);
       outline-offset: 15px;
       border: 1px solid #771699;
-      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
       text-shadow: 1px 1px 2px #9ebecb;
     }
 
@@ -1878,7 +2055,6 @@ export default {
       outline-color: rgba(255, 255, 255, 0);
       outline-offset: 15px;
       border: 1px solid;
-      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
       text-shadow: 1px 1px 2px #427388;
     }
 
@@ -2060,7 +2236,6 @@ export default {
       outline-color: rgba(255, 255, 255, 0);
       outline-offset: 15px;
       border: 1px solid #771699;
-      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
       text-shadow: 1px 1px 2px #9ebecb;
     }
 
@@ -2093,7 +2268,6 @@ export default {
       outline-color: rgba(255, 255, 255, 0);
       outline-offset: 15px;
       border: 1px solid;
-      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
       text-shadow: 1px 1px 2px #427388;
     }
 
@@ -2275,7 +2449,6 @@ export default {
       outline-color: rgba(255, 255, 255, 0);
       outline-offset: 15px;
       border: 1px solid #771699;
-      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
       text-shadow: 1px 1px 2px #9ebecb;
     }
 
@@ -2308,7 +2481,6 @@ export default {
       outline-color: rgba(255, 255, 255, 0);
       outline-offset: 15px;
       border: 1px solid;
-      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
       text-shadow: 1px 1px 2px #427388;
     }
 
@@ -2490,7 +2662,6 @@ export default {
       outline-color: rgba(255, 255, 255, 0);
       outline-offset: 15px;
       border: 1px solid #771699;
-      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
       text-shadow: 1px 1px 2px #9ebecb;
     }
 
@@ -2523,7 +2694,6 @@ export default {
       outline-color: rgba(255, 255, 255, 0);
       outline-offset: 15px;
       border: 1px solid;
-      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
       text-shadow: 1px 1px 2px #427388;
     }
 
@@ -2705,7 +2875,6 @@ export default {
       outline-color: rgba(255, 255, 255, 0);
       outline-offset: 15px;
       border: 1px solid #771699;
-      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
       text-shadow: 1px 1px 2px #9ebecb;
     }
 
@@ -2738,7 +2907,6 @@ export default {
       outline-color: rgba(255, 255, 255, 0);
       outline-offset: 15px;
       border: 1px solid;
-      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
       text-shadow: 1px 1px 2px #427388;
     }
 
@@ -3005,7 +3173,6 @@ export default {
       outline-color: rgba(255, 255, 255, 0);
       outline-offset: 15px;
       border: 1px solid #771699;
-      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
       text-shadow: 1px 1px 2px #9ebecb;
     }
 
@@ -3038,7 +3205,6 @@ export default {
       outline-color: rgba(255, 255, 255, 0);
       outline-offset: 15px;
       border: 1px solid;
-      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
       text-shadow: 1px 1px 2px #427388;
     }
 

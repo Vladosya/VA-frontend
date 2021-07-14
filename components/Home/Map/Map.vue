@@ -56,6 +56,12 @@ export default {
       this.$store.dispatch("map/getAdForMap");
     }
   },
+  created() {
+    if (process.client) {
+      this.connectedConfirmAccount();
+      this.connectedAdPublish();
+    }
+  },
   data() {
     return {
       center: { lat: 55.75222, lng: 37.61556 },
@@ -112,6 +118,81 @@ export default {
       this.infoWinOpen = false;
       this.openInfoPerson = false;
       this.gmapMarkerOptions.clickable = true;
+    },
+    connectedConfirmAccount() {
+      if (process.client) {
+        setTimeout(() => {
+          const token = $nuxt.$cookies.get("token");
+          const myData = JSON.parse(localStorage.getItem("myData"));
+
+          this.connection = new WebSocket(
+            `ws://127.0.0.1:8000/ws/notification/user/${myData[0].id}/?token=${token}`
+          );
+
+          this.connection.onopen = () => {
+            console.log("connected with address");
+          };
+
+          this.connection.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+
+            if (data.message_to_room.event === "Success confirm account") {
+              this.$notify({
+                title: "Подтверждение аккаунта",
+                message: `${data.message_to_room.message}`,
+                type: "success",
+                position: "top-left",
+              });
+            } else if (data.message_to_room.event === "Error confirm account") {
+              this.$notify({
+                title: "Подтверждение аккаунта",
+                message: `${data.message_to_room.message}`,
+                type: "error",
+                position: "top-left",
+              });
+            }
+            console.log(`Данные получены с сервера!`);
+          };
+        }, 500);
+      }
+    },
+    connectedAdPublish() {
+      if (process.client) {
+        setTimeout(() => {
+          const token = $nuxt.$cookies.get("token");
+          const myData = JSON.parse(localStorage.getItem("myData"));
+
+          this.connection = new WebSocket(
+            `ws://127.0.0.1:8000/ws/notification/ad/${myData[0].id}/?token=${token}`
+          );
+
+          this.connection.onopen = () => {
+            console.log("connected with address");
+          };
+
+          this.connection.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+
+            const modifiedMarker = {
+              geolocation: JSON.parse(
+                data.message_to_room.marker_map.geolocation
+              ),
+              id: data.message_to_room.marker_map.id,
+            };
+
+            this.$store.commit("map/addAdInMarkers", modifiedMarker);
+
+            if (data.message_to_room.event === "Ad published") {
+              this.$notify({
+                title: "Публикация объявления",
+                message: `${data.message_to_room.message}`,
+                type: "success",
+                position: "top-left",
+              });
+            }
+          };
+        }, 500);
+      }
     },
   },
   components: {
