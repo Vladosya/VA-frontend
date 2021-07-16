@@ -74,7 +74,7 @@
           </div>
           <div class="marker-progress__btn">
             <button
-              @click="applyForMembership"
+              @click="openWindowApply = !openWindowApply"
               v-if="myData[0].id !== ad.author.id"
             >
               Подать заявку
@@ -91,11 +91,77 @@
           </div>
         </div>
       </div>
+      <div v-if="openWindowApply">
+        <div class="apply-window-all" v-if="myData[0].id !== ad.author.id">
+          <div class="apply-window-all__header">
+            <p>Заявка на вписку</p>
+            <button>
+              <i @click="openWindowApply = false" class="el-icon-close"></i>
+            </button>
+          </div>
+
+          <div class="apply-window-all__boy">
+            <img src="@/assets/Home/markerInfo/boy.svg" alt="boy-assert" />
+            <p>Количество парней:</p>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="Необходимо указать кол-во парней с вами"
+              placement="right"
+            >
+              <el-input-number
+                @blur="$v.assertInAd.boy.$touch()"
+                v-model.trim="assertInAd.boy"
+                controls-position="right"
+                size="mini"
+                :min="0"
+              ></el-input-number>
+            </el-tooltip>
+          </div>
+          <div class="apply-window-all__girl">
+            <img src="@/assets/Home/markerInfo/girl.svg" alt="girl-assert" />
+            <p>Количество девушек:</p>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="Необходимо указать кол-во девушек с вами"
+              placement="right"
+            >
+              <el-input-number
+                @blur="$v.assertInAd.girl.$touch()"
+                v-model.trim="assertInAd.girl"
+                controls-position="right"
+                size="mini"
+                :min="0"
+              ></el-input-number>
+            </el-tooltip>
+          </div>
+          <div class="apply-window-all__people">
+            <img
+              src="@/assets/Home/markerInfo/people.svg"
+              alt="people-assert"
+            />
+            <p>Общее количество:</p>
+            <el-input-number
+              @blur="$v.assertInAd.people.$touch()"
+              :value="assertInAd.girl + assertInAd.boy"
+              controls-position="right"
+              size="mini"
+              :disabled="true"
+            ></el-input-number>
+          </div>
+          <div class="apply-window-all__btn">
+            <button @click="applyForMembership">Подтвердить</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { required } from "vuelidate/lib/validators";
+
 export default {
   props: {
     idPerson: {
@@ -123,6 +189,12 @@ export default {
       currentPagePeople: 0,
       size: 5,
       myData: process.client ? JSON.parse(localStorage.getItem("myData")) : [],
+      openWindowApply: false,
+      assertInAd: {
+        girl: 0,
+        boy: 0,
+        people: undefined,
+      },
     };
   },
   created() {
@@ -138,6 +210,9 @@ export default {
     },
     countProgressBar() {
       return this.$store.getters["map/countProgressBar"];
+    },
+    applyToParty() {
+      return this.$store.getters["map/applyToParty"];
     },
     pageCountPerson() {
       let l = this.adInfo[0].participants.length,
@@ -175,15 +250,19 @@ export default {
       if (this.adInfo.length > 0) {
         const formData = {
           id_ad: this.adInfo[0].id,
-          number_of_person:
-            this.adInfo[0].number_of_girls + this.adInfo[0].number_of_boys,
-          number_of_girls: this.adInfo[0].number_of_girls,
-          number_of_boys: this.adInfo[0].number_of_boys,
+          number_of_person: this.assertInAd.girl + this.assertInAd.boy,
+          number_of_girls: this.assertInAd.girl,
+          number_of_boys: this.assertInAd.boy,
           photos: this.myData[0].photo.toString(),
         };
 
         try {
           this.$store.dispatch("map/applyForMembership", formData);
+          setTimeout(() => {
+            if (this.applyToParty === true) {
+              this.openWindowApply = false;
+            }
+          }, 100);
         } catch (e) {
           console.log(
             "error in applyForMembership method from UserMarkerInfo.vue",
@@ -191,6 +270,19 @@ export default {
           );
         }
       }
+    },
+  },
+  validations: {
+    assertInAd: {
+      people: {
+        required,
+      },
+      girl: {
+        required,
+      },
+      boy: {
+        required,
+      },
     },
   },
 };
@@ -201,6 +293,167 @@ export default {
 
 .marker-info {
   width: 450px;
+
+  @include breakpoint(dxxxl) {
+    width: 400px;
+  }
+}
+
+.apply-window-all {
+  position: absolute;
+  top: 80px;
+  border: 1px solid #c4c4c4;
+  border-radius: 9px;
+  width: 454px;
+  height: 239px;
+  background: #fff;
+
+  &__header {
+    display: flex;
+    align-items: center;
+
+    p {
+      margin-left: 170px;
+      font-weight: 400;
+      font-style: normal;
+      font-size: 13px;
+      line-height: 19px;
+      text-align: center;
+
+      @include breakpoint(dxxxl) {
+        margin-left: 170px;
+        font-size: 11px;
+      }
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 148px;
+      width: 12px;
+      height: 12px;
+      background: none;
+
+      i {
+        font-size: 17px;
+      }
+
+      @include breakpoint(dxxxl) {
+        margin-left: 125px;
+      }
+    }
+  }
+
+  &__boy {
+    display: flex;
+    align-items: center;
+    margin: 20px 0 0 65px;
+
+    img {
+      margin-right: 20px;
+
+      @include breakpoint(dxxxl) {
+        margin-right: 15px;
+      }
+    }
+
+    p {
+      margin-right: 28px;
+
+      @include breakpoint(dxxxl) {
+        margin-right: 31px;
+      }
+    }
+
+    @include breakpoint(dxxxl) {
+      margin: 15px 0 0 45px;
+    }
+  }
+
+  &__girl {
+    display: flex;
+    align-items: center;
+    margin: 25px 0 0 65px;
+
+    img {
+      margin-right: 20px;
+
+      @include breakpoint(dxxxl) {
+        margin-right: 15px;
+      }
+    }
+
+    p {
+      margin-right: 20px;
+
+      @include breakpoint(dxxxl) {
+        margin-right: 23px;
+      }
+    }
+
+    @include breakpoint(dxxxl) {
+      margin: 15px 0 0 45px;
+    }
+  }
+
+  &__people {
+    display: flex;
+    align-items: center;
+    margin: 25px 0 0 65px;
+
+    img {
+      margin-right: 20px;
+
+      @include breakpoint(dxxxl) {
+        margin-right: 15px;
+      }
+    }
+
+    p {
+      margin-right: 32px;
+
+      @include breakpoint(dxxxl) {
+        margin-right: 35px;
+      }
+    }
+
+    @include breakpoint(dxxxl) {
+      margin: 15px 0 0 45px;
+    }
+  }
+
+  &__btn {
+    margin: 18px 15px 0 0;
+    text-align: right;
+
+    button {
+      border-radius: 4px;
+      width: 96px;
+      height: 30px;
+      font-weight: 400;
+      font-style: normal;
+      font-size: 10px;
+      line-height: 12px;
+      color: #fff;
+      background: #623ce6;
+
+      @include breakpoint(dxxxl) {
+        width: 86px;
+        height: 27px;
+      }
+    }
+
+    @include breakpoint(dxxxl) {
+      margin: 22px 12px 0 0;
+    }
+  }
+
+  @include breakpoint(dxxxl) {
+    top: 60px;
+    width: 405px;
+    height: 218px;
+  }
 }
 
 .marker-header {
@@ -233,6 +486,10 @@ export default {
     font-size: 18px;
     line-height: 21px;
     color: #1c2a38;
+
+    @include breakpoint(dxxxl) {
+      font-size: 15px;
+    }
   }
 
   &__close {
@@ -251,12 +508,21 @@ export default {
       }
     }
   }
+
+  @include breakpoint(dxxxl) {
+    padding: 11px 0;
+  }
 }
 
 .marker-content {
   display: grid;
   grid-template-columns: 130px 188px 130px;
   padding-bottom: 5px;
+
+  @include breakpoint(dxxxl) {
+    grid-template-columns: 110px 178px 110px;
+    padding-bottom: 2px;
+  }
 }
 
 .marker-requirements {
@@ -269,6 +535,10 @@ export default {
     font-style: normal;
     font-size: 16px;
     line-height: 19px;
+
+    @include breakpoint(dxxxl) {
+      font-size: 14px;
+    }
   }
 
   &__boy {
@@ -279,6 +549,10 @@ export default {
 
     img {
       margin-right: 25px;
+
+      @include breakpoint(dxxxl) {
+        margin-right: 15px;
+      }
     }
 
     p {
@@ -287,6 +561,14 @@ export default {
       font-size: 15px;
       line-height: 23px;
       color: #ff006b;
+
+      @include breakpoint(dxxxl) {
+        font-size: 13px;
+      }
+    }
+
+    @include breakpoint(dxxxl) {
+      margin-top: 12px;
     }
   }
 
@@ -298,6 +580,10 @@ export default {
 
     img {
       margin-right: 25px;
+
+      @include breakpoint(dxxxl) {
+        margin-right: 15px;
+      }
     }
 
     p {
@@ -306,7 +592,19 @@ export default {
       font-size: 15px;
       line-height: 23px;
       color: #ff006b;
+
+      @include breakpoint(dxxxl) {
+        font-size: 13px;
+      }
     }
+
+    @include breakpoint(dxxxl) {
+      margin-top: 12px;
+    }
+  }
+
+  @include breakpoint(dxxxl) {
+    margin-top: 30px;
   }
 }
 
@@ -320,6 +618,10 @@ export default {
     font-style: normal;
     font-size: 13px;
     line-height: 15px;
+
+    @include breakpoint(dxxxl) {
+      font-size: 11px;
+    }
   }
 
   &__count {
@@ -331,6 +633,10 @@ export default {
     font-size: 27px;
     line-height: 35px;
     color: #000;
+
+    @include breakpoint(dxxxl) {
+      font-size: 22px;
+    }
   }
 
   &__person {
@@ -347,6 +653,10 @@ export default {
       width: 10px;
       height: 10px;
       background: none;
+    }
+
+    @include breakpoint(dxxxl) {
+      margin: 12px 0 0 5px;
     }
   }
 
@@ -398,7 +708,7 @@ export default {
       font-size: 14px;
     }
 
-    @include breakpoint(dsm) {
+    @include breakpoint(dxxxl) {
       height: 60px;
       font-size: 13px;
     }
@@ -406,6 +716,10 @@ export default {
 
   &__progress {
     margin-top: 27px;
+
+    @include breakpoint(dxxxl) {
+      margin-top: 20px;
+    }
   }
 
   &__title {
@@ -441,6 +755,16 @@ export default {
       line-height: 15px;
       color: #fff;
       background: #623ce6;
+
+      @include breakpoint(dxxxl) {
+        width: 115px;
+        height: 30px;
+        font-size: 11px;
+      }
+    }
+
+    @include breakpoint(dxxxl) {
+      margin-top: 12px;
     }
   }
 }
@@ -455,6 +779,10 @@ export default {
     font-style: normal;
     font-size: 16px;
     line-height: 19px;
+
+    @include breakpoint(dxxxl) {
+      font-size: 14px;
+    }
   }
 
   &__img {
@@ -467,6 +795,14 @@ export default {
       width: 65px;
       height: 65px;
     }
+
+    @include breakpoint(dxxxl) {
+      margin-top: 12px;
+    }
+  }
+
+  @include breakpoint(dxxxl) {
+    margin-top: 30px;
   }
 }
 </style>

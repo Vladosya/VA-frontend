@@ -2,7 +2,8 @@ export const state = () => ({
   markers: [],
   adInfo: [],
   countProgressBar: 0,
-  canIApply: false
+  canIApply: false,
+  applyToParty: false
 });
 
 export const mutations = {
@@ -20,6 +21,9 @@ export const mutations = {
   },
   canIApply(state, payload) {
     state.canIApply = payload;
+  },
+  applyToParty(state, payload) {
+    state.applyToParty = payload;
   }
 };
 
@@ -93,6 +97,7 @@ export const actions = {
       );
 
       if (applyMembership.status === "success") {
+        commit("applyToParty", true);
         $nuxt.$message({
           message: `${applyMembership.message}`,
           type: "success"
@@ -113,5 +118,8 @@ export const getters = {
   },
   countProgressBar(state) {
     return state.countProgressBar;
+  },
+  applyToParty(state) {
+    return state.applyToParty;
   }
 };

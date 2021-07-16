@@ -1,5 +1,6 @@
 export const state = () => ({
   myAd: [],
+  myAdId: 0,
   myAdByFilter: [],
   myAdById: [],
   haveAd: false,
@@ -13,6 +14,9 @@ export const state = () => ({
 export const mutations = {
   getAd(state, payload) {
     state.myAd = payload;
+  },
+  myAdId(state, payload) {
+    state.myAdId = payload;
   },
   filterAd(state, payload) {
     state.myAdByFilter = payload;
@@ -52,7 +56,6 @@ export const mutations = {
     }
   },
   getRequestMyParty(state, payload) {
-    console.log("payload", payload);
     state.RequestMyParty = payload;
   }
 };
@@ -69,6 +72,8 @@ export const actions = {
       );
 
       if (getMyAd.length > 0) {
+        const myAdId = getMyAd[0].id;
+
         const myAdByData = getMyAd.map(ad => {
           return {
             id: ad.id,
@@ -105,6 +110,7 @@ export const actions = {
         });
 
         commit("getAd", sortByDateAd);
+        commit("myAdId", myAdId);
         commit("filterAd", sortByDateAdFilter);
         commit("haveAdCreateAdMenu", true);
       }
@@ -179,6 +185,52 @@ export const actions = {
       }
     } catch (e) {
       console.log("error in getRequestMyParty action in myParty.js", e);
+    }
+  },
+  async acceptParticipantOnParty(_, formData) {
+    const token = $nuxt.$cookies.get("token");
+
+    try {
+      const acceptParticipant = await this.$axios.$post(
+        `${process.env.BASE_URL}/participant/create`,
+        formData,
+        {
+          headers: { Authorization: "Bearer " + token }
+        }
+      );
+
+      if (acceptParticipant.status === "success") {
+        $nuxt.$message({
+          message: `${acceptParticipant.message}`,
+          type: "success"
+        });
+      }
+    } catch (e) {
+      console.log(
+        "error in acceptParticipantOnParty action in myParty.js",
+        e.response
+      );
+    }
+  },
+  async refuseParticipantOnParty(_, idPerson) {
+    const token = $nuxt.$cookies.get("token");
+
+    try {
+      const refuseParticipant = await this.$axios.$delete(
+        `${process.env.BASE_URL}/bid/remove/${idPerson}/`,
+        {
+          headers: { Authorization: "Bearer " + token }
+        }
+      );
+
+      if (refuseParticipant.status === "success") {
+        $nuxt.$message({
+          message: `${refuseParticipant.message}`,
+          type: "success"
+        });
+      }
+    } catch (e) {
+      console.log("error in refuseParticipantOnParty action in myParty.js", e);
     }
   }
 };

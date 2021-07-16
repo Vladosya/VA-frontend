@@ -150,6 +150,15 @@ export default {
                 type: "error",
                 position: "top-left",
               });
+            } else if (
+              data.message_to_room.event === "Add in the participants"
+            ) {
+              this.$notify({
+                title: "Статус заявки",
+                message: `${data.message_to_room.message}`,
+                type: "success",
+                position: "top-left",
+              });
             }
             console.log(`Данные получены с сервера!`);
           };
@@ -163,7 +172,7 @@ export default {
           const myData = JSON.parse(localStorage.getItem("myData"));
 
           this.connection = new WebSocket(
-            `ws://127.0.0.1:8000/ws/notification/ad/${myData[0].id}/?token=${token}`
+            `ws://127.0.0.1:8000/ws/notification/ad/${myData[0].city}/?token=${token}`
           );
 
           this.connection.onopen = () => {
@@ -174,21 +183,28 @@ export default {
             const data = JSON.parse(event.data);
 
             const modifiedMarker = {
-              geolocation: JSON.parse(
-                data.message_to_room.marker_map.geolocation
-              ),
-              id: data.message_to_room.marker_map.id,
+              geolocation: JSON.parse(data.message_to_room.geolocation),
+              id: data.message_to_room.id_ad,
             };
 
             this.$store.commit("map/addAdInMarkers", modifiedMarker);
 
             if (data.message_to_room.event === "Ad published") {
-              this.$notify({
-                title: "Публикация объявления",
-                message: `${data.message_to_room.message}`,
-                type: "success",
-                position: "top-left",
-              });
+              if (data.message_to_room.ad.author.id === myData[0].id) {
+                this.$notify({
+                  title: "Публикация объявления",
+                  message: `${data.message_to_room.message}`,
+                  type: "success",
+                  position: "top-left",
+                });
+              } else {
+                this.$notify({
+                  title: "Публикация объявления",
+                  message: `На карте появилось новое объявление. Посмотрите на него`,
+                  type: "success",
+                  position: "top-left",
+                });
+              }
             }
           };
         }, 500);

@@ -1,16 +1,29 @@
 <template>
   <div class="my-participants">
-    <div class="participants-block" v-if="haveMyParticipants" @click.self="isClickInfo = false">
+    <div
+      class="participants-block"
+      v-if="haveMyParticipants"
+      @click.self="isClickInfo = false"
+    >
       <div class="participants-block__person">
         <div class="participants-block__person-img">
-          <img src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png" alt="photo">
-          <button class="participants-block__person-btn-one" @click="isClickInfo = true">
+          <img
+            src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png"
+            alt="photo"
+          />
+          <button
+            class="participants-block__person-btn-one"
+            @click="isClickInfo = true"
+          >
             <i class="el-icon-info"></i>
           </button>
           <button class="participants-block__person-btn-two">
             <i class="el-icon-s-comment"></i>
           </button>
-          <button class="participants-block__person-btn-three" @click="deletePerson">
+          <button
+            class="participants-block__person-btn-three"
+            @click="deletePerson"
+          >
             <i class="el-icon-delete-solid"></i>
           </button>
         </div>
@@ -21,14 +34,23 @@
       </div>
       <div class="participants-block__person">
         <div class="participants-block__person-img">
-          <img src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png" alt="photo">
-          <button class="participants-block__person-btn-one" @click="isClickInfo = true">
+          <img
+            src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png"
+            alt="photo"
+          />
+          <button
+            class="participants-block__person-btn-one"
+            @click="isClickInfo = true"
+          >
             <i class="el-icon-info"></i>
           </button>
           <button class="participants-block__person-btn-two">
             <i class="el-icon-s-comment"></i>
           </button>
-          <button class="participants-block__person-btn-three" @click="deletePerson">
+          <button
+            class="participants-block__person-btn-three"
+            @click="deletePerson"
+          >
             <i class="el-icon-delete-solid"></i>
           </button>
         </div>
@@ -39,14 +61,23 @@
       </div>
       <div class="participants-block__person">
         <div class="participants-block__person-img">
-          <img src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png" alt="photo">
-          <button class="participants-block__person-btn-one" @click="isClickInfo = true">
+          <img
+            src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png"
+            alt="photo"
+          />
+          <button
+            class="participants-block__person-btn-one"
+            @click="isClickInfo = true"
+          >
             <i class="el-icon-info"></i>
           </button>
           <button class="participants-block__person-btn-two">
             <i class="el-icon-s-comment"></i>
           </button>
-          <button class="participants-block__person-btn-three" @click="deletePerson">
+          <button
+            class="participants-block__person-btn-three"
+            @click="deletePerson"
+          >
             <i class="el-icon-delete-solid"></i>
           </button>
         </div>
@@ -57,14 +88,23 @@
       </div>
       <div class="participants-block__person">
         <div class="participants-block__person-img">
-          <img src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png" alt="photo">
-          <button class="participants-block__person-btn-one" @click="isClickInfo = true">
+          <img
+            src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png"
+            alt="photo"
+          />
+          <button
+            class="participants-block__person-btn-one"
+            @click="isClickInfo = true"
+          >
             <i class="el-icon-info"></i>
           </button>
           <button class="participants-block__person-btn-two">
             <i class="el-icon-s-comment"></i>
           </button>
-          <button class="participants-block__person-btn-three" @click="deletePerson">
+          <button
+            class="participants-block__person-btn-three"
+            @click="deletePerson"
+          >
             <i class="el-icon-delete-solid"></i>
           </button>
         </div>
@@ -75,14 +115,23 @@
       </div>
       <div class="participants-block__person">
         <div class="participants-block__person-img">
-          <img src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png" alt="photo">
-          <button class="participants-block__person-btn-one" @click="isClickInfo = true">
+          <img
+            src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png"
+            alt="photo"
+          />
+          <button
+            class="participants-block__person-btn-one"
+            @click="isClickInfo = true"
+          >
             <i class="el-icon-info"></i>
           </button>
           <button class="participants-block__person-btn-two">
             <i class="el-icon-s-comment"></i>
           </button>
-          <button class="participants-block__person-btn-three" @click="deletePerson">
+          <button
+            class="participants-block__person-btn-three"
+            @click="deletePerson"
+          >
             <i class="el-icon-delete-solid"></i>
           </button>
         </div>
@@ -93,14 +142,23 @@
       </div>
       <div class="participants-block__person">
         <div class="participants-block__person-img">
-          <img src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png" alt="photo">
-          <button class="participants-block__person-btn-one" @click="isClickInfo = true">
+          <img
+            src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png"
+            alt="photo"
+          />
+          <button
+            class="participants-block__person-btn-one"
+            @click="isClickInfo = true"
+          >
             <i class="el-icon-info"></i>
           </button>
           <button class="participants-block__person-btn-two">
             <i class="el-icon-s-comment"></i>
           </button>
-          <button class="participants-block__person-btn-three" @click="deletePerson">
+          <button
+            class="participants-block__person-btn-three"
+            @click="deletePerson"
+          >
             <i class="el-icon-delete-solid"></i>
           </button>
         </div>
@@ -111,14 +169,23 @@
       </div>
       <div class="participants-block__person">
         <div class="participants-block__person-img">
-          <img src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png" alt="photo">
-          <button class="participants-block__person-btn-one" @click="isClickInfo = true">
+          <img
+            src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png"
+            alt="photo"
+          />
+          <button
+            class="participants-block__person-btn-one"
+            @click="isClickInfo = true"
+          >
             <i class="el-icon-info"></i>
           </button>
           <button class="participants-block__person-btn-two">
             <i class="el-icon-s-comment"></i>
           </button>
-          <button class="participants-block__person-btn-three" @click="deletePerson">
+          <button
+            class="participants-block__person-btn-three"
+            @click="deletePerson"
+          >
             <i class="el-icon-delete-solid"></i>
           </button>
         </div>
@@ -129,14 +196,23 @@
       </div>
       <div class="participants-block__person">
         <div class="participants-block__person-img">
-          <img src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png" alt="photo">
-          <button class="participants-block__person-btn-one" @click="isClickInfo = true">
+          <img
+            src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png"
+            alt="photo"
+          />
+          <button
+            class="participants-block__person-btn-one"
+            @click="isClickInfo = true"
+          >
             <i class="el-icon-info"></i>
           </button>
           <button class="participants-block__person-btn-two">
             <i class="el-icon-s-comment"></i>
           </button>
-          <button class="participants-block__person-btn-three" @click="deletePerson">
+          <button
+            class="participants-block__person-btn-three"
+            @click="deletePerson"
+          >
             <i class="el-icon-delete-solid"></i>
           </button>
         </div>
@@ -147,14 +223,23 @@
       </div>
       <div class="participants-block__person">
         <div class="participants-block__person-img">
-          <img src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png" alt="photo">
-          <button class="participants-block__person-btn-one" @click="isClickInfo = true">
+          <img
+            src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png"
+            alt="photo"
+          />
+          <button
+            class="participants-block__person-btn-one"
+            @click="isClickInfo = true"
+          >
             <i class="el-icon-info"></i>
           </button>
           <button class="participants-block__person-btn-two">
             <i class="el-icon-s-comment"></i>
           </button>
-          <button class="participants-block__person-btn-three" @click="deletePerson">
+          <button
+            class="participants-block__person-btn-three"
+            @click="deletePerson"
+          >
             <i class="el-icon-delete-solid"></i>
           </button>
         </div>
@@ -165,20 +250,28 @@
       </div>
     </div>
     <div class="participants-person-card" v-if="isClickInfo">
-      <img src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png" alt="tony profile picture">
-      <p class="participants-person-card__name"><strong>Владислав Новиков</strong></p>
+      <img
+        src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png"
+        alt="tony profile picture"
+      />
+      <p class="participants-person-card__name">
+        <strong>Владислав Новиков</strong>
+      </p>
       <p class="participants-person-card__sex"><i>Мужской</i></p>
-      <p class="participants-person-card__info">I have been fishing on the bay for many years. Ice fishing is my
-        specialty.</p>
+      <p class="participants-person-card__info">
+        I have been fishing on the bay for many years. Ice fishing is my
+        specialty.
+      </p>
     </div>
     <div class="not-participants" v-if="!haveMyParticipants">
       <div>
         <i class="el-icon-male not-participants__icon-one"></i>
         <i class="el-icon-female not-participants__icon-two"></i>
       </div>
-      <div class="not-participants__text">Список участников пуст!
-        <br> Нажмите на выпадающий список в правом верхнем
-        углу окна. <br> Если он пуст, то создайте объявление
+      <div class="not-participants__text">
+        Список участников пуст! <br />
+        Нажмите на выпадающий список в правом верхнем углу окна. <br />
+        Если он пуст, то создайте объявление
       </div>
     </div>
   </div>
@@ -190,28 +283,32 @@ export default {
     return {
       isParticipants: true,
       isClickInfo: false,
-    }
+    };
   },
   methods: {
     deletePerson() {
-      this.$confirm('Вы действительно хотите удалить пользователя из вашей вечеринки?', '', {
-        confirmButtonText: 'Да',
-        cancelButtonText: 'Отмена',
-        type: 'warning'
-      }).then(() => {
+      this.$confirm(
+        "Вы действительно хотите удалить пользователя из вашей вечеринки?",
+        "",
+        {
+          confirmButtonText: "Да",
+          cancelButtonText: "Отмена",
+          type: "warning",
+        }
+      ).then(() => {
         this.$message({
-          type: 'success',
-          message: 'Пользователь успешно выгнан'
-        })
-      })
-    }
+          type: "success",
+          message: "Пользователь успешно выгнан",
+        });
+      });
+    },
   },
   computed: {
     haveMyParticipants() {
-      return this.$store.getters['myParty/haveMyParticipants']
-    }
-  }
-}
+      return this.$store.getters["myParty/haveMyParticipants"];
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -338,7 +435,6 @@ export default {
       &:hover {
         outline-color: rgba(255, 255, 255, 0);
         outline-offset: 15px;
-        box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
         text-shadow: 1px 1px 2px #427388;
       }
 

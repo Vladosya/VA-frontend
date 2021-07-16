@@ -1,38 +1,38 @@
 <template>
   <div>
-    <div class="requestMyParty" v-if="haveRequestMyParty">
-      <div class="requestMyParty-block" v-if="!clickInfoPerson">
-        <div v-for="r in RequestMyParty" :key="r.id">
-          <div class="request-person">
-            <img
-              :src="r.photos"
-              alt="request-person-img"
-              class="request-person__img"
-            />
-            <nuxt-link to="/home/menu/myParty/requestMyParty/2">
-              <button
-                class="request-person__btn"
-                @click="clickInfoPerson = !clickInfoPerson"
-              >
+    <div class="requestMyParty">
+      <div v-for="r in RequestMyParty" :key="r.id">
+        <div v-if="haveRequestMyParty">
+          <div class="requestMyParty-block">
+            <div>
+              <div class="request-person">
                 <img
-                  src="../../../../../assets/Home/Menu/burger.svg"
-                  alt="burger"
+                  :src="r.photos"
+                  alt="request-person-img"
+                  class="request-person__img"
                 />
-              </button>
-            </nuxt-link>
-          </div>
-          <div class="request-info">
-            <h2>
-              <span>{{ r.username }}</span>
-            </h2>
+              </div>
+              <div class="request-info">
+                <h2>
+                  <span>{{ r.username }}</span>
+                </h2>
+                <button
+                  class="request-info__btn-accept"
+                  @click="acceptToMyAd(r)"
+                >
+                  Принять
+                </button>
+                <button
+                  class="request-info__btn-inject"
+                  @click="refuseToMyAd(r.id)"
+                >
+                  Отклонить
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <nuxt-child
-        v-if="clickInfoPerson"
-        @closeInformationPerson="clickInfoPerson = false"
-        :clickInfoPerson="clickInfoPerson"
-      ></nuxt-child>
     </div>
     <div class="not-requestMyParty" v-if="!haveRequestMyParty">
       <div>
@@ -49,17 +49,35 @@
 
 <script>
 export default {
-  data() {
-    return {
-      clickInfoPerson: false,
-    };
-  },
   computed: {
     haveRequestMyParty() {
       return this.$store.getters["myParty/haveRequestMyParty"];
     },
     RequestMyParty() {
       return this.$store.getters["myParty/RequestMyParty"];
+    },
+  },
+  methods: {
+    acceptToMyAd(r) {
+      const adId = this.$store.state.myParty.myAdId;
+
+      const formData = {
+        id_user: r.author__id,
+        id_ad: adId,
+      };
+
+      try {
+        this.$store.dispatch("myParty/acceptParticipantOnParty", formData);
+      } catch (e) {
+        console.log("error in acceptToMyId method from RequestMyParty.vue", e);
+      }
+    },
+    refuseToMyAd(idPerson) {
+      try {
+        this.$store.dispatch("myParty/refuseParticipantOnParty", idPerson);
+      } catch (error) {
+        console.log("error in refuseToMyAd method from RequestMyParty.vue", e);
+      }
     },
   },
 };
@@ -282,6 +300,48 @@ export default {
       width: 170px;
       font-size: 1em;
       line-height: 1.6em;
+    }
+  }
+
+  &__btn-accept {
+    position: absolute;
+    right: 63px;
+    bottom: -26px;
+    z-index: 10;
+    border: 1px solid #d38eec;
+    border-radius: 6px;
+    width: 60px;
+    height: 34px;
+    box-sizing: border-box;
+    font-size: 11px;
+    color: #d38eec;
+    background: #fff;
+
+    &:hover {
+      outline-color: rgba(255, 255, 255, 0);
+      outline-offset: 15px;
+      border: 1px solid #771699;
+    }
+  }
+
+  &__btn-inject {
+    position: absolute;
+    right: 0;
+    bottom: -26px;
+    z-index: 10;
+    border: 1px solid #d38eec;
+    border-radius: 6px;
+    width: 60px;
+    height: 34px;
+    box-sizing: border-box;
+    font-size: 11px;
+    color: #d38eec;
+    background: #fff;
+
+    &:hover {
+      outline-color: rgba(255, 255, 255, 0);
+      outline-offset: 15px;
+      border: 1px solid #771699;
     }
   }
 }
