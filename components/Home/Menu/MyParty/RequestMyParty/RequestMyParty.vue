@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="requestMyParty">
-      <div v-for="r in RequestMyParty" :key="r.id">
+      <div v-for="r in requestMyParty" :key="r.author_id">
         <div v-if="haveRequestMyParty">
           <div class="requestMyParty-block">
             <div>
               <div class="request-person">
                 <img
-                  :src="r.photos"
+                  :src="`http://127.0.0.1:8000/images/${r.photo_user}`"
                   alt="request-person-img"
                   class="request-person__img"
                 />
@@ -18,21 +18,34 @@
                 </h2>
                 <button
                   class="request-info__btn-accept"
+                  :disabled="isClickInfo"
                   @click="acceptToMyAd(r)"
                 >
                   Принять
                 </button>
                 <button
                   class="request-info__btn-inject"
-                  @click="refuseToMyAd(r.id)"
+                  @click="refuseToMyAd(r)"
                 >
                   Отклонить
                 </button>
               </div>
+              <button
+                class="requestMyParty-block__btn-info"
+                @click="clickInfoWindow(r.author_id)"
+              >
+                <i class="el-icon-camera"></i>
+              </button>
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <div v-if="isClickInfo">
+      <InfoRequestMyParty
+        @clickButtonClose="isClickInfo = false"
+        :idPerson="idPerson"
+      />
     </div>
     <div class="not-requestMyParty" v-if="!haveRequestMyParty">
       <div>
@@ -48,37 +61,60 @@
 </template>
 
 <script>
+import InfoRequestMyParty from "./InfoRequestMyParty.vue";
+
 export default {
+  data() {
+    return {
+      isClickInfo: false,
+      idPerson: 0,
+    };
+  },
   computed: {
     haveRequestMyParty() {
       return this.$store.getters["myParty/haveRequestMyParty"];
     },
-    RequestMyParty() {
-      return this.$store.getters["myParty/RequestMyParty"];
+    requestMyParty() {
+      return this.$store.getters["myParty/requestMyParty"];
     },
   },
   methods: {
+    clickInfoWindow(idPerson) {
+      if (typeof idPerson === "number") {
+        this.idPerson = idPerson;
+        this.isClickInfo = true;
+      }
+    },
     acceptToMyAd(r) {
       const adId = this.$store.state.myParty.myAdId;
 
       const formData = {
-        id_user: r.author__id,
+        id_user: r.author_id,
         id_ad: adId,
       };
 
       try {
-        this.$store.dispatch("myParty/acceptParticipantOnParty", formData);
+        this.$store.dispatch("myParty/acceptParticipantOnParty", {
+          formData: formData,
+          authorId: r.author_id,
+        });
       } catch (e) {
         console.log("error in acceptToMyId method from RequestMyParty.vue", e);
       }
     },
-    refuseToMyAd(idPerson) {
+    refuseToMyAd(r) {
       try {
-        this.$store.dispatch("myParty/refuseParticipantOnParty", idPerson);
+        this.$store.dispatch("myParty/refuseParticipantOnParty", {
+          idPerson: r.id,
+          authorId: r.author_id,
+        });
       } catch (error) {
         console.log("error in refuseToMyAd method from RequestMyParty.vue", e);
       }
     },
+  },
+  components: {
+    InfoRequestMyParty,
   },
 };
 </script>
@@ -96,6 +132,21 @@ export default {
   margin: 10px 0 70px 105px;
   width: 302.7px;
   height: 302px;
+
+  &__btn-info {
+    position: absolute;
+    right: 7px;
+    top: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 18px;
+
+    i {
+      font-size: 25px;
+    }
+  }
 
   @include breakpoint(dxxxxl) {
     margin: 10px 0 70px 90px;

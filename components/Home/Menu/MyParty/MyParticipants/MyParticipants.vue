@@ -1,277 +1,68 @@
 <template>
-  <div class="my-participants">
-    <div
-      class="participants-block"
-      v-if="haveMyParticipants"
-      @click.self="isClickInfo = false"
-    >
-      <div class="participants-block__person">
-        <div class="participants-block__person-img">
+  <div>
+    <div class="my-participants">
+      <div
+        class="participants-block"
+        v-if="haveMyParticipants"
+        @click.self="isClickInfo = false"
+      >
+        <div
+          class="participants-block__person"
+          v-for="mp in myParticipants"
+          :key="mp.id"
+        >
+          <div class="participants-block__person-img">
+            <img :src="`http://127.0.0.1:8000${mp.user.photo}`" alt="photo" />
+            <button
+              class="participants-block__person-btn-one"
+              @click="isClickInfo = true"
+            >
+              <i class="el-icon-info"></i>
+            </button>
+            <button class="participants-block__person-btn-two">
+              <i class="el-icon-s-comment"></i>
+            </button>
+            <button
+              class="participants-block__person-btn-three"
+              @click="deletePerson(mp)"
+            >
+              <i class="el-icon-delete-solid"></i>
+            </button>
+          </div>
+          <div class="participants-block__info">
+            <div class="participants-block__name">{{ mp.user.username }}</div>
+            <div class="participants-block__reduction-name">
+              ({{ mp.user.username }})
+            </div>
+          </div>
+        </div>
+      </div>
+      <div v-if="isClickInfo">
+        <div
+          class="participants-person-card"
+          v-for="mp in myParticipants"
+          :key="mp.id"
+        >
           <img
-            src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png"
-            alt="photo"
+            :src="`http://127.0.0.1:8000${mp.user.photo}`"
+            alt="tony profile picture"
           />
-          <button
-            class="participants-block__person-btn-one"
-            @click="isClickInfo = true"
-          >
-            <i class="el-icon-info"></i>
-          </button>
-          <button class="participants-block__person-btn-two">
-            <i class="el-icon-s-comment"></i>
-          </button>
-          <button
-            class="participants-block__person-btn-three"
-            @click="deletePerson"
-          >
-            <i class="el-icon-delete-solid"></i>
-          </button>
-        </div>
-        <div class="participants-block__info">
-          <div class="participants-block__name">Владислав Новиков</div>
-          <div class="participants-block__reduction-name">(Владислав)</div>
+          <p class="participants-person-card__name">
+            <strong>{{ mp.user.username }}</strong>
+          </p>
+          <p class="participants-person-card__sex"><i>Мужской</i></p>
         </div>
       </div>
-      <div class="participants-block__person">
-        <div class="participants-block__person-img">
-          <img
-            src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png"
-            alt="photo"
-          />
-          <button
-            class="participants-block__person-btn-one"
-            @click="isClickInfo = true"
-          >
-            <i class="el-icon-info"></i>
-          </button>
-          <button class="participants-block__person-btn-two">
-            <i class="el-icon-s-comment"></i>
-          </button>
-          <button
-            class="participants-block__person-btn-three"
-            @click="deletePerson"
-          >
-            <i class="el-icon-delete-solid"></i>
-          </button>
+      <div class="not-participants" v-if="!haveMyParticipants">
+        <div>
+          <i class="el-icon-male not-participants__icon-one"></i>
+          <i class="el-icon-female not-participants__icon-two"></i>
         </div>
-        <div class="participants-block__info">
-          <div class="participants-block__name">Владислав Новиков</div>
-          <div class="participants-block__reduction-name">(Владислав)</div>
+        <div class="not-participants__text">
+          Список участников пуст! <br />
+          Нажмите на выпадающий список в правом верхнем углу окна. <br />
+          Если он пуст, то создайте объявление
         </div>
-      </div>
-      <div class="participants-block__person">
-        <div class="participants-block__person-img">
-          <img
-            src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png"
-            alt="photo"
-          />
-          <button
-            class="participants-block__person-btn-one"
-            @click="isClickInfo = true"
-          >
-            <i class="el-icon-info"></i>
-          </button>
-          <button class="participants-block__person-btn-two">
-            <i class="el-icon-s-comment"></i>
-          </button>
-          <button
-            class="participants-block__person-btn-three"
-            @click="deletePerson"
-          >
-            <i class="el-icon-delete-solid"></i>
-          </button>
-        </div>
-        <div class="participants-block__info">
-          <div class="participants-block__name">Владислав Новиков</div>
-          <div class="participants-block__reduction-name">(Владислав)</div>
-        </div>
-      </div>
-      <div class="participants-block__person">
-        <div class="participants-block__person-img">
-          <img
-            src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png"
-            alt="photo"
-          />
-          <button
-            class="participants-block__person-btn-one"
-            @click="isClickInfo = true"
-          >
-            <i class="el-icon-info"></i>
-          </button>
-          <button class="participants-block__person-btn-two">
-            <i class="el-icon-s-comment"></i>
-          </button>
-          <button
-            class="participants-block__person-btn-three"
-            @click="deletePerson"
-          >
-            <i class="el-icon-delete-solid"></i>
-          </button>
-        </div>
-        <div class="participants-block__info">
-          <div class="participants-block__name">Владислав Новиков</div>
-          <div class="participants-block__reduction-name">(Владислав)</div>
-        </div>
-      </div>
-      <div class="participants-block__person">
-        <div class="participants-block__person-img">
-          <img
-            src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png"
-            alt="photo"
-          />
-          <button
-            class="participants-block__person-btn-one"
-            @click="isClickInfo = true"
-          >
-            <i class="el-icon-info"></i>
-          </button>
-          <button class="participants-block__person-btn-two">
-            <i class="el-icon-s-comment"></i>
-          </button>
-          <button
-            class="participants-block__person-btn-three"
-            @click="deletePerson"
-          >
-            <i class="el-icon-delete-solid"></i>
-          </button>
-        </div>
-        <div class="participants-block__info">
-          <div class="participants-block__name">Владислав Новиков</div>
-          <div class="participants-block__reduction-name">(Владислав)</div>
-        </div>
-      </div>
-      <div class="participants-block__person">
-        <div class="participants-block__person-img">
-          <img
-            src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png"
-            alt="photo"
-          />
-          <button
-            class="participants-block__person-btn-one"
-            @click="isClickInfo = true"
-          >
-            <i class="el-icon-info"></i>
-          </button>
-          <button class="participants-block__person-btn-two">
-            <i class="el-icon-s-comment"></i>
-          </button>
-          <button
-            class="participants-block__person-btn-three"
-            @click="deletePerson"
-          >
-            <i class="el-icon-delete-solid"></i>
-          </button>
-        </div>
-        <div class="participants-block__info">
-          <div class="participants-block__name">Владислав Новиков</div>
-          <div class="participants-block__reduction-name">(Владислав)</div>
-        </div>
-      </div>
-      <div class="participants-block__person">
-        <div class="participants-block__person-img">
-          <img
-            src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png"
-            alt="photo"
-          />
-          <button
-            class="participants-block__person-btn-one"
-            @click="isClickInfo = true"
-          >
-            <i class="el-icon-info"></i>
-          </button>
-          <button class="participants-block__person-btn-two">
-            <i class="el-icon-s-comment"></i>
-          </button>
-          <button
-            class="participants-block__person-btn-three"
-            @click="deletePerson"
-          >
-            <i class="el-icon-delete-solid"></i>
-          </button>
-        </div>
-        <div class="participants-block__info">
-          <div class="participants-block__name">Владислав Новиков</div>
-          <div class="participants-block__reduction-name">(Владислав)</div>
-        </div>
-      </div>
-      <div class="participants-block__person">
-        <div class="participants-block__person-img">
-          <img
-            src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png"
-            alt="photo"
-          />
-          <button
-            class="participants-block__person-btn-one"
-            @click="isClickInfo = true"
-          >
-            <i class="el-icon-info"></i>
-          </button>
-          <button class="participants-block__person-btn-two">
-            <i class="el-icon-s-comment"></i>
-          </button>
-          <button
-            class="participants-block__person-btn-three"
-            @click="deletePerson"
-          >
-            <i class="el-icon-delete-solid"></i>
-          </button>
-        </div>
-        <div class="participants-block__info">
-          <div class="participants-block__name">Владислав Новиков</div>
-          <div class="participants-block__reduction-name">(Владислав)</div>
-        </div>
-      </div>
-      <div class="participants-block__person">
-        <div class="participants-block__person-img">
-          <img
-            src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png"
-            alt="photo"
-          />
-          <button
-            class="participants-block__person-btn-one"
-            @click="isClickInfo = true"
-          >
-            <i class="el-icon-info"></i>
-          </button>
-          <button class="participants-block__person-btn-two">
-            <i class="el-icon-s-comment"></i>
-          </button>
-          <button
-            class="participants-block__person-btn-three"
-            @click="deletePerson"
-          >
-            <i class="el-icon-delete-solid"></i>
-          </button>
-        </div>
-        <div class="participants-block__info">
-          <div class="participants-block__name">Владислав Новиков</div>
-          <div class="participants-block__reduction-name">(Владислав)</div>
-        </div>
-      </div>
-    </div>
-    <div class="participants-person-card" v-if="isClickInfo">
-      <img
-        src="../../../../../assets/Home/Menu/MyParticipants/image-user-big-one.png"
-        alt="tony profile picture"
-      />
-      <p class="participants-person-card__name">
-        <strong>Владислав Новиков</strong>
-      </p>
-      <p class="participants-person-card__sex"><i>Мужской</i></p>
-      <p class="participants-person-card__info">
-        I have been fishing on the bay for many years. Ice fishing is my
-        specialty.
-      </p>
-    </div>
-    <div class="not-participants" v-if="!haveMyParticipants">
-      <div>
-        <i class="el-icon-male not-participants__icon-one"></i>
-        <i class="el-icon-female not-participants__icon-two"></i>
-      </div>
-      <div class="not-participants__text">
-        Список участников пуст! <br />
-        Нажмите на выпадающий список в правом верхнем углу окна. <br />
-        Если он пуст, то создайте объявление
       </div>
     </div>
   </div>
@@ -286,7 +77,7 @@ export default {
     };
   },
   methods: {
-    deletePerson() {
+    deletePerson(mp) {
       this.$confirm(
         "Вы действительно хотите удалить пользователя из вашей вечеринки?",
         "",
@@ -296,16 +87,26 @@ export default {
           type: "warning",
         }
       ).then(() => {
-        this.$message({
-          type: "success",
-          message: "Пользователь успешно выгнан",
-        });
+        try {
+          this.$store.dispatch("myParty/deleteParticipant", {
+            ad_pk: mp.id_ad,
+            participant_pk: mp.participant_id,
+          });
+        } catch (e) {
+          console.log(
+            "error in deletePerson method from MyParticipants.vue",
+            e
+          );
+        }
       });
     },
   },
   computed: {
     haveMyParticipants() {
       return this.$store.getters["myParty/haveMyParticipants"];
+    },
+    myParticipants() {
+      return this.$store.getters["myParty/myParticipants"];
     },
   },
 };
@@ -589,17 +390,21 @@ export default {
 
   img {
     border-radius: 50%;
+    width: 230px;
     height: 230px;
 
     @include breakpoint(dxxxl) {
+      width: 200px;
       height: 200px;
     }
 
     @include breakpoint(dxxl) {
+      width: 200px;
       height: 200px;
     }
 
     @include breakpoint(dsm) {
+      width: 130px;
       height: 130px;
     }
   }

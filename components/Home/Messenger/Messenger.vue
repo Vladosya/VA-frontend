@@ -34,7 +34,7 @@
             </div>
           </nuxt-link>
         </div>
-        <div class="messenger-not-dialog" v-if="!isOpenDialog">
+        <div class="messenger-not-dialog" v-if="!haveMyDialogs">
           <i class="el-icon-notebook-1"></i>
           <p>Список диалогов пуст</p>
         </div>
@@ -76,6 +76,9 @@ export default {
   computed: {
     rooms() {
       return this.$store.getters["message/rooms"];
+    },
+    haveMyDialogs() {
+      return this.$store.getters["message/haveMyDialogs"];
     },
   },
   methods: {

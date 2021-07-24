@@ -10,7 +10,9 @@
             />
           </button>
         </div>
-        <div class="marker-header__title">{{ ad.title }}</div>
+        <div class="marker-header__title">
+          {{ ad.author.id === myData[0].id ? "Ваше объявление" : ad.title }}
+        </div>
         <div class="marker-header__close">
           <button @click="$emit('closeInfoPerson')">
             <img
@@ -72,9 +74,12 @@
               ></el-progress>
             </div>
           </div>
-          <div class="marker-progress__btn">
+          <div
+            class="marker-progress__btn"
+            v-if="ad.participants.length !== ad.number_of_person"
+          >
             <button
-              @click="openWindowApply = !openWindowApply"
+              @click="openWindowStepOne = !openWindowStepOne"
               v-if="myData[0].id !== ad.author.id"
             >
               Подать заявку
@@ -91,16 +96,17 @@
           </div>
         </div>
       </div>
-      <div v-if="openWindowApply">
-        <div class="apply-window-all" v-if="myData[0].id !== ad.author.id">
-          <div class="apply-window-all__header">
+      <div v-if="openWindowStepOne">
+        <div class="apply-window-one" v-if="myData[0].id !== ad.author.id">
+          <div class="apply-window-one__header">
+            <div>Шаг 1</div>
             <p>Заявка на вписку</p>
             <button>
-              <i @click="openWindowApply = false" class="el-icon-close"></i>
+              <i @click="openWindowStepOne = false" class="el-icon-close"></i>
             </button>
           </div>
 
-          <div class="apply-window-all__boy">
+          <div class="apply-window-one__boy">
             <img src="@/assets/Home/markerInfo/boy.svg" alt="boy-assert" />
             <p>Количество парней:</p>
             <el-tooltip
@@ -118,7 +124,7 @@
               ></el-input-number>
             </el-tooltip>
           </div>
-          <div class="apply-window-all__girl">
+          <div class="apply-window-one__girl">
             <img src="@/assets/Home/markerInfo/girl.svg" alt="girl-assert" />
             <p>Количество девушек:</p>
             <el-tooltip
@@ -136,7 +142,7 @@
               ></el-input-number>
             </el-tooltip>
           </div>
-          <div class="apply-window-all__people">
+          <div class="apply-window-one__people">
             <img
               src="@/assets/Home/markerInfo/people.svg"
               alt="people-assert"
@@ -150,10 +156,17 @@
               :disabled="true"
             ></el-input-number>
           </div>
-          <div class="apply-window-all__btn">
-            <button @click="applyForMembership">Подтвердить</button>
+          <div class="apply-window-one__btn">
+            <button @click="passedStepOne">Подтвердить</button>
           </div>
         </div>
+      </div>
+      <div v-if="openWindowStepTwo">
+        <ApplyStepTwo
+          :openWindowStepTwo="openWindowStepTwo"
+          @openWindowStepTwo="openWindowStepTwo = false"
+          @applyForMembership="applyForMembership"
+        />
       </div>
     </div>
   </div>
@@ -161,6 +174,7 @@
 
 <script>
 import { required } from "vuelidate/lib/validators";
+import ApplyStepTwo from "./ApplyStepTwo.vue";
 
 export default {
   props: {
@@ -189,7 +203,8 @@ export default {
       currentPagePeople: 0,
       size: 5,
       myData: process.client ? JSON.parse(localStorage.getItem("myData")) : [],
-      openWindowApply: false,
+      openWindowStepOne: false,
+      openWindowStepTwo: false,
       assertInAd: {
         girl: 0,
         boy: 0,
@@ -246,21 +261,29 @@ export default {
     prevPerson() {
       this.currentPagePeople--;
     },
-    applyForMembership() {
+    passedStepOne() {
+      this.openWindowStepOne = false;
+      this.openWindowStepTwo = true;
+    },
+    applyForMembership(data) {
       if (this.adInfo.length > 0) {
-        const formData = {
-          id_ad: this.adInfo[0].id,
-          number_of_person: this.assertInAd.girl + this.assertInAd.boy,
-          number_of_girls: this.assertInAd.girl,
-          number_of_boys: this.assertInAd.boy,
-          photos: this.myData[0].photo.toString(),
-        };
+        const formData = new FormData();
+        formData.append("id_ad", this.adInfo[0].id);
+        formData.append(
+          "number_of_person",
+          this.assertInAd.girl + this.assertInAd.boy
+        );
+        formData.append("number_of_girls", this.assertInAd.girl);
+        formData.append("number_of_boys", this.assertInAd.boy);
+        formData.append("photo_participants", data.photoPeople);
+        formData.append("photo_alcohol", data.photoAlcohol);
 
         try {
           this.$store.dispatch("map/applyForMembership", formData);
           setTimeout(() => {
             if (this.applyToParty === true) {
               this.openWindowApply = false;
+              this.openWindowStepTwo = false;
             }
           }, 100);
         } catch (e) {
@@ -271,6 +294,9 @@ export default {
         }
       }
     },
+  },
+  components: {
+    ApplyStepTwo,
   },
   validations: {
     assertInAd: {
@@ -299,7 +325,7 @@ export default {
   }
 }
 
-.apply-window-all {
+.apply-window-one {
   position: absolute;
   top: 80px;
   border: 1px solid #c4c4c4;
@@ -312,8 +338,22 @@ export default {
     display: flex;
     align-items: center;
 
+    div {
+      margin-left: 12px;
+      font-weight: 400;
+      font-style: normal;
+      font-size: 12px;
+      line-height: 19px;
+      text-align: center;
+
+      @include breakpoint(dxxxl) {
+        margin-left: 10px;
+        font-size: 10px;
+      }
+    }
+
     p {
-      margin-left: 170px;
+      margin-left: 125px;
       font-weight: 400;
       font-style: normal;
       font-size: 13px;
@@ -321,7 +361,7 @@ export default {
       text-align: center;
 
       @include breakpoint(dxxxl) {
-        margin-left: 170px;
+        margin-left: 118px;
         font-size: 11px;
       }
     }
@@ -330,7 +370,7 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-left: 148px;
+      margin-left: 152px;
       width: 12px;
       height: 12px;
       background: none;
@@ -340,7 +380,7 @@ export default {
       }
 
       @include breakpoint(dxxxl) {
-        margin-left: 125px;
+        margin-left: 136px;
       }
     }
   }

@@ -97,7 +97,7 @@ export const actions = {
       );
 
       if (applyMembership.status === "success") {
-        commit("applyToParty", true);
+        await commit("applyToParty", true);
         $nuxt.$message({
           message: `${applyMembership.message}`,
           type: "success"

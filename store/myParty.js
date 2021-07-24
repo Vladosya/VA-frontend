@@ -8,7 +8,9 @@ export const state = () => ({
   haveMyParticipants: false,
   haveRequestMyParty: false,
   selectedId: null,
-  RequestMyParty: []
+  requestMyParty: [],
+  filterByIdRequestMyParty: [],
+  myParticipants: []
 });
 
 export const mutations = {
@@ -56,7 +58,46 @@ export const mutations = {
     }
   },
   getRequestMyParty(state, payload) {
-    state.RequestMyParty = payload;
+    if (state.requestMyParty.length === 0) {
+      payload.forEach(u => {
+        return state.requestMyParty.push(u);
+      });
+    } else if (state.requestMyParty.length > 0) {
+      payload.forEach(u => {
+        return state.requestMyParty.push(u);
+      });
+    }
+  },
+  filterByIdRequestMyParty(state, payload) {
+    state.filterByIdRequestMyParty = state.requestMyParty.filter(i => {
+      return i.author_id === payload;
+    });
+  },
+  filterRequestMyPartyIfAccept(state, payload) {
+    state.requestMyParty = state.requestMyParty.filter(p => {
+      return p.author_id !== payload;
+    });
+  },
+  filterRequestMyPartyIfRefuse(state, payload) {
+    state.requestMyParty = state.requestMyParty.filter(p => {
+      return p.author_id !== payload;
+    });
+  },
+  getMyParticipants(state, payload) {
+    if (state.myParticipants.length === 0) {
+      payload.forEach(u => {
+        return state.myParticipants.push(u);
+      });
+    } else if (state.myParticipants.length > 0) {
+      payload.forEach(u => {
+        return state.myParticipants.push(u);
+      });
+    }
+  },
+  filterGetMyPartipantsIfDelete(state, payload) {
+    state.myParticipants = state.myParticipants.filter(p => {
+      return p.participant_id !== payload;
+    });
   }
 };
 
@@ -151,19 +192,53 @@ export const actions = {
 
     try {
       const getMyParticipants = await this.$axios.$get(
-        `${process.env.BASE_URL}/participant/${state.selectedId}/`,
+        `${process.env.BASE_URL}/participant/my_participants/${state.selectedId}/`,
         {
           headers: { Authorization: "Bearer " + token }
         }
       );
 
       if (getMyParticipants.status === "success") {
+        if (state.myParticipants.length > 0) {
+          const updateData = getMyParticipants.data.filter(u => {
+            return u.user.id !== state.myParticipants[0].user.id;
+          });
+          commit("getMyParticipants", updateData);
+        } else {
+          commit("getMyParticipants", getMyParticipants.data);
+        }
         commit("haveMyParticipants", true);
       } else {
         commit("haveMyParticipants", false);
       }
     } catch (e) {
       console.log("error in getMyParticipants action in myParty.js", e);
+    }
+  },
+  async deleteParticipant({ state, commit }, { ad_pk, participant_pk }) {
+    const token = $nuxt.$cookies.get("token");
+
+    try {
+      const deleteParticipant = await this.$axios.$delete(
+        `${process.env.BASE_URL}/participant/remove/${ad_pk}/${participant_pk}/`,
+        {
+          headers: { Authorization: "Bearer " + token }
+        }
+      );
+
+      if (deleteParticipant.status === "success") {
+        await commit("filterGetMyPartipantsIfDelete", participant_pk);
+        $nuxt.$message({
+          message: `${deleteParticipant.message}`,
+          type: "success"
+        });
+
+        if (state.myParticipants.length === 0) {
+          commit("haveMyParticipants", false);
+        }
+      }
+    } catch (e) {
+      console.log("error in deleteParticipant action in myParty.js", e);
     }
   },
   async getRequestMyParty({ state, commit }) {
@@ -178,8 +253,15 @@ export const actions = {
       );
 
       if (getRequestMyParty.status === "success") {
+        if (state.requestMyParty.length > 0) {
+          const updateData = getRequestMyParty.data.filter(u => {
+            return u.author_id !== state.requestMyParty[0].author_id;
+          });
+          commit("getRequestMyParty", updateData);
+        } else {
+          commit("getRequestMyParty", getRequestMyParty.data);
+        }
         commit("haveRequestMyParty", true);
-        commit("getRequestMyParty", getRequestMyParty.data);
       } else {
         commit("haveRequestMyParty", false);
       }
@@ -187,7 +269,7 @@ export const actions = {
       console.log("error in getRequestMyParty action in myParty.js", e);
     }
   },
-  async acceptParticipantOnParty(_, formData) {
+  async acceptParticipantOnParty({ state, commit }, { formData, authorId }) {
     const token = $nuxt.$cookies.get("token");
 
     try {
@@ -200,10 +282,15 @@ export const actions = {
       );
 
       if (acceptParticipant.status === "success") {
+        await commit("filterRequestMyPartyIfAccept", authorId);
         $nuxt.$message({
           message: `${acceptParticipant.message}`,
           type: "success"
         });
+
+        if (state.requestMyParty.length === 0) {
+          commit("haveRequestMyParty", false);
+        }
       }
     } catch (e) {
       console.log(
@@ -212,7 +299,7 @@ export const actions = {
       );
     }
   },
-  async refuseParticipantOnParty(_, idPerson) {
+  async refuseParticipantOnParty({ state, commit }, { idPerson, authorId }) {
     const token = $nuxt.$cookies.get("token");
 
     try {
@@ -224,10 +311,15 @@ export const actions = {
       );
 
       if (refuseParticipant.status === "success") {
+        await commit("filterRequestMyPartyIfRefuse", authorId);
         $nuxt.$message({
           message: `${refuseParticipant.message}`,
           type: "success"
         });
+
+        if (state.requestMyParty.length === 0) {
+          commit("haveRequestMyParty", false);
+        }
       }
     } catch (e) {
       console.log("error in refuseParticipantOnParty action in myParty.js", e);
@@ -257,7 +349,13 @@ export const getters = {
   myAdById(state) {
     return state.myAdById;
   },
-  RequestMyParty(state) {
-    return state.RequestMyParty;
+  requestMyParty(state) {
+    return state.requestMyParty;
+  },
+  filterByIdRequestMyParty(state) {
+    return state.filterByIdRequestMyParty;
+  },
+  myParticipants(state) {
+    return state.myParticipants;
   }
 };

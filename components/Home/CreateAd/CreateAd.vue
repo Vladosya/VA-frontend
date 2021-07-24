@@ -212,10 +212,6 @@ export default {
           lat: data[0].position.lat,
           lng: data[0].position.lng,
         };
-        console.log(
-          "this.createdAdForm.coordinates",
-          this.createdAdForm.coordinates
-        );
       }
     },
   },

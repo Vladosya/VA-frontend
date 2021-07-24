@@ -58,7 +58,7 @@ export default {
   },
   created() {
     if (process.client) {
-      this.connectedConfirmAccount();
+      this.notificationForAccount();
       this.connectedAdPublish();
     }
   },
@@ -119,7 +119,7 @@ export default {
       this.openInfoPerson = false;
       this.gmapMarkerOptions.clickable = true;
     },
-    connectedConfirmAccount() {
+    notificationForAccount() {
       if (process.client) {
         setTimeout(() => {
           const token = $nuxt.$cookies.get("token");
@@ -153,10 +153,73 @@ export default {
             } else if (
               data.message_to_room.event === "Add in the participants"
             ) {
+              this.$store.commit("myParty/getMyParticipants", [
+                {
+                  id_ad: data.message_to_room.id_ad,
+                  participant_id: data.message_to_room.participant_id,
+                  user: {
+                    id: data.message_to_room.participant.user.id,
+                    photo: data.message_to_room.participant.user.photo,
+                    username: data.message_to_room.participant.user.username,
+                  },
+                },
+              ]);
               this.$notify({
                 title: "Статус заявки",
                 message: `${data.message_to_room.message}`,
                 type: "success",
+                position: "top-left",
+              });
+            } else if (
+              data.message_to_room.event === "Kick Out from the party"
+            ) {
+              this.$notify({
+                title: "Статус на вечеринки",
+                message: `${data.message_to_room.message}`,
+                type: "warning",
+                position: "top-left",
+              });
+            } else if (data.message_to_room.event === "Reject Bid") {
+              this.$notify({
+                title: "Статус заявки",
+                message: `${data.message_to_room.message}`,
+                type: "warning",
+                position: "top-left",
+              });
+            } else if (data.message_to_room.event === "Create bid") {
+              this.$store.commit("myParty/getRequestMyParty", [
+                {
+                  author_id: data.message_to_room.bid.author_bid.id,
+                  id: data.message_to_room.bid.bid_id,
+                  number_of_boys: data.message_to_room.bid.data.number_of_boys,
+                  number_of_girls:
+                    data.message_to_room.bid.data.number_of_girls,
+                  number_of_person:
+                    data.message_to_room.bid.data.number_of_person,
+                  photo_user:
+                    data.message_to_room.bid.author_bid.photo.substr(8),
+                  photos__photo_alcohol:
+                    data.message_to_room.bid.data.photos.photo_alcohol ===
+                    "/images/"
+                      ? ""
+                      : data.message_to_room.bid.data.photos.photo_alcohol.substr(
+                          8
+                        ),
+                  photos__photo_participants:
+                    data.message_to_room.bid.data.photos.photo_participants ===
+                    "/images/"
+                      ? ""
+                      : data.message_to_room.bid.data.photos.photo_participants.substr(
+                          8
+                        ),
+                  username: data.message_to_room.bid.author_bid.username,
+                },
+              ]);
+
+              this.$notify({
+                title: "Заявка на вашу вечеринку",
+                message: `${data.message_to_room.message}`,
+                type: "warning",
                 position: "top-left",
               });
             }

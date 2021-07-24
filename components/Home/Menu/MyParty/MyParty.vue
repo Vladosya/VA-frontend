@@ -2,19 +2,29 @@
   <div class="myParty-block">
     <div class="myParty-block__flex">
       <div class="myParty-item-block">
-        <nuxt-link class="myParty-item-block__item-one" to="/home/menu/myParty/myAd">
+        <nuxt-link
+          class="myParty-item-block__item-one"
+          to="/home/menu/myParty/myAd"
+        >
           <button>
             <i class="el-icon-postcard"></i>
             <div>Мое объявление</div>
           </button>
         </nuxt-link>
-        <nuxt-link class="myParty-item-block__item-two" exact to="/home/menu/myParty/myParticipants">
+        <nuxt-link
+          class="myParty-item-block__item-two"
+          exact
+          to="/home/menu/myParty/myParticipants"
+        >
           <button>
             <i class="el-icon-connection"></i>
             <div>Участники</div>
           </button>
         </nuxt-link>
-        <nuxt-link class="myParty-item-block__item-three" to="/home/menu/myParty/requestMyParty">
+        <nuxt-link
+          class="myParty-item-block__item-three"
+          to="/home/menu/myParty/requestMyParty"
+        >
           <button>
             <i class="el-icon-postcard"></i>
             <div>Заявки на вечеринку</div>
@@ -23,24 +33,32 @@
       </div>
       <div class="myParty-filter">
         <el-tooltip
-          class="item" effect="dark" content="Выбрать вечеринку" placement="top"
+          class="item"
+          effect="dark"
+          content="Выбрать вечеринку"
+          placement="top"
         >
-          <el-select size="mini" no-data-text="объявлений нет" v-model="value" placeholder="Выбрать"
-                     class="myParty-filter__input">
+          <el-select
+            size="mini"
+            no-data-text="объявлений нет"
+            v-model="value"
+            placeholder="Выбрать"
+            class="myParty-filter__input"
+          >
             <el-option
               v-for="item in myAdByFilter"
               :key="item.id"
               :label="item.nameParty"
               :value="item.nameParty"
             >
-              <div @click='selectedId(item.id)'>
+              <div @click="selectedId(item.id)">
                 <span>{{ item.nameParty }}</span>
                 <span>{{
-                    item.dateParty.substr(8, 2)
-                    + item.dateParty.substr(4, 3)
-                    + '-'
-                    + item.dateParty.substr(0, 4)
-                  }}</span>
+                  item.dateParty.substr(8, 2) +
+                  item.dateParty.substr(4, 3) +
+                  "-" +
+                  item.dateParty.substr(0, 4)
+                }}</span>
               </div>
             </el-option>
           </el-select>
@@ -57,35 +75,35 @@
 export default {
   beforeCreate() {
     if (process.browser) {
-      if (this.$store.getters['myParty/myAd'].length === 0) {
-        this.$store.dispatch('myParty/getMyAd')
+      if (this.$store.getters["myParty/myAd"].length === 0) {
+        this.$store.dispatch("myParty/getMyAd");
       }
     }
   },
   data() {
     return {
-      value: ''
-    }
+      value: "",
+    };
   },
   methods: {
     selectedId(id) {
       if (this.$store.state.myParty.selectedId !== id) {
-        this.$store.commit('myParty/selectedId', id)
+        this.$store.commit("myParty/selectedId", id);
 
-        if (typeof this.$store.state.myParty.selectedId === 'number') {
-          this.$store.commit('myParty/getMyAdById', true)
-          this.$store.dispatch('myParty/getMyParticipants')
-          this.$store.dispatch('myParty/getRequestMyParty')
+        if (typeof this.$store.state.myParty.selectedId === "number") {
+          this.$store.commit("myParty/getMyAdById", true);
+          this.$store.dispatch("myParty/getMyParticipants");
+          this.$store.dispatch("myParty/getRequestMyParty");
         }
       }
-    }
+    },
   },
   computed: {
     myAdByFilter() {
-      return this.$store.getters['myParty/myAdByFilter']
-    }
-  }
-}
+      return this.$store.getters["myParty/myAdByFilter"];
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">

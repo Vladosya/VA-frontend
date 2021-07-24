@@ -1,6 +1,7 @@
 export const state = () => ({
   rooms: [],
-  chooseRoom: []
+  chooseRoom: [],
+  haveMyDialogs: false
 });
 
 export const mutations = {
@@ -12,6 +13,9 @@ export const mutations = {
   },
   createMessage(state, payload) {
     state.chooseRoom.push(payload);
+  },
+  haveMyDialogs(state, payload) {
+    state.haveMyDialogs = payload;
   }
 };
 
@@ -24,10 +28,11 @@ export const actions = {
         headers: { Authorization: "Bearer " + token }
       });
 
-      console.log("room:", room);
-
-      if (rooms.data.length > 0) {
+      if (rooms.status === "success") {
         commit("getRooms", rooms.data);
+        commit("haveMyDialogs", true);
+      } else {
+        commit("haveMyDialogs", false);
       }
     } catch (e) {
       console.log("error in getRooms action in message.js", e);
@@ -61,5 +66,8 @@ export const getters = {
   },
   chooseRoom(state) {
     return state.chooseRoom;
+  },
+  haveMyDialogs(state) {
+    return state.haveMyDialogs;
   }
 };
