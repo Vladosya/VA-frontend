@@ -1,17 +1,24 @@
 <template>
   <div class="messenger-chat-content">
-    <div class="messenger-chat-dialogs">
+    <div class="messenger-chat-dialogs" @click.self="isOpenDialog = false">
       <div
         class="messenger-correspondence-person"
-        v-for="m in chooseRoom"
+        v-for="(m, index) in chooseRoom"
         :key="m.id"
+        @click.self="isOpenDialog = false"
       >
         <div class="messenger-correspondence-person__img">
-          <img
-            :src="`http://127.0.0.1:8000${m.user.photo}`"
-            alt="dsds"
-            class="messenger-correspondence-person__img-two"
-          />
+          <button
+            class="messenger-correspondence-person__btnImg"
+            :disabled="isOpenDialog"
+            @click.right.prevent="openInfoPerson(m, index, true)"
+          >
+            <img
+              :src="`http://127.0.0.1:8000${m.user.photo}`"
+              alt="dsds"
+              class="messenger-correspondence-person__img-two"
+            />
+          </button>
           <p class="messenger-correspondence-person__isOnline"></p>
         </div>
         <div class="messenger-correspondence-person__info">
@@ -22,9 +29,62 @@
             {{ m.text }}
           </div>
         </div>
+        <div class="info-person" v-if="m.editable">
+          <div class="info-person__title">
+            <p class="info-person__title-one">Пользователь:</p>
+            <b class="info-person__title-two">{{
+              myData[0].id === m.user.id ? "Ваше соощение" : m.user.username
+            }}</b>
+          </div>
+          <div class="info-person__account">
+            <button class="info-person__account-btn" @click="deletePerson(m)">
+              <i class="el-icon-user"></i>
+            </button>
+            <div class="info-person__account-text">Посмотреть профиль</div>
+          </div>
+          <div
+            class="info-person__freeze"
+            v-if="
+              myData[0].id !== m.user.id &&
+              m.user.id !== $store.state.message.authorId
+            "
+          >
+            <button class="info-person__freeze-btn" @click="freezePerson(m)">
+              <img
+                src="../../../assets/Home/Message/sendOff.svg"
+                alt="sendOff-icon"
+              />
+            </button>
+            <div class="info-person__freeze-text">Заглушить пользователя</div>
+          </div>
+          <div
+            class="info-person__delete"
+            v-if="
+              myData[0].id !== m.user.id &&
+              m.user.id !== $store.state.message.authorId
+            "
+          >
+            <button class="info-person__delete-btn" @click="deletePerson(m)">
+              <i class="el-icon-delete"></i>
+            </button>
+            <div class="info-person__delete-text">Удалить пользователя</div>
+          </div>
+          <div
+            class="info-person__deleteMessage"
+            v-if="myData[0].id === m.user.id"
+          >
+            <button
+              class="info-person__deleteMessage-btn"
+              @click="deleteMessage(m)"
+            >
+              <i class="el-icon-delete"></i>
+            </button>
+            <div class="info-person__deleteMessage-text">Удалить сообщение</div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="messenger-chat-sendMessage">
+    <div class="messenger-chat-sendMessage" @click="isOpenDialog = false">
       <div class="messenger-chat-sendMessage__clip">
         <button>
           <img
@@ -88,6 +148,9 @@ export default {
     return {
       messageText: "",
       connection: "",
+      isOpenDialog: false,
+      indexPerson: null,
+      myData: process.client ? JSON.parse(localStorage.getItem("myData")) : [],
     };
   },
   created() {
@@ -126,6 +189,9 @@ export default {
           id: getRandomInt(1, 999),
           room: this.$route.query.idRoom,
           text: JSON.parse(event.data).message_to_room[0].text,
+          editable: false,
+          freezePeople: false,
+          deletePeople: false,
           user: {
             id: JSON.parse(event.data).message_to_room[0].id,
             photo: JSON.parse(event.data).message_to_room[0].photo,
@@ -136,10 +202,45 @@ export default {
         this.$store.commit("message/createMessage", createMessage);
       };
     },
+    handler: function (e) {
+      //do stuff
+      e.preventDefault();
+    },
+    openInfoPerson(m, index, value) {
+      this.$store.commit("message/changeEditableByIdMessage", {
+        editableValue: value,
+        index,
+      });
+
+      this.indexPerson = index;
+      this.isOpenDialog = true;
+    },
+    freezePerson(m) {
+      console.log("mInFreezePerson:", m);
+    },
+    deletePerson(m) {
+      console.log("mInDeletePerson", m);
+    },
+    deleteMessage(m) {
+      console.log("mInDeleteMessage:", m);
+    },
     sendMessage() {
       if (this.messageText.length > 0) {
         this.connection.send(this.messageText);
         this.messageText = "";
+      }
+    },
+  },
+  watch: {
+    isOpenDialog() {
+      if (this.isOpenDialog === false) {
+        this.$store.commit("message/changeEditableByIdMessage", {
+          editableValue: false,
+          index: this.indexPerson,
+        });
+
+        this.isOpenDialog = false;
+        this.indexPerson = null;
       }
     },
   },
@@ -190,8 +291,18 @@ export default {
 }
 
 .messenger-correspondence-person {
+  position: relative;
   display: flex;
   margin: 0 10px 23px 0;
+
+  &__btnImg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    width: 43px;
+    height: 43px;
+  }
 
   &__img-two {
     border-radius: 100%;
@@ -690,6 +801,143 @@ export default {
 
   @include breakpoint(dlg) {
     height: 60px;
+  }
+}
+
+.info-person {
+  position: absolute;
+  left: 35px;
+  top: 43px;
+  z-index: 5;
+  border: 1px solid #000;
+  border-radius: 10px;
+  padding: 4px 4px 7px;
+  width: 250px;
+  background-color: #fff;
+
+  &__title {
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+  }
+
+  &__title-one {
+    font-weight: 500;
+    font-size: 15px;
+  }
+
+  &__title-two {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #771699;
+  }
+
+  &__account {
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+  }
+
+  &__account-btn {
+    margin-left: 17.5px;
+    border-radius: 100%;
+    width: 34px;
+    height: 34px;
+    background: none;
+
+    i {
+      font-size: 24px;
+    }
+
+    &:hover {
+      background-color: #e2e0e0;
+    }
+  }
+
+  &__account-text {
+    margin-left: 16px;
+    font-weight: 500;
+    font-size: 15px;
+  }
+
+  &__freeze {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
+  }
+
+  &__freeze-btn {
+    border-radius: 100%;
+    width: 34px;
+    height: 34px;
+    background: none;
+
+    &:hover {
+      background-color: #e2e0e0;
+    }
+  }
+
+  &__freeze-text {
+    margin-left: 15px;
+    font-weight: 500;
+    font-size: 15px;
+  }
+
+  &__delete {
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+  }
+
+  &__delete-btn {
+    margin-left: 17.5px;
+    border-radius: 100%;
+    width: 34px;
+    height: 34px;
+    background: none;
+
+    i {
+      font-size: 24px;
+    }
+
+    &:hover {
+      background-color: #e2e0e0;
+    }
+  }
+
+  &__delete-text {
+    margin-left: 16px;
+    font-weight: 500;
+    font-size: 15px;
+  }
+
+  &__deleteMessage {
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+  }
+
+  &__deleteMessage-btn {
+    margin-left: 17.5px;
+    border-radius: 100%;
+    width: 34px;
+    height: 34px;
+    background: none;
+
+    i {
+      font-size: 24px;
+    }
+
+    &:hover {
+      background-color: #e2e0e0;
+    }
+  }
+
+  &__deleteMessage-text {
+    margin-left: 16px;
+    font-weight: 500;
+    font-size: 15px;
   }
 }
 

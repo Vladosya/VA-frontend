@@ -8,14 +8,18 @@
     </div>
     <div class="messenger-block-chat">
       <div class="messenger-chat-participants">
-        <div @click="clickToDialog" v-for="room in rooms" :key="room.id">
+        <div
+          v-for="room in rooms"
+          :key="room.id"
+          @click="clickToDialog(room.ad.author.id)"
+        >
           <nuxt-link
             :to="`/home/messenger/${room.id}?idRoom=${room.id}`"
             class="messenger-participants-person"
           >
             <div class="messenger-participants-person__img">
               <img
-                src="../../../assets/Home/Message/partnerPhotoTwo.png"
+                :src="`http://127.0.0.1:8000${room.ad.author.photo}`"
                 alt="dsds"
                 class="messenger-participants-person__img-two"
               />
@@ -82,8 +86,11 @@ export default {
     },
   },
   methods: {
-    clickToDialog() {
-      this.isOpenDialog = true;
+    clickToDialog(authorId) {
+      if (typeof authorId === "number") {
+        this.$store.commit("message/chooseIdAuthor", authorId);
+        this.isOpenDialog = true;
+      }
     },
   },
 };
@@ -346,6 +353,8 @@ export default {
   padding: 10px 0 0 10px;
 
   &__img-two {
+    border-radius: 100%;
+
     @include breakpoint(dxxxxl) {
       width: 53px;
       height: 53px;

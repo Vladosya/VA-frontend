@@ -100,7 +100,10 @@ export default {
   },
   methods: {
     toggleInfoWindow(marker, idx) {
+      console.log("this.markers:", this.markers);
+      console.log("marker: " + marker);
       if (marker !== undefined) {
+        console.log("marker: " + marker);
         this.idPerson = marker.id;
         this.openInfoPerson = !this.openInfoPerson;
         this.gmapMarkerOptions.clickable = false;
@@ -135,6 +138,8 @@ export default {
 
           this.connection.onmessage = (event) => {
             const data = JSON.parse(event.data);
+
+            console.log("dataInNotificationForAccount:", data);
 
             if (data.message_to_room.event === "Success confirm account") {
               this.$notify({
@@ -245,6 +250,8 @@ export default {
           this.connection.onmessage = (event) => {
             const data = JSON.parse(event.data);
 
+            console.log("dataInConnectedAdPublish:", data);
+
             const modifiedMarker = {
               geolocation: JSON.parse(data.message_to_room.geolocation),
               id: data.message_to_room.id_ad,
@@ -254,6 +261,12 @@ export default {
 
             if (data.message_to_room.event === "Ad published") {
               if (data.message_to_room.ad.author.id === myData[0].id) {
+                this.$store.commit("map/getAdForMap", [
+                  {
+                    id: data.message_to_room.ad.id_ad,
+                    geolocation: JSON.parse(data.message_to_room.geolocation),
+                  },
+                ]);
                 this.$notify({
                   title: "Публикация объявления",
                   message: `${data.message_to_room.message}`,
@@ -261,6 +274,12 @@ export default {
                   position: "top-left",
                 });
               } else {
+                this.$store.commit("map/getAdForMap", [
+                  {
+                    id: data.message_to_room.ad.id_ad,
+                    geolocation: JSON.parse(data.message_to_room.geolocation),
+                  },
+                ]);
                 this.$notify({
                   title: "Публикация объявления",
                   message: `На карте появилось новое объявление. Посмотрите на него`,
