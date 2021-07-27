@@ -21,8 +21,14 @@ export const mutations = {
   haveMyDialogs(state, payload) {
     state.haveMyDialogs = payload;
   },
-  changeEditableByIdMessage(state, { editableValue, index }) {
+  changeEditable(state, { editableValue, index }) {
     state.chooseRoom[index].editable = editableValue;
+  },
+  changeOpenProfile(state, { openProfileValue, index }) {
+    state.chooseRoom[index].openProfile = openProfileValue;
+    if (state.chooseRoom[index].openProfile === true) {
+      state.chooseRoom[index].editable = false;
+    }
   }
 };
 
@@ -66,6 +72,7 @@ export const actions = {
             room: r.room,
             text: r.text,
             editable: false,
+            openProfile: false,
             freezePeople: false,
             deletePeople: false,
             user: {

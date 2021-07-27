@@ -1,11 +1,11 @@
 <template>
   <div class="messenger-chat-content">
-    <div class="messenger-chat-dialogs" @click.self="isOpenDialog = false">
+    <div class="messenger-chat-dialogs" @click.self="clickForLimit">
       <div
         class="messenger-correspondence-person"
         v-for="(m, index) in chooseRoom"
         :key="m.id"
-        @click.self="isOpenDialog = false"
+        @click.self="clickForLimit"
       >
         <div class="messenger-correspondence-person__img">
           <button
@@ -37,7 +37,10 @@
             }}</b>
           </div>
           <div class="info-person__account">
-            <button class="info-person__account-btn" @click="deletePerson(m)">
+            <button
+              class="info-person__account-btn"
+              @click="lookProfile(m, index, true)"
+            >
               <i class="el-icon-user"></i>
             </button>
             <div class="info-person__account-text">Посмотреть профиль</div>
@@ -82,6 +85,7 @@
             <div class="info-person__deleteMessage-text">Удалить сообщение</div>
           </div>
         </div>
+        <InfoPersonProfile :m="m" />
       </div>
     </div>
     <div class="messenger-chat-sendMessage" @click="isOpenDialog = false">
@@ -136,6 +140,8 @@
 </template>
 
 <script>
+import InfoPersonProfile from "@/components/Home/Messenger/InfoPersonProfile.vue";
+
 export default {
   beforeCreate() {
     if (!this.$store.getters["message/chooseRoom"].length) {
@@ -149,6 +155,7 @@ export default {
       messageText: "",
       connection: "",
       isOpenDialog: false,
+      isOpenProfile: false,
       indexPerson: null,
       myData: process.client ? JSON.parse(localStorage.getItem("myData")) : [],
     };
@@ -190,6 +197,7 @@ export default {
           room: this.$route.query.idRoom,
           text: JSON.parse(event.data).message_to_room[0].text,
           editable: false,
+          openProfile: false,
           freezePeople: false,
           deletePeople: false,
           user: {
@@ -206,14 +214,29 @@ export default {
       //do stuff
       e.preventDefault();
     },
+    clickForLimit() {
+      this.isOpenDialog = false;
+      this.isOpenProfile = false;
+    },
     openInfoPerson(m, index, value) {
-      this.$store.commit("message/changeEditableByIdMessage", {
+      this.$store.commit("message/changeEditable", {
         editableValue: value,
         index,
       });
 
       this.indexPerson = index;
       this.isOpenDialog = true;
+    },
+    lookProfile(m, index, value) {
+      if (this.isOpenProfile === false) {
+        this.$store.commit("message/changeOpenProfile", {
+          openProfileValue: value,
+          index,
+        });
+
+        this.indexPerson = index;
+        this.isOpenProfile = !this.isOpenProfile;
+      }
     },
     freezePerson(m) {
       console.log("mInFreezePerson:", m);
@@ -234,15 +257,28 @@ export default {
   watch: {
     isOpenDialog() {
       if (this.isOpenDialog === false) {
-        this.$store.commit("message/changeEditableByIdMessage", {
+        this.$store.commit("message/changeEditable", {
           editableValue: false,
           index: this.indexPerson,
         });
 
         this.isOpenDialog = false;
+      }
+    },
+    isOpenProfile() {
+      if (this.isOpenProfile === false) {
+        this.$store.commit("message/changeOpenProfile", {
+          openProfileValue: false,
+          index: this.indexPerson,
+        });
+
+        this.isOpenProfile = false;
         this.indexPerson = null;
       }
     },
+  },
+  components: {
+    InfoPersonProfile,
   },
 };
 </script>
@@ -938,6 +974,126 @@ export default {
     margin-left: 16px;
     font-weight: 500;
     font-size: 15px;
+  }
+}
+
+.participants-person-card {
+  position: fixed;
+  left: 810px;
+  top: 220px;
+  border-radius: 10px;
+  padding: 2em;
+  width: 300px;
+  box-shadow: 0 2px 5px rgb(0 0 0 / 50%), 0 1px 5px rgb(0 0 0 / 9%);
+  text-align: center;
+  background-color: #fff;
+
+  img {
+    border-radius: 50%;
+    width: 230px;
+    height: 230px;
+
+    @include breakpoint(dxxxl) {
+      width: 200px;
+      height: 200px;
+    }
+
+    @include breakpoint(dxxl) {
+      width: 200px;
+      height: 200px;
+    }
+
+    @include breakpoint(dsm) {
+      width: 130px;
+      height: 130px;
+    }
+  }
+
+  &__name {
+    margin-top: 5px;
+
+    strong {
+      font-size: 20px;
+
+      @include breakpoint(dxxxl) {
+        font-size: 14px;
+      }
+
+      @include breakpoint(dxxl) {
+        font-size: 14px;
+      }
+
+      @include breakpoint(dsm) {
+        font-size: 13px;
+      }
+    }
+
+    @include breakpoint(dxxxl) {
+      margin-top: 3px;
+    }
+
+    @include breakpoint(dxxl) {
+      margin-top: 3px;
+    }
+  }
+
+  &__info {
+    margin-top: 6px;
+    font-size: 18px;
+
+    @include breakpoint(dxxxl) {
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    @include breakpoint(dxxl) {
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    @include breakpoint(dsm) {
+      font-size: 11px;
+    }
+  }
+
+  @include breakpoint(dxxxxl) {
+    left: 880px;
+    top: 365px;
+  }
+
+  @include breakpoint(dxxxl) {
+    left: 726px;
+    top: 299px;
+    padding: 2em;
+    width: 250px;
+  }
+
+  @include breakpoint(dxxl) {
+    left: 810px;
+    top: 220px;
+    padding: 2em;
+    width: 250px;
+  }
+
+  @include breakpoint(dxl) {
+    left: 650px;
+    top: 300px;
+  }
+
+  @include breakpoint(dlg) {
+    left: 611px;
+    top: 235px;
+  }
+
+  @include breakpoint(dmd) {
+    left: 568px;
+    top: 255px;
+  }
+
+  @include breakpoint(dsm) {
+    left: 474px;
+    top: 270px;
+    width: 190px;
   }
 }
 
