@@ -28,6 +28,16 @@
           <div class="messenger-correspondence-person__letter">
             {{ m.text }}
           </div>
+          <div
+            class="messenger-correspondence-person__letter-img"
+            v-if="m.haveImg > 0"
+          >
+            <img
+              src="https://er.ru/media/news/May2021/OVlQJ0oPBDR1PKOFWWJw.jpg"
+              alt="upload-img-one"
+            />
+            <img v-if="m.haveImg > 1" src="" alt="upload-img-two" />
+          </div>
         </div>
         <div class="info-person" v-if="m.editable">
           <div class="info-person__title">
@@ -87,6 +97,58 @@
         </div>
         <InfoPersonProfile :m="m" />
       </div>
+      <div v-show="isOpenUploadWindow" class="upload-img">
+        <div class="upload-img__block">
+          <div class="upload-img__photo">
+            <img
+              v-show="haveImg > 0"
+              id="uploadImageOne"
+              src=""
+              alt="photo-upl-one"
+            />
+
+            <img
+              v-show="haveImg > 1"
+              id="uploadImageTwo"
+              src="https://er.ru/media/news/May2021/OVlQJ0oPBDR1PKOFWWJw.jpg"
+              alt="photo-upl-two"
+            />
+          </div>
+          <div class="upload-img__input">
+            <label for="textarea-letter">
+              <p>Сообщение:</p>
+              <el-input
+                id="textarea-letter"
+                rows="3"
+                resize="none"
+                maxlength="300"
+                type="textarea"
+                placeholder="Введите сообщение"
+                v-model.trim="textareaText"
+              >
+              </el-input>
+            </label>
+          </div>
+          <div class="upload-img__btns">
+            <input
+              type="file"
+              id="img-upload-two"
+              class="upload-img__btns-input"
+              ref="filePhotoImgTwo"
+              @change="handleImgUploadTwo($event)"
+            />
+            <button class="upload-img__btns-added">
+              <label for="img-upload-two">
+                <p>Добавить</p>
+              </label>
+            </button>
+            <button class="upload-img__btns-cancel" @click="clickForLimit">
+              Отмена
+            </button>
+            <button class="upload-img__btns-add">Отправить</button>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="messenger-chat-sendMessage" @click="isOpenDialog = false">
       <div class="messenger-chat-sendMessage__clip">
@@ -106,7 +168,7 @@
       <div>
         <label>
           <textarea
-            v-model="messageText"
+            v-model.trim="messageText"
             class="messenger-chat-sendMessage__input"
             placeholder="Напишите ваше сообщение..."
             @keydown.enter.prevent.exact="sendMessage"
@@ -122,13 +184,23 @@
             class="messenger-chat-sendMessage__smile"
           />
         </button>
-        <button class="messenger-chat-sendMessage__btn-two">
-          <img
-            src="../../../assets/Home/Message/image.svg"
-            alt="image"
-            class="messenger-chat-sendMessage__image"
-          />
-        </button>
+
+        <input
+          type="file"
+          id="img-upload"
+          class="messenger-chat-sendMessage__image-input"
+          ref="filePhotoImg"
+          @change="handleImgUploadOne($event)"
+        />
+        <div class="messenger-chat-sendMessage__btn-two">
+          <label for="img-upload">
+            <img
+              src="../../../assets/Home/Message/image.svg"
+              alt="image"
+              class="messenger-chat-sendMessage__image"
+            />
+          </label>
+        </div>
       </div>
       <div class="messenger-chat-sendMessage__send" @click="sendMessage">
         <button>
@@ -156,8 +228,16 @@ export default {
       connection: "",
       isOpenDialog: false,
       isOpenProfile: false,
+      isOpenUploadWindow: false,
       indexPerson: null,
       myData: process.client ? JSON.parse(localStorage.getItem("myData")) : [],
+      sendImgs: {
+        imgOne: {},
+        imgTwo: {},
+      },
+      textareaText: "",
+      haveImg: 0,
+      formatPhoto: ["image/jpeg", "image/png", "image/gif"],
     };
   },
   created() {
@@ -200,6 +280,7 @@ export default {
           openProfile: false,
           freezePeople: false,
           deletePeople: false,
+          haveImg: 0,
           user: {
             id: JSON.parse(event.data).message_to_room[0].id,
             photo: JSON.parse(event.data).message_to_room[0].photo,
@@ -217,6 +298,7 @@ export default {
     clickForLimit() {
       this.isOpenDialog = false;
       this.isOpenProfile = false;
+      this.isOpenUploadWindow = false;
     },
     openInfoPerson(m, index, value) {
       this.$store.commit("message/changeEditable", {
@@ -251,6 +333,89 @@ export default {
       if (this.messageText.length > 0) {
         this.connection.send(this.messageText);
         this.messageText = "";
+      }
+    },
+    handleImgUploadOne(e) {
+      if (this.$refs.filePhotoImg.files.length > 0) {
+        const file = this.$refs.filePhotoImg.files[0];
+
+        if (this.formatPhoto.includes(file.type)) {
+          const selectedFile = e.target.files[0];
+          const reader = new FileReader();
+          const imgtag = document.getElementById("uploadImageOne");
+          imgtag.title = selectedFile.name;
+          this.haveImg = true;
+          reader.onload = function (event) {
+            imgtag.src = event.target.result;
+          };
+
+          this.haveImg = 1;
+
+          reader.readAsDataURL(selectedFile);
+          this.sendImgs.imgOne = file;
+          this.isOpenUploadWindow = true;
+
+          this.$message({
+            message: "Фотография успешно загружена.",
+            type: "success",
+          });
+          setTimeout(() => {
+            this.$message({
+              message:
+                'Если хотите поменять фото, то кликните по значку "Загрузить вашу фотографию"',
+              type: "message",
+            });
+          }, 2000);
+        } else {
+          this.$message.error(
+            "Данный формат для загрузки фото недоступен. Доступные форматы для загрузки: png, jpeg, gif"
+          );
+          this.formStepOne.file = [];
+        }
+      } else {
+        this.$message({
+          message: "Изображение не было загружено",
+          type: "warning",
+        });
+      }
+    },
+    handleImgUploadTwo(e) {
+      if (this.$refs.filePhotoImgTwo.files.length > 0) {
+        const file = this.$refs.filePhotoImgTwo.files[0];
+
+        if (this.formatPhoto.includes(file.type)) {
+          const selectedFile = e.target.files[0];
+          const reader = new FileReader();
+          const imgtag = document.getElementById("uploadImageTwo");
+          imgtag.title = selectedFile.name;
+          this.haveImg = true;
+          reader.onload = function (event) {
+            imgtag.src = event.target.result;
+          };
+
+          this.haveImg = 2;
+
+          reader.readAsDataURL(selectedFile);
+          this.sendImgs.imgTwo = file;
+          this.isOpenUploadWindow = true;
+
+          this.$message({
+            message: "Фотография успешно загружена.",
+            type: "success",
+          });
+          setTimeout(() => {
+            this.$message({
+              message:
+                'Если хотите поменять фото, то кликните по значку "Загрузить вашу фотографию"',
+              type: "message",
+            });
+          }, 2000);
+        } else {
+          this.$message.error(
+            "Данный формат для загрузки фото недоступен. Доступные форматы для загрузки: png, jpeg, gif"
+          );
+          this.formStepOne.file = [];
+        }
       }
     },
   },
@@ -504,6 +669,20 @@ export default {
     }
   }
 
+  &__letter-img {
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 50px;
+      height: 50px;
+    }
+
+    img + img {
+      margin-left: 5px;
+    }
+  }
+
   @include breakpoint(dxxxxl) {
     margin: 0 10px 16px 0;
   }
@@ -714,12 +893,27 @@ export default {
     }
   }
 
+  &__image-input {
+    display: none;
+    opacity: 0;
+  }
+
   &__btn-two {
     position: absolute;
     right: 457px;
     bottom: 146.5px;
+    display: flex;
     border: none;
     background: none;
+
+    label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #000;
+      width: 28px;
+      height: 21px;
+    }
 
     img {
       @include breakpoint(dxxxxl) {
@@ -1094,6 +1288,81 @@ export default {
     left: 474px;
     top: 270px;
     width: 190px;
+  }
+}
+
+.upload-img {
+  position: fixed;
+  left: 790px;
+  top: 170px;
+  border: 1px solid #000;
+  border-radius: 10px;
+  width: 300px;
+  background-color: #fff;
+
+  &__block {
+    padding: 25px;
+  }
+
+  &__photo {
+    img {
+      width: 248px;
+      height: 130px;
+    }
+
+    img + img {
+      margin-top: 3px;
+    }
+  }
+
+  &__input {
+    margin-top: 7px;
+
+    p {
+      margin-bottom: 3px;
+    }
+  }
+
+  &__btns {
+    margin-top: 15px;
+  }
+
+  &__btns-input {
+    display: none;
+    opacity: 0;
+  }
+
+  &__btns-added {
+    border-radius: 5px;
+    width: 75px;
+    height: 35px;
+    font-size: 14px;
+
+    p {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      width: 75px;
+      height: 35px;
+      font-size: 14px;
+    }
+  }
+
+  &__btns-cancel {
+    margin-left: 16px;
+    border-radius: 5px;
+    width: 70px;
+    height: 35px;
+    font-size: 14px;
+  }
+
+  &__btns-add {
+    margin-left: 5px;
+    border-radius: 5px;
+    width: 75px;
+    height: 35px;
+    font-size: 14px;
   }
 }
 

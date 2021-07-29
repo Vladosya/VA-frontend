@@ -75,6 +75,7 @@ export const actions = {
             openProfile: false,
             freezePeople: false,
             deletePeople: false,
+            haveImg: 0,
             user: {
               id: r.user.id,
               photo: r.user.photo,
