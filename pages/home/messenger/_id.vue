@@ -128,6 +128,9 @@
               >
               </el-input>
             </label>
+            <button class="upload-img__btn" @click="clickToButtonTwo">
+              <img src="../../../assets/Home/Message/smile.svg" alt="smile" />
+            </button>
           </div>
           <div class="upload-img__btns">
             <input
@@ -177,7 +180,10 @@
         </label>
       </div>
       <div class="messenger-chat-sendMessage__btns">
-        <button class="messenger-chat-sendMessage__btn-one">
+        <button
+          class="messenger-chat-sendMessage__btn-one"
+          @click="clickToButtonOne"
+        >
           <img
             src="../../../assets/Home/Message/smile.svg"
             alt="smile"
@@ -213,6 +219,7 @@
 
 <script>
 import InfoPersonProfile from "@/components/Home/Messenger/InfoPersonProfile.vue";
+import { EmojiButton } from "@/node_modules/@joeattardi/emoji-button";
 
 export default {
   beforeCreate() {
@@ -221,6 +228,40 @@ export default {
         id: Number(this.$route.query.idRoom),
       });
     }
+  },
+  mounted() {
+    this.picker = new EmojiButton({
+      emojiSize: "24px",
+      emojisPerRow: 6,
+      rows: 6,
+      autoHide: false,
+    });
+    this.trigger = document.querySelector(
+      ".messenger-chat-sendMessage__btn-one"
+    );
+    this.textarea = document.querySelector(
+      ".messenger-chat-sendMessage__input"
+    );
+
+    this.picker.on("emoji", (selection) => {
+      this.textarea.value += selection.emoji;
+    });
+
+    this.pickerTwo = new EmojiButton({
+      emojiSize: "24px",
+      emojisPerRow: 6,
+      rows: 6,
+      autoHide: false,
+    });
+    this.triggerTwo = document.querySelector(".upload-img__btn");
+    this.textareaTwo = document.querySelector("#textarea-letter");
+
+    console.log("textareaTwo:", this.textareaTwo);
+
+    this.pickerTwo.on("emoji", (selection) => {
+      console.log("selection:", selection);
+      this.textareaTwo.value += selection.emoji;
+    });
   },
   data() {
     return {
@@ -238,6 +279,12 @@ export default {
       textareaText: "",
       haveImg: 0,
       formatPhoto: ["image/jpeg", "image/png", "image/gif"],
+      picker: "",
+      trigger: "",
+      textarea: "",
+      pickerTwo: "",
+      triggerTwo: "",
+      textareaTwo: "",
     };
   },
   created() {
@@ -417,6 +464,22 @@ export default {
           this.formStepOne.file = [];
         }
       }
+    },
+    clickToButtonOne() {
+      this.picker.togglePicker();
+
+      const styleSmileWindow = document.querySelector(".emoji-picker__wrapper");
+      styleSmileWindow.style.cssText =
+        "position: fixed;left: 74.3%;top: 33.5%;z-index: 10000;";
+    },
+    clickToButtonTwo() {
+      this.pickerTwo.togglePicker();
+
+      const styleSmileWindow = document.querySelectorAll(
+        ".emoji-picker__wrapper"
+      );
+      styleSmileWindow[1].style.cssText =
+        "position: fixed;left: 71.2%;top: 16%;z-index: 10000;";
     },
   },
   watch: {
@@ -1323,6 +1386,19 @@ export default {
     }
   }
 
+  &__btn {
+    position: fixed;
+    left: 67.6%;
+    top: 47.2%;
+    border-radius: 100%;
+    background: none;
+
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
   &__btns {
     margin-top: 15px;
   }
@@ -1364,6 +1440,13 @@ export default {
     height: 35px;
     font-size: 14px;
   }
+}
+
+.smile-class {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 10000;
 }
 
 ::-webkit-scrollbar-button {
