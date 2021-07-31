@@ -33,10 +33,14 @@
             v-if="m.haveImg > 0"
           >
             <img
-              src="https://er.ru/media/news/May2021/OVlQJ0oPBDR1PKOFWWJw.jpg"
+              :src="`http://127.0.0.1:8000${m.images.first_image}`"
               alt="upload-img-one"
             />
-            <img v-if="m.haveImg > 1" src="" alt="upload-img-two" />
+            <img
+              v-if="m.haveImg > 1"
+              :src="`http://127.0.0.1:8000${m.images.second_image}`"
+              alt="upload-img-two"
+            />
           </div>
         </div>
         <div class="info-person" v-if="m.editable">
@@ -99,56 +103,34 @@
       </div>
       <div v-show="isOpenUploadWindow" class="upload-img">
         <div class="upload-img__block">
-          <div class="upload-img__photo">
-            <img
-              v-show="haveImg > 0"
-              id="uploadImageOne"
-              src=""
-              alt="photo-upl-one"
-            />
-
-            <img
-              v-show="haveImg > 1"
-              id="uploadImageTwo"
-              src="https://er.ru/media/news/May2021/OVlQJ0oPBDR1PKOFWWJw.jpg"
-              alt="photo-upl-two"
-            />
-          </div>
-          <div class="upload-img__input">
-            <label for="textarea-letter">
-              <p>Сообщение:</p>
-              <el-input
-                id="textarea-letter"
-                rows="3"
-                resize="none"
-                maxlength="300"
-                type="textarea"
-                placeholder="Введите сообщение"
-                v-model.trim="textareaText"
-              >
-              </el-input>
+          <button class="upload-img__button" v-show="haveImg < 2">
+            <label for="img-upload-two">
+              <input
+                type="file"
+                id="img-upload-two"
+                class="upload-img__button-input"
+                ref="filePhotoImgTwo"
+                @change="handleImgUploadTwo($event)"
+              />
+              <img
+                src="../../../assets/Home/Message/plus.svg"
+                alt="plus-upload-img"
+              />
+              <p>Загрузить фото</p>
             </label>
-            <button class="upload-img__btn" @click="clickToButtonTwo">
-              <img src="../../../assets/Home/Message/smile.svg" alt="smile" />
+          </button>
+          <div v-show="haveImg > 1" class="upload-img__photo-two">
+            <img id="uploadImageTwo" src="" alt="photo-upl-two" />
+            <button @click="deleteImgTwo">
+              <i class="el-icon-circle-close"></i>
             </button>
           </div>
-          <div class="upload-img__btns">
-            <input
-              type="file"
-              id="img-upload-two"
-              class="upload-img__btns-input"
-              ref="filePhotoImgTwo"
-              @change="handleImgUploadTwo($event)"
-            />
-            <button class="upload-img__btns-added">
-              <label for="img-upload-two">
-                <p>Добавить</p>
-              </label>
+
+          <div v-show="haveImg > 0" class="upload-img__photo-one">
+            <img id="uploadImageOne" src="" alt="photo-upl-one" />
+            <button @click="deleteImgOne">
+              <i class="el-icon-circle-close"></i>
             </button>
-            <button class="upload-img__btns-cancel" @click="clickForLimit">
-              Отмена
-            </button>
-            <button class="upload-img__btns-add">Отправить</button>
           </div>
         </div>
       </div>
@@ -182,7 +164,7 @@
       <div class="messenger-chat-sendMessage__btns">
         <button
           class="messenger-chat-sendMessage__btn-one"
-          @click="clickToButtonOne"
+          @click="clickToButtonSmile"
         >
           <img
             src="../../../assets/Home/Message/smile.svg"
@@ -246,22 +228,6 @@ export default {
     this.picker.on("emoji", (selection) => {
       this.textarea.value += selection.emoji;
     });
-
-    this.pickerTwo = new EmojiButton({
-      emojiSize: "24px",
-      emojisPerRow: 6,
-      rows: 6,
-      autoHide: false,
-    });
-    this.triggerTwo = document.querySelector(".upload-img__btn");
-    this.textareaTwo = document.querySelector("#textarea-letter");
-
-    console.log("textareaTwo:", this.textareaTwo);
-
-    this.pickerTwo.on("emoji", (selection) => {
-      console.log("selection:", selection);
-      this.textareaTwo.value += selection.emoji;
-    });
   },
   data() {
     return {
@@ -282,9 +248,6 @@ export default {
       picker: "",
       trigger: "",
       textarea: "",
-      pickerTwo: "",
-      triggerTwo: "",
-      textareaTwo: "",
     };
   },
   created() {
@@ -309,38 +272,50 @@ export default {
         console.log("connected with address");
       };
 
+      this.connection.onerror = function (error) {
+        console.log("error.message:", error.message);
+      };
+
       this.connection.onmessage = (event) => {
         console.log(`Данные получены с сервера!`);
-
-        function getRandomInt(min, max) {
-          min = Math.ceil(min);
-          max = Math.floor(max);
-          return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
-        }
+        const data = JSON.parse(event.data);
 
         const createMessage = {
-          date: new Date(),
-          id: getRandomInt(1, 999),
-          room: this.$route.query.idRoom,
-          text: JSON.parse(event.data).message_to_room[0].text,
+          date: data.message_to_room[0].created_at,
+          id: data.message_to_room[0].message_id,
+          images: {
+            first_image: data.message_to_room[0].first_image,
+            second_image: data.message_to_room[0].second_image,
+          },
+          room: Number(this.$route.query.idRoom),
+          text: data.message_to_room[0].text,
           editable: false,
           openProfile: false,
           freezePeople: false,
           deletePeople: false,
-          haveImg: 0,
+          haveImg:
+            data.message_to_room[0].first_image === "" &&
+            data.message_to_room[0].second_image === ""
+              ? 0
+              : data.message_to_room[0].first_image.length > 0 &&
+                data.message_to_room[0].second_image === ""
+              ? 1
+              : data.message_to_room[0].first_image === "" &&
+                data.message_to_room[0].second_image.length > 0
+              ? 1
+              : data.message_to_room[0].first_image.length > 0 &&
+                data.message_to_room[0].second_image.length > 0
+              ? 2
+              : "",
           user: {
-            id: JSON.parse(event.data).message_to_room[0].id,
-            photo: JSON.parse(event.data).message_to_room[0].photo,
-            username: JSON.parse(event.data).message_to_room[0].username,
+            id: data.message_to_room[0].id,
+            photo: data.message_to_room[0].photo,
+            username: data.message_to_room[0].username,
           },
         };
 
         this.$store.commit("message/createMessage", createMessage);
       };
-    },
-    handler: function (e) {
-      //do stuff
-      e.preventDefault();
     },
     clickForLimit() {
       this.isOpenDialog = false;
@@ -374,12 +349,49 @@ export default {
       console.log("mInDeletePerson", m);
     },
     deleteMessage(m) {
-      console.log("mInDeleteMessage:", m);
+      this.$store.dispatch("message/deleteMessageById", {
+        room_id: m.room,
+        id_message: m.id,
+      });
     },
     sendMessage() {
-      if (this.messageText.length > 0) {
-        this.connection.send(this.messageText);
-        this.messageText = "";
+      if (this.messageText.length > 0 || this.haveImg > 0) {
+        this.connection.binaryType = "arraybuffer";
+        let firstImage = new ArrayBuffer();
+        let secondImage = new ArrayBuffer();
+
+        if (this.haveImg === 1 || this.haveImg === 2) {
+          const readerImgOne = new FileReader();
+          readerImgOne.onload = function (event) {
+            firstImage = event.target.result;
+          };
+          readerImgOne.readAsDataURL(this.sendImgs.imgOne);
+        }
+
+        if (this.haveImg === 2) {
+          const readerImgTwo = new FileReader();
+          readerImgTwo.onload = function (event) {
+            secondImage = event.target.result;
+          };
+          readerImgTwo.readAsDataURL(this.sendImgs.imgTwo);
+        }
+
+        setTimeout(() => {
+          this.connection.send(
+            JSON.stringify({
+              message: this.messageText,
+              images: {
+                first_image: firstImage === undefined ? {} : firstImage,
+                second_image: secondImage === undefined ? {} : secondImage,
+              },
+            })
+          );
+          this.messageText = "";
+          this.haveImg = 0;
+          this.sendImgs.imgOne = {};
+          this.sendImgs.imgTwo = {};
+          this.isOpenUploadWindow = false;
+        }, 100);
       }
     },
     handleImgUploadOne(e) {
@@ -406,13 +418,6 @@ export default {
             message: "Фотография успешно загружена.",
             type: "success",
           });
-          setTimeout(() => {
-            this.$message({
-              message:
-                'Если хотите поменять фото, то кликните по значку "Загрузить вашу фотографию"',
-              type: "message",
-            });
-          }, 2000);
         } else {
           this.$message.error(
             "Данный формат для загрузки фото недоступен. Доступные форматы для загрузки: png, jpeg, gif"
@@ -450,13 +455,6 @@ export default {
             message: "Фотография успешно загружена.",
             type: "success",
           });
-          setTimeout(() => {
-            this.$message({
-              message:
-                'Если хотите поменять фото, то кликните по значку "Загрузить вашу фотографию"',
-              type: "message",
-            });
-          }, 2000);
         } else {
           this.$message.error(
             "Данный формат для загрузки фото недоступен. Доступные форматы для загрузки: png, jpeg, gif"
@@ -465,21 +463,36 @@ export default {
         }
       }
     },
-    clickToButtonOne() {
+    clickToButtonSmile() {
       this.picker.togglePicker();
 
       const styleSmileWindow = document.querySelector(".emoji-picker__wrapper");
       styleSmileWindow.style.cssText =
         "position: fixed;left: 74.3%;top: 33.5%;z-index: 10000;";
     },
-    clickToButtonTwo() {
-      this.pickerTwo.togglePicker();
+    deleteImgTwo() {
+      this.haveImg = 1;
+      this.sendImgs.imgTwo = {};
+    },
+    deleteImgOne() {
+      if (this.haveImg === 2) {
+        const selectedFile = this.sendImgs.imgTwo;
+        const reader = new FileReader();
+        const imgtag = document.getElementById("uploadImageOne");
+        imgtag.title = selectedFile.name;
+        reader.onload = function (event) {
+          imgtag.src = event.target.result;
+        };
+        reader.readAsDataURL(selectedFile);
 
-      const styleSmileWindow = document.querySelectorAll(
-        ".emoji-picker__wrapper"
-      );
-      styleSmileWindow[1].style.cssText =
-        "position: fixed;left: 71.2%;top: 16%;z-index: 10000;";
+        this.sendImgs.imgOne = this.sendImgs.imgTwo;
+        this.sendImgs.imgTwo = {};
+        this.haveImg = 1;
+      } else {
+        this.haveImg = 0;
+        this.sendImgs.imgOne = {};
+        this.isOpenUploadWindow = false;
+      }
     },
   },
   watch: {
@@ -735,10 +748,12 @@ export default {
   &__letter-img {
     display: flex;
     align-items: center;
+    margin-top: 5px;
 
     img {
-      width: 50px;
-      height: 50px;
+      border-radius: 5px;
+      width: 150px;
+      height: 150px;
     }
 
     img + img {
@@ -1356,89 +1371,107 @@ export default {
 
 .upload-img {
   position: fixed;
-  left: 790px;
-  top: 170px;
-  border: 1px solid #000;
+  left: 1180px;
+  top: 322px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #f3ecf4;
   border-radius: 10px;
-  width: 300px;
+  width: 210px;
   background-color: #fff;
 
   &__block {
-    padding: 25px;
+    padding: 5px;
   }
 
-  &__photo {
-    img {
-      width: 248px;
-      height: 130px;
-    }
-
-    img + img {
-      margin-top: 3px;
-    }
-  }
-
-  &__input {
-    margin-top: 7px;
-
-    p {
-      margin-bottom: 3px;
-    }
-  }
-
-  &__btn {
-    position: fixed;
-    left: 67.6%;
-    top: 47.2%;
-    border-radius: 100%;
+  &__button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #f3ecf4;
+    border-radius: 5px;
+    width: 205px;
+    height: 150px;
     background: none;
 
-    img {
-      width: 20px;
-      height: 20px;
+    label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 205px;
+      height: 150px;
+    }
+
+    p {
+      margin-top: 8px;
+      font-weight: 400;
+      font-style: normal;
+      font-size: 24px;
+      line-height: 28px;
+      color: #8e0ba5;
     }
   }
 
-  &__btns {
-    margin-top: 15px;
-  }
-
-  &__btns-input {
+  &__button-input {
     display: none;
     opacity: 0;
   }
 
-  &__btns-added {
-    border-radius: 5px;
-    width: 75px;
-    height: 35px;
-    font-size: 14px;
+  &__photo-two {
+    position: relative;
 
-    p {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    img {
+      border: 1px solid #f3ecf4;
       border-radius: 5px;
-      width: 75px;
-      height: 35px;
-      font-size: 14px;
+      width: 205px;
+      height: 150px;
+    }
+
+    button {
+      position: absolute;
+      right: 7px;
+      top: 5px;
+      border-radius: 100%;
+      width: 20px;
+      height: 20px;
+      background: none;
+
+      i {
+        font-size: 20px;
+        color: #8e0ba5;
+      }
     }
   }
 
-  &__btns-cancel {
-    margin-left: 16px;
-    border-radius: 5px;
-    width: 70px;
-    height: 35px;
-    font-size: 14px;
-  }
+  &__photo-one {
+    position: relative;
 
-  &__btns-add {
-    margin-left: 5px;
-    border-radius: 5px;
-    width: 75px;
-    height: 35px;
-    font-size: 14px;
+    img {
+      margin-top: 3px;
+      border: 1px solid #f3ecf4;
+      border-radius: 5px;
+      width: 205px;
+      height: 150px;
+    }
+
+    button {
+      position: absolute;
+      right: 7px;
+      top: 8px;
+      border-radius: 100%;
+      width: 20px;
+      height: 20px;
+      background: none;
+
+      i {
+        font-size: 20px;
+        color: #8e0ba5;
+      }
+    }
   }
 }
 

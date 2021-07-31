@@ -12,36 +12,46 @@
             :class="status($v.formStepOne.file)"
             type="file"
             id="input-file"
-            ref="file" @change="handleFileUpload($event)"
+            ref="file"
+            @change="handleFileUpload($event)"
             multiple="multiple"
           />
           <span>Фотография (аватар)</span>
           <label
             for="input-file"
             class="register-form-left__input-photo"
-            :class="{'register-form-left__input-photo-loading': photoLoading}"
+            :class="{ 'register-form-left__input-photo-loading': photoLoading }"
           >
-            <img v-show="photoLoading" class="register-form-left__img-loading" id="myImage" src="" alt="dsds">
-            <span v-if="!photoLoading">
             <img
-              src="../../../assets/StartPage/Registration/step-one/arrow-down-one.svg"
-              alt="arrow-down-one"
-              class="register-form-left__img-one"
+              v-show="photoLoading"
+              class="register-form-left__img-loading"
+              id="myImage"
+              src=""
+              alt="dsds"
             />
-          </span>
+            <span v-if="!photoLoading">
+              <img
+                src="../../../assets/StartPage/Registration/step-one/arrow-down-one.svg"
+                alt="arrow-down-one"
+                class="register-form-left__img-one"
+              />
+            </span>
             <div v-if="!photoLoading">
-              Загрузите вашу <br/>
+              Загрузите вашу <br />
               фотографию.
             </div>
           </label>
-          <div class="invalid-feed"
-               v-if="$v.formStepOne.file.$error || $v.formStepOne.file.$dirty && !$v.formStepOne.file.required">
+          <div
+            class="invalid-feed"
+            v-if="
+              $v.formStepOne.file.$error ||
+              ($v.formStepOne.file.$dirty && !$v.formStepOne.file.required)
+            "
+          >
             Необходимо загрузить Фотографию
           </div>
         </div>
         <div class="register-form-center">
-
-
           <div class="register-form-center__name">
             <label for="username">Имя Пользователя</label>
             <input
@@ -53,12 +63,17 @@
               type="text"
               placeholder="Введите имя пользователя"
             />
-            <div class="invalid-feed"
-                 v-if="$v.formStepOne.username.$error || $v.formStepOne.username.$dirty && !$v.formStepOne.username.required">
+            <div
+              class="invalid-feed"
+              v-if="
+                $v.formStepOne.username.$error ||
+                ($v.formStepOne.username.$dirty &&
+                  !$v.formStepOne.username.required)
+              "
+            >
               Необходимо указать Имя Пользователя
             </div>
           </div>
-
 
           <div class="register-form-center__firstname">
             <label for="name">Имя</label>
@@ -71,13 +86,19 @@
               id="name"
               placeholder="Введите имя"
             />
-            <div class="invalid-feed"
-                 v-if="$v.formStepOne.name.$error || $v.formStepOne.name.$dirty && !$v.formStepOne.name.required">
+            <div
+              class="invalid-feed"
+              v-if="
+                $v.formStepOne.name.$error ||
+                ($v.formStepOne.name.$dirty && !$v.formStepOne.name.required)
+              "
+            >
               Необходимо указать Имя
             </div>
-            <div class="invalid-feed" v-if="!$v.formStepOne.name.alpha">{{ alphaText }}</div>
+            <div class="invalid-feed" v-if="!$v.formStepOne.name.alpha">
+              {{ alphaText }}
+            </div>
           </div>
-
 
           <div class="register-form-center__sex">
             <label for="input-sex">Пол</label>
@@ -93,12 +114,16 @@
               <option value="2">Женский</option>
               <option value="3">Трансгендер</option>
             </select>
-            <div class="invalid-feed"
-                 v-if="$v.formStepOne.sex.$error || $v.formStepOne.sex.$dirty && !$v.formStepOne.sex.required">
+            <div
+              class="invalid-feed"
+              v-if="
+                $v.formStepOne.sex.$error ||
+                ($v.formStepOne.sex.$dirty && !$v.formStepOne.sex.required)
+              "
+            >
               Необходимо выбрать пол
             </div>
           </div>
-
 
           <div class="register-form-center__old">
             <label for="input-old">Возраст</label>
@@ -110,17 +135,18 @@
               type="date"
               id="input-old"
             />
-            <div class="invalid-feed"
-                 v-if="$v.formStepOne.old.$error || $v.formStepOne.old.$dirty && !$v.formStepOne.old.required">
+            <div
+              class="invalid-feed"
+              v-if="
+                $v.formStepOne.old.$error ||
+                ($v.formStepOne.old.$dirty && !$v.formStepOne.old.required)
+              "
+            >
               Необходимо указать дату рождения
             </div>
           </div>
-
-
         </div>
         <div class="register-form-right">
-
-
           <div class="register-form-right__city">
             <label for="input-city">Город</label>
             <select
@@ -137,12 +163,16 @@
               <option value="4">Владивосток</option>
               <option value="5">Владимир</option>
             </select>
-            <div class="invalid-feed"
-                 v-if="$v.formStepOne.city.$error || $v.formStepOne.city.$dirty && !$v.formStepOne.city.required">
+            <div
+              class="invalid-feed"
+              v-if="
+                $v.formStepOne.city.$error ||
+                ($v.formStepOne.city.$dirty && !$v.formStepOne.city.required)
+              "
+            >
               Необходимо выбрать город
             </div>
           </div>
-
 
           <div class="register-form-right__email">
             <label for="input-email">Эл. почта</label>
@@ -155,13 +185,19 @@
               id="input-email"
               placeholder="IvanIvanov@gmail.com"
             />
-            <div class="invalid-feed"
-                 v-if="$v.formStepOne.email.$error || $v.formStepOne.email.$dirty && !$v.formStepOne.email.required">
+            <div
+              class="invalid-feed"
+              v-if="
+                $v.formStepOne.email.$error ||
+                ($v.formStepOne.email.$dirty && !$v.formStepOne.email.required)
+              "
+            >
               Необходимо указать email
             </div>
-            <div class="invalid-feed" v-if="!$v.formStepOne.email.email">Пожалуйста введите Email адрес</div>
+            <div class="invalid-feed" v-if="!$v.formStepOne.email.email">
+              Пожалуйста введите Email адрес
+            </div>
           </div>
-
 
           <div class="register-form-right__password">
             <label for="input-password">Пароль</label>
@@ -175,15 +211,19 @@
               placeholder="**********"
               autocomplete="off"
             />
-            <div class="invalid-feed"
-                 v-if="!$v.formStepOne.password.minLength">{{ minLengthText }}
+            <div class="invalid-feed" v-if="!$v.formStepOne.password.minLength">
+              {{ minLengthText }}
             </div>
-            <div class="invalid-feed"
-                 v-if="$v.formStepOne.password.$error || $v.formStepOne.password.$dirty && !$v.formStepOne.password.required">
+            <div
+              class="invalid-feed"
+              v-if="
+                $v.formStepOne.password.$error ||
+                ($v.formStepOne.password.$dirty &&
+                  !$v.formStepOne.password.required)
+              "
+            >
               Необходимо указать пароль
             </div>
-
-
           </div>
           <div class="register-form-right__confirm">
             <label for="input-confirm">Повторите пароль</label>
@@ -197,17 +237,31 @@
               placeholder="**********"
               autocomplete="on"
             />
-            <div class="invalid-feed"
-                 v-if="$v.formStepOne.confirmPassword.$error || $v.formStepOne.confirmPassword.$dirty && !$v.formStepOne.confirmPassword.required">
+            <div
+              class="invalid-feed"
+              v-if="
+                $v.formStepOne.confirmPassword.$error ||
+                ($v.formStepOne.confirmPassword.$dirty &&
+                  !$v.formStepOne.confirmPassword.required)
+              "
+            >
               Необходимо повторить пароль
             </div>
-            <div class="invalid-feed"
-                 v-if="!$v.formStepOne.confirmPassword.sameAs">{{ passwordConfirmText }}
+            <div
+              class="invalid-feed"
+              v-if="!$v.formStepOne.confirmPassword.sameAs"
+            >
+              {{ passwordConfirmText }}
             </div>
           </div>
 
-          <button class="register-form-right__btn" type="submit" @click.prevent="registerStepOne">Далее</button>
-
+          <button
+            class="register-form-right__btn"
+            type="submit"
+            @click.prevent="registerStepOne"
+          >
+            Далее
+          </button>
         </div>
       </div>
     </form>
@@ -215,141 +269,153 @@
 </template>
 
 <script>
-import {email, helpers, minLength, required, requiredIf, sameAs} from 'vuelidate/lib/validators'
+import {
+  email,
+  helpers,
+  minLength,
+  required,
+  requiredIf,
+  sameAs,
+} from "vuelidate/lib/validators";
 
-const alpha = helpers.regex('alpha', /^[a-zA-Zа-яёА-ЯЁ]*$/)
+const alpha = helpers.regex("alpha", /^[a-zA-Zа-яёА-ЯЁ]*$/);
 export default {
   data() {
     return {
       formStepOne: {
         file: [],
-        username: '',
-        name: '',
-        sex: '',
-        old: '',
-        city: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
+        username: "",
+        name: "",
+        sex: "",
+        old: "",
+        city: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
       },
-      alphaText: 'Запрещены цифры, пробелы и другие символы',
-      minLengthText: 'Минимальная длина 8 символов!',
-      passwordConfirmText: 'Пароли не совпадают',
-      formatPhoto: ['image/jpeg', 'image/png', 'image/gif'],
+      alphaText: "Запрещены цифры, пробелы и другие символы",
+      minLengthText: "Минимальная длина 8 символов!",
+      passwordConfirmText: "Пароли не совпадают",
+      formatPhoto: ["image/jpeg", "image/png", "image/gif"],
       photoLoading: false,
-      stepOneIsReg: 0
-    }
+      stepOneIsReg: 0,
+    };
   },
   methods: {
     registerStepOne() {
-      this.$v.$touch()
+      this.$v.$touch();
       if (this.$v.$invalid) {
-        console.log('Error')
+        console.log("Error");
       } else {
-        const formData = new FormData()
-        formData.append('photo', this.formStepOne.file)
-        formData.append('username', this.formStepOne.username)
-        formData.append('first_name', this.formStepOne.name)
-        formData.append('last_name', '')
-        formData.append('sex', this.formStepOne.sex)
-        formData.append('birth_day', this.formStepOne.old)
-        formData.append('city', this.formStepOne.city)
-        formData.append('email', this.formStepOne.email)
-        formData.append('password', this.formStepOne.password)
-        formData.append('confirm_password', this.formStepOne.confirmPassword)
+        const formData = new FormData();
+        formData.append("photo", this.formStepOne.file);
+        formData.append("username", this.formStepOne.username);
+        formData.append("first_name", this.formStepOne.name);
+        formData.append("last_name", "");
+        formData.append("sex", this.formStepOne.sex);
+        formData.append("birth_day", this.formStepOne.old);
+        formData.append("city", this.formStepOne.city);
+        formData.append("email", this.formStepOne.email);
+        formData.append("password", this.formStepOne.password);
+        formData.append("confirm_password", this.formStepOne.confirmPassword);
 
         try {
-          this.stepOneIsReg = 1
-          this.$store.dispatch('register/createStepOne', {formData, stepOneIsReg: this.stepOneIsReg})
-          console.log('Success')
+          this.stepOneIsReg = 1;
+          this.$store.dispatch("register/createStepOne", {
+            formData,
+            stepOneIsReg: this.stepOneIsReg,
+          });
+          console.log("Success");
         } catch (e) {
-          console.log('error', e)
+          console.log("error", e);
         }
       }
     },
     status(validation) {
       return {
-        'is-invalid': validation.$error,
-      }
+        "is-invalid": validation.$error,
+      };
     },
     handleFileUpload(e) {
       if (this.$refs.file.files.length > 0) {
-        const file = this.$refs.file.files[0]
+        const file = this.$refs.file.files[0];
 
         if (this.formatPhoto.includes(file.type)) {
-
-          const selectedFile = e.target.files[0]
-          const reader = new FileReader()
-          const imgtag = document.getElementById('myImage')
-          imgtag.title = selectedFile.name
-          this.photoLoading = true
+          const selectedFile = e.target.files[0];
+          const reader = new FileReader();
+          const imgtag = document.getElementById("myImage");
+          imgtag.title = selectedFile.name;
+          this.photoLoading = true;
           reader.onload = function (event) {
-            imgtag.src = event.target.result
-          }
+            imgtag.src = event.target.result;
+          };
 
-          reader.readAsDataURL(selectedFile)
-          this.formStepOne.file = file
+          reader.readAsDataURL(selectedFile);
+          this.formStepOne.file = file;
 
           this.$message({
-            message: 'Фотография успешно загружена.',
-            type: 'success'
-          })
+            message: "Фотография успешно загружена.",
+            type: "success",
+          });
           setTimeout(() => {
             this.$message({
-              message: 'Если хотите поменять фото, то кликните по значку "Загрузить вашу фотографию"',
-              type: 'message'
-            })
-          }, 2000)
+              message:
+                'Если хотите поменять фото, то кликните по значку "Загрузить вашу фотографию"',
+              type: "message",
+            });
+          }, 2000);
         } else {
-          this.$message.error('Данный формат для загрузки фото недоступен. Доступные форматы для загрузки: png, jpeg, gif')
-          this.formStepOne.file = []
+          this.$message.error(
+            "Данный формат для загрузки фото недоступен. Доступные форматы для загрузки: png, jpeg, gif"
+          );
+          this.formStepOne.file = [];
         }
       } else {
         this.$message({
-          message: 'Изображение не было загружено',
-          type: 'warning'
-        })
+          message: "Изображение не было загружено",
+          type: "warning",
+        });
       }
-    }
+    },
   },
   validations: {
     formStepOne: {
       file: {
         required: requiredIf(function (nestedModel) {
-          return !this.photoLoading
-        })
+          return !this.photoLoading;
+        }),
       },
       username: {
-        required
+        required,
       },
       name: {
         required,
-        alpha
+        alpha,
       },
       sex: {
-        required
+        required,
       },
       old: {
-        required
+        required,
       },
       city: {
-        required
+        required,
       },
       email: {
         required,
-        email
+        email,
       },
       password: {
         required,
-        minLength: minLength(8)
+        minLength: minLength(8),
       },
       confirmPassword: {
         required,
-        sameAs: sameAs('password')
+        sameAs: sameAs("password"),
       },
-    }
+    },
   },
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -1492,7 +1558,6 @@ export default {
       outline-color: rgba(255, 255, 255, 0);
       outline-offset: 15px;
       border: 1px solid;
-      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
       text-shadow: 1px 1px 2px #427388;
     }
 

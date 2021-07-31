@@ -69,13 +69,26 @@ export const actions = {
           return {
             date: r.date,
             id: r.id,
+            images: r.images,
             room: r.room,
             text: r.text,
             editable: false,
             openProfile: false,
             freezePeople: false,
             deletePeople: false,
-            haveImg: 0,
+            haveImg:
+              r.images === null
+                ? 0
+                : r.images.first_image.length > 0 &&
+                  r.images.second_image === null
+                ? 1
+                : r.images.second_image.length > 0 &&
+                  r.images.first_image === null
+                ? 1
+                : r.images.second_image.length > 0 &&
+                  r.images.first_image.length > 0
+                ? 2
+                : null,
             user: {
               id: r.user.id,
               photo: r.user.photo,
@@ -88,6 +101,23 @@ export const actions = {
       }
     } catch (e) {
       console.log("error in getChooseRoom action in message.js", e.response);
+    }
+  },
+  async deleteMessageById(_, { room_id, id_message }) {
+    const token = $nuxt.$cookies.get("token");
+
+    try {
+      const deleteMessageById = await this.$axios.$delete(
+        `${process.env.BASE_URL}/chat/messages/remove/${room_id}/${id_message}/`,
+        {
+          headers: { Authorization: "Bearer " + token }
+        }
+      );
+    } catch (e) {
+      console.log(
+        "error in deleteMessageById action in message.js",
+        e.response
+      );
     }
   }
 };
