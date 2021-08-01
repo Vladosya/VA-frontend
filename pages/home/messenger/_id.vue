@@ -280,41 +280,48 @@ export default {
         console.log(`Данные получены с сервера!`);
         const data = JSON.parse(event.data);
 
-        const createMessage = {
-          date: data.message_to_room[0].created_at,
-          id: data.message_to_room[0].message_id,
-          images: {
-            first_image: data.message_to_room[0].first_image,
-            second_image: data.message_to_room[0].second_image,
-          },
-          room: Number(this.$route.query.idRoom),
-          text: data.message_to_room[0].text,
-          editable: false,
-          openProfile: false,
-          freezePeople: false,
-          deletePeople: false,
-          haveImg:
-            data.message_to_room[0].first_image === "" &&
-            data.message_to_room[0].second_image === ""
-              ? 0
-              : data.message_to_room[0].first_image.length > 0 &&
-                data.message_to_room[0].second_image === ""
-              ? 1
-              : data.message_to_room[0].first_image === "" &&
-                data.message_to_room[0].second_image.length > 0
-              ? 1
-              : data.message_to_room[0].first_image.length > 0 &&
-                data.message_to_room[0].second_image.length > 0
-              ? 2
-              : "",
-          user: {
-            id: data.message_to_room[0].id,
-            photo: data.message_to_room[0].photo,
-            username: data.message_to_room[0].username,
-          },
-        };
+        if (data.message_to_room[0].event === "Create message") {
+          const createMessage = {
+            date: data.message_to_room[0].created_at,
+            id: data.message_to_room[0].message_id,
+            images: {
+              first_image: data.message_to_room[0].first_image,
+              second_image: data.message_to_room[0].second_image,
+            },
+            room: Number(this.$route.query.idRoom),
+            text: data.message_to_room[0].text,
+            editable: false,
+            openProfile: false,
+            freezePeople: false,
+            deletePeople: false,
+            haveImg:
+              data.message_to_room[0].first_image === "" &&
+              data.message_to_room[0].second_image === ""
+                ? 0
+                : data.message_to_room[0].first_image.length > 0 &&
+                  data.message_to_room[0].second_image === ""
+                ? 1
+                : data.message_to_room[0].first_image === "" &&
+                  data.message_to_room[0].second_image.length > 0
+                ? 1
+                : data.message_to_room[0].first_image.length > 0 &&
+                  data.message_to_room[0].second_image.length > 0
+                ? 2
+                : "",
+            user: {
+              id: data.message_to_room[0].user_id,
+              photo: data.message_to_room[0].photo,
+              username: data.message_to_room[0].username,
+            },
+          };
 
-        this.$store.commit("message/createMessage", createMessage);
+          this.$store.commit("message/createMessage", createMessage);
+        } else if (data.message_to_room[0].event === "Delete message") {
+          this.$store.commit(
+            "message/deleteMessageById",
+            data.message_to_room[0].id_message
+          );
+        }
       };
     },
     clickForLimit() {
@@ -353,6 +360,8 @@ export default {
         room_id: m.room,
         id_message: m.id,
       });
+
+      this.isOpenDialog = false;
     },
     sendMessage() {
       if (this.messageText.length > 0 || this.haveImg > 0) {

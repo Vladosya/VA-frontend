@@ -29,6 +29,11 @@ export const mutations = {
     if (state.chooseRoom[index].openProfile === true) {
       state.chooseRoom[index].editable = false;
     }
+  },
+  deleteMessageById(state, payload) {
+    state.chooseRoom = state.chooseRoom.filter(r => {
+      return r.id !== payload;
+    });
   }
 };
 
@@ -113,6 +118,13 @@ export const actions = {
           headers: { Authorization: "Bearer " + token }
         }
       );
+
+      if (deleteMessageById.status === "success") {
+        $nuxt.$message({
+          message: `${deleteMessageById.message}`,
+          type: "success"
+        });
+      }
     } catch (e) {
       console.log(
         "error in deleteMessageById action in message.js",
