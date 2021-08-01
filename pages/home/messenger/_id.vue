@@ -88,7 +88,10 @@
           </div>
           <div
             class="info-person__deleteMessage"
-            v-if="myData[0].id === m.user.id"
+            v-if="
+              myData[0].id === m.user.id ||
+              $store.state.message.authorId === myData[0].id
+            "
           >
             <button
               class="info-person__deleteMessage-btn"
