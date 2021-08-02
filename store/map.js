@@ -1,5 +1,6 @@
 export const state = () => ({
   markers: [],
+  saveMarkers: [],
   adInfo: [],
   countProgressBar: 0,
   canIApply: false,
@@ -9,6 +10,7 @@ export const state = () => ({
 export const mutations = {
   getAdForMap(state, payload) {
     state.markers = payload;
+    state.saveMarkers = payload;
   },
   addAdInMarkers(state, payload) {
     state.markers.push(payload);
@@ -24,6 +26,15 @@ export const mutations = {
   },
   applyToParty(state, payload) {
     state.applyToParty = payload;
+  },
+  sortAdById(state, payload) {
+    state.markers = state.saveMarkers;
+    state.markers = state.markers.filter(i => {
+      return i.partyStart === payload;
+    });
+  },
+  sortAdThrowOff(state, _) {
+    state.markers = state.saveMarkers;
   }
 };
 
@@ -43,10 +54,12 @@ export const actions = {
         const coordAdForMap = adForMap.map(a => {
           return {
             id: a.id,
-            geolocation: JSON.parse(a.geolocation)
+            geolocation: JSON.parse(a.geolocation),
+            partyStart: Number(a.party_date.substr(8, 2))
           };
         });
 
+        console.log("coordAdForMap:", coordAdForMap);
         commit("getAdForMap", coordAdForMap);
       }
     } catch (e) {

@@ -49,7 +49,6 @@ import NavMenu from "@/components/Home/NavMenu/NavMenu.vue";
 import UserMenu from "@/components/Home/UserMenu/UserMenu";
 import SortMenu from "@/components/Home/SortMenu/SortMenu";
 import UserMarkerInfo from "@/components/Home/Map/UserMarkerInfo/UserMarkerInfo";
-
 export default {
   beforeCreate() {
     if (process.client) {
@@ -106,7 +105,6 @@ export default {
         this.gmapMarkerOptions.clickable = false;
       }
       this.infoWindowPos = marker.geolocation;
-
       if (this.currentMidx === idx) {
         this.infoWinOpen = !this.infoWinOpen;
       } else {
@@ -124,20 +122,14 @@ export default {
         setTimeout(() => {
           const token = $nuxt.$cookies.get("token");
           const myData = JSON.parse(localStorage.getItem("myData"));
-
           this.connection = new WebSocket(
             `ws://127.0.0.1:8000/ws/notification/user/${myData[0].id}/?token=${token}`
           );
-
           this.connection.onopen = () => {
             console.log("connected with address");
           };
-
           this.connection.onmessage = (event) => {
             const data = JSON.parse(event.data);
-
-            console.log("dataInNotificationForAccount:", data);
-
             if (data.message_to_room.event === "Success confirm account") {
               this.$notify({
                 title: "Подтверждение аккаунта",
@@ -217,7 +209,6 @@ export default {
                   username: data.message_to_room.bid.author_bid.username,
                 },
               ]);
-
               this.$notify({
                 title: "Заявка на вашу вечеринку",
                 message: `${data.message_to_room.message}`,
@@ -235,33 +226,21 @@ export default {
         setTimeout(() => {
           const token = $nuxt.$cookies.get("token");
           const myData = JSON.parse(localStorage.getItem("myData"));
-
           this.connection = new WebSocket(
             `ws://127.0.0.1:8000/ws/notification/ad/${myData[0].city}/?token=${token}`
           );
-
           this.connection.onopen = () => {
             console.log("connected with address");
           };
-
           this.connection.onmessage = (event) => {
             const data = JSON.parse(event.data);
 
-            const modifiedMarker = {
-              geolocation: JSON.parse(data.message_to_room.geolocation),
-              id: data.message_to_room.id_ad,
-            };
-
-            this.$store.commit("map/addAdInMarkers", modifiedMarker);
-
             if (data.message_to_room.event === "Ad published") {
               if (data.message_to_room.ad.author.id === myData[0].id) {
-                this.$store.commit("map/getAdForMap", [
-                  {
-                    id: data.message_to_room.ad.id_ad,
-                    geolocation: JSON.parse(data.message_to_room.geolocation),
-                  },
-                ]);
+                this.$store.commit("map/addAdInMarkers", {
+                  id: data.message_to_room.ad.id_ad,
+                  geolocation: JSON.parse(data.message_to_room.geolocation),
+                });
                 this.$notify({
                   title: "Публикация объявления",
                   message: `${data.message_to_room.message}`,
@@ -269,12 +248,10 @@ export default {
                   position: "top-left",
                 });
               } else {
-                this.$store.commit("map/getAdForMap", [
-                  {
-                    id: data.message_to_room.ad.id_ad,
-                    geolocation: JSON.parse(data.message_to_room.geolocation),
-                  },
-                ]);
+                this.$store.commit("map/addAdInMarkers", {
+                  id: data.message_to_room.ad.id_ad,
+                  geolocation: JSON.parse(data.message_to_room.geolocation),
+                });
                 this.$notify({
                   title: "Публикация объявления",
                   message: `На карте появилось новое объявление. Посмотрите на него`,
