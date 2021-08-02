@@ -216,7 +216,10 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      this.scrollToEnd();
+      let container = document.querySelector(".messenger-chat-dialogs");
+      console.log("container.scrollHeightMounted:", container.scrollHeight);
+      let scrollHeight = container.scrollHeight;
+      container.scrollTop = scrollHeight;
     }, 300);
     this.picker = new EmojiButton({
       emojiSize: "24px",
@@ -333,9 +336,11 @@ export default {
       };
     },
     scrollToEnd() {
-      let container = document.querySelector(".messenger-chat-dialogs");
-      let scrollHeight = container.scrollHeight;
-      container.scrollTop = scrollHeight;
+      setTimeout(() => {
+        let container = document.querySelector(".messenger-chat-dialogs");
+        let scrollHeight = container.scrollHeight;
+        container.scrollTop = scrollHeight;
+      }, 300);
     },
     clickForLimit() {
       this.isOpenDialog = false;
