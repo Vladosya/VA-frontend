@@ -28,6 +28,7 @@ export default {
   plugins: [
     "@/plugins/element-ui",
     "@/plugins/vue2-google-maps",
+    { src: "~/plugins/v-calendar", ssr: false },
     { src: "~/plugins/Vuelidate" },
     { src: "~/plugins/emoji-button.js" }
   ],

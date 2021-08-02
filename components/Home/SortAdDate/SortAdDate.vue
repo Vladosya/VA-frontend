@@ -1,63 +1,63 @@
 <template>
-  <div class="content">
-    <div class="calendar">
-      <el-calendar :range="['2019-03-04', '2019-03-24']"/>
-      <div class="btn">
-        <button class="button">
-          <i class="el-icon-sort"></i>
-          Отсортировать
-        </button>
+  <client-only>
+    <div class="sort-ad-date">
+      <div>
+        <v-date-picker
+          title-position="left"
+          :min-date="new Date()"
+          :max-date="dateMax"
+          color="pink"
+          v-model="selectedDateTwo"
+        />
       </div>
+      <button class="sort-ad-date__btn" @click="sortByDates">
+        Отсортировать
+      </button>
     </div>
-  </div>
+  </client-only>
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      selectedDateTwo: "",
+      dateMax: new Date().setDate(new Date().getDate() + 21),
+    };
+  },
+  methods: {
+    sortByDates() {
+      if (this.selectedDateTwo !== null) {
+        const selectedDateTwo = this.selectedDateTwo.toString();
+        const needValue = selectedDateTwo.substr(8, 2);
+      }
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-.content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 25px;
-}
+.sort-ad-date {
+  position: relative;
 
-.el-calendar {
-  width: 400px;
-  height: 353px;
-  font-size: 13px;
-}
+  &__btn {
+    position: absolute;
+    right: 16px;
+    bottom: 5px;
+    z-index: 5;
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+    width: 87px;
+    height: 32px;
+    font-size: 11px;
+    color: #fff;
+    background-color: #c52376;
 
-.calendar {
-  border-radius: 10px;
-  padding: 10px 0;
-  width: 402px;
-  height: 411px;
-  background-color: #fff;
-}
-
-.btn {
-  padding: 5px 20px;
-  text-align: right;
-}
-
-.button {
-  border: none;
-  border-radius: 5px;
-  width: 120px;
-  height: 38px;
-  font-size: 11px;
-  color: #fff;
-  background: #ff006b none;
-
-  &:hover {
-    outline-color: rgba(255, 255, 255, 0);
-    outline-offset: 15px;
-    border: 1px solid;
-    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
-    text-shadow: 1px 1px 2px #427388;
+    &:hover {
+      outline-color: rgba(255, 255, 255, 0);
+      outline-offset: 15px;
+      border: 1px solid;
+    }
   }
 }
 </style>

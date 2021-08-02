@@ -1,23 +1,23 @@
 <template>
   <div class="sort-ad-block" @click.self="closeSortAdDate">
-    <SortAdDate/>
+    <SortAdDate />
   </div>
 </template>
 
 <script>
-import SortAdDate from '@/components/Home/SortAdDate/SortAdDate'
+import SortAdDate from "@/components/Home/SortAdDate/SortAdDate";
 
 export default {
-  layout: 'home',
+  layout: "home",
   methods: {
     closeSortAdDate() {
-      this.$router.push('/home')
-    }
+      this.$router.push("/home");
+    },
   },
   components: {
-    SortAdDate
-  }
-}
+    SortAdDate,
+  },
+};
 </script>
 
 <style scoped lang="scss">
