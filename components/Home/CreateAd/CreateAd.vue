@@ -72,27 +72,6 @@
           </el-tooltip>
         </div>
 
-        <div class="createAd-content-form__people">
-          <label>Кол-во человек</label>
-          <el-tooltip
-            class="item"
-            effect="dark"
-            content="Необходимо указать кол-во человек на вечеринке"
-            placement="right"
-          >
-            <el-input-number
-              @blur="$v.createdAdForm.people.$touch()"
-              v-model.trim="createdAdForm.people"
-              controls-position="right"
-              v-model="createdAdForm.people"
-              :class="status($v.createdAdForm.people)"
-              :min="1"
-              class="createAd-content-form__people-input"
-              placeholder="Укажите кол-во человек"
-            ></el-input-number>
-          </el-tooltip>
-        </div>
-
         <div class="createAd-content-form__girl">
           <label>Кол-во девушек</label>
           <el-tooltip
@@ -135,6 +114,35 @@
           </el-tooltip>
         </div>
 
+        <div class="createAd-content-form__people">
+          <label>Кол-во человек</label>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="Общее кол-во человек на вечеринке"
+            placement="right"
+          >
+            <el-input-number
+              :value="
+                createdAdForm.girl !== undefined &&
+                createdAdForm.boy !== undefined
+                  ? createdAdForm.girl + createdAdForm.boy
+                  : createdAdForm.girl !== undefined &&
+                    createdAdForm.boy === undefined
+                  ? createdAdForm.girl
+                  : createdAdForm.boy !== undefined &&
+                    createdAdForm.girl === undefined
+                  ? createdAdForm.boy
+                  : undefined
+              "
+              :disabled="true"
+              controls-position="right"
+              class="createAd-content-form__people-input"
+              placeholder="Укажите кол-во человек"
+            ></el-input-number>
+          </el-tooltip>
+        </div>
+
         <div class="createAd-content-form__buttons">
           <button
             class="createAd-content-form__btn-cancel"
@@ -166,7 +174,6 @@ export default {
         nameParty: "",
         place: "",
         dateParty: "",
-        people: undefined,
         girl: undefined,
         boy: undefined,
         coordinates: "",
@@ -187,7 +194,7 @@ export default {
           title: this.createdAdForm.nameParty,
           city: 1,
           geolocation: JSON.stringify(this.createdAdForm.coordinates),
-          number_of_person: this.createdAdForm.people,
+          number_of_person: this.createdAdForm.girl + this.createdAdForm.boy,
           number_of_girls: this.createdAdForm.girl,
           number_of_boys: this.createdAdForm.boy,
           party_date: this.createdAdForm.dateParty,
@@ -229,9 +236,6 @@ export default {
         }),
       },
       dateParty: {
-        required,
-      },
-      people: {
         required,
       },
       girl: {
