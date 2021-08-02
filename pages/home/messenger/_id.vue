@@ -215,6 +215,9 @@ export default {
     }
   },
   mounted() {
+    setTimeout(() => {
+      this.scrollToEnd();
+    }, 300);
     this.picker = new EmojiButton({
       emojiSize: "24px",
       emojisPerRow: 6,
@@ -229,7 +232,7 @@ export default {
     );
 
     this.picker.on("emoji", (selection) => {
-      this.textarea.value += selection.emoji;
+      this.messageText += selection.emoji;
     });
   },
   data() {
@@ -318,6 +321,8 @@ export default {
             },
           };
 
+          this.scrollToEnd();
+
           this.$store.commit("message/createMessage", createMessage);
         } else if (data.message_to_room[0].event === "Delete message") {
           this.$store.commit(
@@ -326,6 +331,11 @@ export default {
           );
         }
       };
+    },
+    scrollToEnd() {
+      let container = document.querySelector(".messenger-chat-dialogs");
+      let scrollHeight = container.scrollHeight;
+      container.scrollTop = scrollHeight;
     },
     clickForLimit() {
       this.isOpenDialog = false;
@@ -368,6 +378,7 @@ export default {
     },
     sendMessage() {
       if (this.messageText.length > 0 || this.haveImg > 0) {
+        console.log("this.textarea:", this.textarea.value);
         this.connection.binaryType = "arraybuffer";
         let firstImage = new ArrayBuffer();
         let secondImage = new ArrayBuffer();
@@ -403,6 +414,7 @@ export default {
           this.sendImgs.imgOne = {};
           this.sendImgs.imgTwo = {};
           this.isOpenUploadWindow = false;
+          this.scrollToEnd();
         }, 100);
       }
     },
@@ -541,7 +553,8 @@ export default {
 
 .messenger-chat-dialogs {
   position: relative;
-  overflow: auto;
+  overflow: hidden;
+  overflow-y: auto;
   padding: 34px 0 35px 46px;
   height: 1075px;
 
