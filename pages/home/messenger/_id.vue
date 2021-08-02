@@ -32,15 +32,25 @@
             class="messenger-correspondence-person__letter-img"
             v-if="m.haveImg > 0"
           >
-            <img
-              :src="`http://127.0.0.1:8000${m.images.first_image}`"
-              alt="upload-img-one"
-            />
-            <img
-              v-if="m.haveImg > 1"
-              :src="`http://127.0.0.1:8000${m.images.second_image}`"
-              alt="upload-img-two"
-            />
+            <button
+              :disabled="openWindowImg"
+              @click="clickToImg(m.images.first_image, 1)"
+            >
+              <img
+                :src="`http://127.0.0.1:8000${m.images.first_image}`"
+                alt="upload-img-one"
+              />
+            </button>
+            <button
+              :disabled="openWindowImg"
+              @click="clickToImg(m.images.second_image, 2)"
+            >
+              <img
+                v-if="m.haveImg > 1"
+                :src="`http://127.0.0.1:8000${m.images.second_image}`"
+                alt="upload-img-two"
+              />
+            </button>
           </div>
         </div>
         <div class="info-person" v-if="m.editable">
@@ -137,6 +147,18 @@
           </div>
         </div>
       </div>
+      <div class="window-img" v-if="openWindowImg">
+        <button @click="closeWindowImg">
+          <i class="el-icon-close"></i>
+        </button>
+        <img
+          v-for="si in showImg"
+          :key="si.id"
+          id="imgForWindow"
+          :src="si.img"
+          alt="img-window"
+        />
+      </div>
     </div>
     <div class="messenger-chat-sendMessage" @click="isOpenDialog = false">
       <div class="messenger-chat-sendMessage__clip">
@@ -217,7 +239,6 @@ export default {
   mounted() {
     setTimeout(() => {
       let container = document.querySelector(".messenger-chat-dialogs");
-      console.log("container.scrollHeightMounted:", container.scrollHeight);
       let scrollHeight = container.scrollHeight;
       container.scrollTop = scrollHeight;
     }, 300);
@@ -257,6 +278,8 @@ export default {
       picker: "",
       trigger: "",
       textarea: "",
+      showImg: [],
+      openWindowImg: false,
     };
   },
   created() {
@@ -346,6 +369,8 @@ export default {
       this.isOpenDialog = false;
       this.isOpenProfile = false;
       this.isOpenUploadWindow = false;
+      this.openWindowImg = false;
+      this.showImg = [];
     },
     openInfoPerson(m, index, value) {
       this.$store.commit("message/changeEditable", {
@@ -383,7 +408,6 @@ export default {
     },
     sendMessage() {
       if (this.messageText.length > 0 || this.haveImg > 0) {
-        console.log("this.textarea:", this.textarea.value);
         this.connection.binaryType = "arraybuffer";
         let firstImage = new ArrayBuffer();
         let secondImage = new ArrayBuffer();
@@ -522,6 +546,18 @@ export default {
         this.sendImgs.imgOne = {};
         this.isOpenUploadWindow = false;
       }
+    },
+    clickToImg(needValue, id) {
+      const needImg = `http://127.0.0.1:8000${needValue}`;
+      this.showImg.push({
+        id: id,
+        img: needImg,
+      });
+      this.openWindowImg = true;
+    },
+    closeWindowImg() {
+      this.showImg = [];
+      this.openWindowImg = false;
     },
   },
   watch: {
@@ -786,7 +822,11 @@ export default {
       height: 150px;
     }
 
-    img + img {
+    img:hover {
+      box-shadow: 0 5px 6px rgb(0 0 0 / 85%);
+    }
+
+    button + button {
       margin-left: 5px;
     }
   }
@@ -1510,6 +1550,38 @@ export default {
   left: 50%;
   top: 50%;
   z-index: 10000;
+}
+
+.window-img {
+  position: fixed;
+  left: 48%;
+  top: 21%;
+
+  button {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    z-index: 10;
+    background: none;
+
+    i {
+      font-size: 20px;
+      color: #c4c4c4;
+    }
+
+    :hover {
+      color: #771699;
+    }
+  }
+
+  img {
+    position: relative;
+    border-radius: 7px;
+    width: 400px;
+    height: 400px;
+    box-shadow: 0 7px 18px rgb(0 0 0 / 85%);
+    background-color: #c4c4c4;
+  }
 }
 
 ::-webkit-scrollbar-button {
